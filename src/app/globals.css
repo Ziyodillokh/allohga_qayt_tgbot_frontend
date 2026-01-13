@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide browser's default password reveal button */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none !important;
+}
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 15 23 42;
+  }
+
+  .dark {
+    --background: 15 23 42;
+    --foreground: 248 250 252;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100;
+    @apply min-h-screen;
+  }
+
+  /* Safe area for iOS */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+@layer components {
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply animate-pulse bg-gray-200 dark:bg-gray-800 rounded;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  /* Button press effect */
+  .btn-press {
+    @apply active:scale-95 transition-transform;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animation delays */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+/* Telegram Mini App specific styles */
+@supports (padding: max(0px)) {
+  .telegram-safe-area {
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+/* Code block styling */
+pre {
+  @apply bg-gray-900 dark:bg-gray-950 rounded-xl p-4 overflow-x-auto;
+}
+
+code {
+  @apply text-sm font-mono;
+}
+
+/* Selection styling */
+::selection {
+  @apply bg-indigo-200 dark:bg-indigo-800 text-indigo-900 dark:text-indigo-100;
+}
+
+/* Focus visible outline */
+:focus-visible {
+  @apply outline-none ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900;
+}
+
+/* Smooth transitions for theme changes */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .container {
+    @apply px-3;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-press {
+    @apply active:scale-95;
+  }
+  
+  /* Larger touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Disable hover effects on touch */
+  .card-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Prevent text selection on interactive elements */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Prevent bounce scrolling */
+    overscroll-behavior: none;
+  }
+  
+  /* Fix for iOS bottom bar */
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Android specific fixes */
+@supports not (-webkit-touch-callout: none) {
+  input, textarea, select {
+    font-size: 16px; /* Prevent zoom on focus */
+  }
+}

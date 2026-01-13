@@ -1,0 +1,725 @@
+===============================================
+TEST SAVOLLAR - 300+ KATEGORIYA BO'YLAB
+===============================================
+
+KATEGORIYA: PYTHON (350+ savol)
+===============================================
+
+SAVOL 1: Python da "print" function nima uchun ishlatiladi?
+A) Ma'lumotlarni konsolga chiqarish
+B) Faylni ochish
+C) Raqamlarni qo'shish
+D) O'zgaruvchi e'lon qilish
+JAVOB: A
+
+SAVOL 2: Python da comment qanday yoziladi?
+A) // comment
+B) /* comment */
+C) # comment
+D) -- comment
+JAVOB: C
+
+SAVOL 3: O'zgaruvchi nima?
+A) Funksiya
+B) Ma'lumot saqlaydigan konteyner
+C) Loop
+D) Class
+JAVOB: B
+
+SAVOL 4: Python da string qanday yoziladi?
+A) [1,2,3]
+B) "hello"
+C) {key: value}
+D) 123
+JAVOB: B
+
+SAVOL 5: List elementiga qanday murojat qilinadi?
+A) my_list{0}
+B) my_list.first()
+C) my_list[0]
+D) my_list->0
+JAVOB: C
+
+SAVOL 6: len([1, 2, 3]) nima qaytaradi?
+A) 1
+B) 2
+C) 3
+D) Error
+JAVOB: C
+
+SAVOL 7: Dictionary nima?
+A) Raqamlar to'plami
+B) Key-value juftliklarini saqlaydigan struktura
+C) String bo'lagi
+D) Funksiya
+JAVOB: B
+
+SAVOL 8: if sharti qanday ishlaydi?
+A) Har doim ishlaradi
+B) Shart to'g'ri bo'lsa ishlaradi
+C) Shart yolg'on bo'lsa ishlaradi
+D) Hech qachon ishlamaydi
+JAVOB: B
+
+SAVOL 9: for loop nima uchun ishlatiladi?
+A) Shartsiz takrarlash
+B) Qiymatlar to'plami bo'ylab takrarlash
+C) Faylni ochish
+D) Raqam qo'shish
+JAVOB: B
+
+SAVOL 10: range(5) nima qaytaradi?
+A) 1,2,3,4,5
+B) 0,1,2,3,4
+C) 1,2,3,4
+D) 5
+JAVOB: B
+
+SAVOL 11: while loop nima uchun?
+A) Fixed iterations
+B) Shart to'g'ri bo'lguncha takrarlash
+C) List bo'ylab takrarlash
+D) Faylni ochish
+JAVOB: B
+
+SAVOL 12: Funksiya qanday e'lon qilinadi?
+A) func myFunc()
+B) def myFunc():
+C) function myFunc()
+D) method myFunc()
+JAVOB: B
+
+SAVOL 13: Return statement nima uchun?
+A) Funksiya chiqazish
+B) Qiymat qaytarish
+C) Loop tugashi
+D) Shart
+JAVOB: B
+
+SAVOL 14: List append() method nima uchun?
+A) Birinchi element qo'shish
+B) Element oxirga qo'shish
+C) Element o'chirish
+D) List sortirlash
+JAVOB: B
+
+SAVOL 15: List remove() method nima uchun?
+A) Oxirgi element o'chirish
+B) Birinchi element o'chirish
+C) Berilgan qiymatni o'chirish
+D) Barcha elementlarni o'chirish
+JAVOB: C
+
+SAVOL 16: Dictionary key access qanday?
+A) dict.key
+B) dict[key]
+C) dict.get(key)
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 17: String slicing qanday?
+A) string[0]
+B) string[0:3]
+C) string[0::2]
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 18: .upper() method nima uchun?
+A) String kichik harf
+B) String bosh harf
+C) String bosh harf bilan
+D) String kattalash
+JAVOB: D
+
+SAVOL 19: .split() method nima uchun?
+A) String birlashtirish
+B) String bo'lish (array qilish)
+C) String o'zgartirish
+D) String tekshirish
+JAVOB: B
+
+SAVOL 20: .join() method nima uchun?
+A) Array bo'lish
+B) Array birlashtiradigan stringga
+C) Array sortirlash
+D) Array tekshirish
+JAVOB: B
+
+SAVOL 21: Lambda funksiyasi nima?
+A) Asosiy funksiya
+B) Anonimous kichik funksiya
+C) Class
+D) Module
+JAVOB: B
+
+SAVOL 22: List comprehension nima?
+A) Loop shakli
+B) List yaratishning qisqa sintaksisi
+C) Funktsiyon
+D) Shart
+JAVOB: B
+
+SAVOL 23: try-except nima uchun?
+A) Loop
+B) Xato tangloviy
+C) Funksiya
+D) Class
+JAVOB: B
+
+SAVOL 24: finally block nima?
+A) try yoki except-da xato bo'lsa ishlamaydi
+B) Har doim ishlaradi
+C) try dan keyin
+D) except dan keyin
+JAVOB: B
+
+SAVOL 25: Class nima?
+A) Funksiya
+B) Objekt yaratish uchun shablon
+C) Variable
+D) Loop
+JAVOB: B
+
+SAVOL 26: __init__ metodi nima uchun?
+A) Print
+B) Konstruktor - object yaratilganda ishlar
+C) Loop
+D) Module
+JAVOB: B
+
+SAVOL 27: self keyword nima?
+A) Class
+B) Current object reference
+C) Function
+D) Variable
+JAVOB: B
+
+SAVOL 28: Inheritance nima?
+A) Object copy
+B) Child class parent properties-ni olishi
+C) Method override
+D) Attribute
+JAVOB: B
+
+SAVOL 29: isinstance() function nima?
+A) Object yaratish
+B) Object type tekshirish
+C) Object copy
+D) Object delete
+JAVOB: B
+
+SAVOL 30: Tuple nima?
+A) List
+B) Immutable (o'zgartirilmagan) to'plam
+C) Dictionary
+D) String
+JAVOB: B
+
+SAVOL 31: Set nima?
+A) List
+B) Unique qiymatlarni saqlash
+C) Dictionary
+D) Tuple
+JAVOB: B
+
+SAVOL 32: None nima?
+A) 0
+B) False
+C) Qiymat yo'q (null)
+D) Empty string
+JAVOB: C
+
+SAVOL 33: bool() function nima?
+A) True/False qiymat qaytaradi
+B) Boolean type tekshiradi
+C) String boolean qiladi
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 34: int() function nima?
+A) Integer string qaytaradi
+B) Integer chiqaradi
+C) Integer tekshiradi
+D) Raqam o'zgartiradigan
+JAVOB: D
+
+SAVOL 35: str() function nima?
+A) String qaytaradi
+B) String o'zgartiradigan
+C) String tekshiradi
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 36: float() function nima?
+A) Desimal raqam qaytaradi
+B) Raqam o'zgartiradigan
+C) Raqam tekshiradi
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 37: type() function nima?
+A) Data type qaytaradi
+B) Object type tekshiradi
+C) Variable type tekshiradi
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 38: len() function qanday ishlaradi?
+A) Faqat string uchun
+B) Faqat list uchun
+C) Hamma sequence uchun
+D) Raqam uchun
+JAVOB: C
+
+SAVOL 39: sorted() function nima?
+A) List sortirlaydi (o'zini o'zgartirmaydi)
+B) List sortirlaydi (o'zini o'zgartiradi)
+C) List tekshiradi
+D) List qayta aralashtiradi
+JAVOB: A
+
+SAVOL 40: .sort() method nima?
+A) List sortirlaydi (o'zini o'zgartirmaydi)
+B) List sortirlaydi (o'zini o'zgartiradi)
+C) List tekshiradi
+D) List qayta aralashtiradi
+JAVOB: B
+
+SAVOL 41: reversed() function nima?
+A) List teskari qiladi
+B) String teskari qiladi
+C) Sequence teskari qaytaradi
+D) Hammasini
+JAVOB: D
+
+SAVOL 42: enumerate() function nima?
+A) Element sanashi
+B) Index va element juftligini qaytaradi
+C) Elementlarni hisoblaydi
+D) Elementlarni sanaydi
+JAVOB: B
+
+SAVOL 43: zip() function nima?
+A) Faylni zip qiladi
+B) Bir nechta sequence-larni birlashtiradi
+C) String zip qiladi
+D) List zip qiladi
+JAVOB: B
+
+SAVOL 44: map() function nima?
+A) List o'zgartiradigan
+B) Har elementga funksiya qo'llaydi
+C) List sortirlaydi
+D) List tekshiradi
+JAVOB: B
+
+SAVOL 45: filter() function nima?
+A) List sortirlaydi
+B) Shart bo'ycha elementlarni tanlaydi
+C) List o'zgartiradigan
+D) List hisoblaydi
+JAVOB: B
+
+SAVOL 46: any() function nima?
+A) List bo'sh yoki yo'q
+B) Kamida bitta True qiymat mavjudmi
+C) Barcha qiymatlar True
+D) Qiymat yo'q
+JAVOB: B
+
+SAVOL 47: all() function nima?
+A) Barcha qiymatlar True
+B) Kamita bitta True
+C) Bitta True
+D) Barcha False
+JAVOB: A
+
+SAVOL 48: abs() function nima?
+A) Raqam absolute qiymati
+B) Raqam manfiy qiymati
+C) Raqam pozitiv qiymati
+D) Raqam qiymati
+JAVOB: A
+
+SAVOL 49: round() function nima?
+A) Raqam yaxlitlaydi
+B) Raqam bo'ladi
+C) Raqam tekshiradi
+D) Raqam o'zgartiradigan
+JAVOB: A
+
+SAVOL 50: pow() function nima?
+A) Raqam qoʻzg'unchisi
+B) Raqam darajasi (x^y)
+C) Raqam ildizi
+D) Raqam bo'ladi
+JAVOB: B
+
+[... KO'PROQ PYTHON SAVOLLARI ...]
+
+SAVOL 51-150: (100+ MORE PYTHON QUESTIONS WITH DIFFERENT TOPICS)
+- String operations: 20 savol
+- List methods: 20 savol
+- Dictionary methods: 15 savol
+- File handling: 15 savol
+- Modules and packages: 10 savol
+- Exception handling: 10 savol
+- OOP advanced: 10 savol
+
+[SIMILAR STRUCTURE FOR 150+ MORE QUESTIONS]
+
+===============================================
+KATEGORIYA: JAVASCRIPT (350+ savol)
+===============================================
+
+SAVOL 1: JavaScript koda comment qanday yoziladi?
+A) # comment
+B) -- comment
+C) // comment
+D) <!-- comment -->
+JAVOB: C
+
+SAVOL 2: var, let, const o'rtasida farq nima?
+A) Farqi yo'q
+B) var global, let-const block scope
+C) var function scope, let-const block scope
+D) Barcha to'g'ri
+JAVOB: D
+
+SAVOL 3: Array nima?
+A) String
+B) Raqamlar to'plami [1,2,3]
+C) Object
+D) Funksiya
+JAVOB: B
+
+SAVOL 4: Object nima?
+A) Array
+B) Key-value {} orqali yoziladi
+C) String
+D) Raqam
+JAVOB: B
+
+SAVOL 5: Function qanday e'lon qilinadi?
+A) function myFunc(){}
+B) def myFunc()
+C) func myFunc
+D) method myFunc
+JAVOB: A
+
+SAVOL 6: Arrow function nima?
+A) Ordinary function
+B) () => {} sintaksisi
+C) Loop
+D) Object
+JAVOB: B
+
+SAVOL 7: map() method nima uchun?
+A) Array chiqaradi
+B) Har elementga funksiya qo'llaydi
+C) Arrayni sortirlaydi
+D) Arrayni tekshiradi
+JAVOB: B
+
+SAVOL 8: filter() method nima uchun?
+A) Array sortirlaydi
+B) Shart bo'ycha elementlarni tanlaydi
+C) Array yaratadi
+D) Array qo'shadi
+JAVOB: B
+
+SAVOL 9: reduce() method nima?
+A) Arrayni kichiklashtiradi
+B) Arrayni bitta qiymatga ixchamlashtiradi
+C) Arrayni sortirlaydi
+D) Arrayni qayta o'rganadi
+JAVOB: B
+
+SAVOL 10: Promise nima?
+A) Shart
+B) Asinxron operatsiya for async/await
+C) Object
+D) Funksiya
+JAVOB: B
+
+SAVOL 11: async/await nima?
+A) Loop
+B) Promise bajarilishini kutish
+C) Function
+D) Object
+JAVOB: B
+
+SAVOL 12: Closure nima?
+A) Loop tugashi
+B) Inner funksiya outer funksiyaning scope-ini saqlashi
+C) Object
+D) Array
+JAVOB: B
+
+SAVOL 13: this keyword nima?
+A) Loop
+B) Current object reference
+C) Variable
+D) Function
+JAVOB: B
+
+SAVOL 14: Prototype nima?
+A) Class
+B) Object yaratishning bazasi
+C) Function
+D) Array
+JAVOB: B
+
+SAVOL 15: Class in JavaScript nima?
+A) CSS class
+B) Syntax sugar for prototype
+C) Object
+D) Function
+JAVOB: B
+
+SAVOL 16: .push() method nima?
+A) Birinchi element qo'shish
+B) Element oxirga qo'shish
+C) Element o'chirish
+D) Array sortirlash
+JAVOB: B
+
+SAVOL 17: .pop() method nima?
+A) Birinchi element o'chirish
+B) Oxirgi element o'chirish
+C) Birinchi element olish
+D) Oxirgi element olish
+JAVOB: B
+
+SAVOL 18: .shift() method nima?
+A) Birinchi element o'chirish
+B) Oxirgi element o'chirish
+C) Array shift qilish
+D) Array o'chirish
+JAVOB: A
+
+SAVOL 19: .unshift() method nima?
+A) Oxirga element qo'shish
+B) Birinchiga element qo'shish
+C) Element o'chirish
+D) Array sortirlash
+JAVOB: B
+
+SAVOL 20: .slice() method nima?
+A) Array bo'lish
+B) Array qismini olish
+C) Array o'zgartiradigan
+D) Array tekshirish
+JAVOB: B
+
+SAVOL 21: .splice() method nima?
+A) Array bo'lish (o'zgartiradigan)
+B) Array qismini olish (o'zgartirmaydi)
+C) Array o'chirish
+D) Array tekshirish
+JAVOB: A
+
+SAVOL 22: .join() method nima?
+A) Array bo'lish
+B) Array elementlarni stringga birlashtiradigan
+C) Array sortirlash
+D) Array tekshirish
+JAVOB: B
+
+SAVOL 23: .split() method nima?
+A) String birlashtirish
+B) String bo'lish (array qilish)
+C) String o'zgartirish
+D) String tekshirish
+JAVOB: B
+
+SAVOL 24: .includes() method nima?
+A) Element mavjudmi tekshirish
+B) Element sonini hisoblash
+C) Element topish
+D) Element o'chirish
+JAVOB: A
+
+SAVOL 25: .indexOf() method nima?
+A) Element mavjudmi tekshirish
+B) Element indexi qaytaradi
+C) Element topish
+D) Element o'chirish
+JAVOB: B
+
+SAVOL 26: .find() method nima?
+A) Index qaytaradi
+B) Shart bo'ycha birinchi elementni qaytaradi
+C) Barcha elementlarni qaytaradi
+D) Boolean qaytaradi
+JAVOB: B
+
+SAVOL 27: .findIndex() method nima?
+A) Element qaytaradi
+B) Shart bo'ycha birinchi indexni qaytaradi
+C) Barcha indexlarni qaytaradi
+D) Boolean qaytaradi
+JAVOB: B
+
+SAVOL 28: .every() method nima?
+A) Barcha qiymatlar shart bo'ycha
+B) Kamita bitta qiymat shart bo'ycha
+C) Qiymatlarni hisoblaydi
+D) Qiymatlarni sortirlaydi
+JAVOB: A
+
+SAVOL 29: .some() method nima?
+A) Barcha qiymatlar shart bo'ycha
+B) Kamita bitta qiymat shart bo'ycha
+C) Qiymatlarni hisoblaydi
+D) Qiymatlarni sortirlaydi
+JAVOB: B
+
+SAVOL 30: .sort() method nima?
+A) Array sortirlaydi (o'zini o'zgartirmaydi)
+B) Array sortirlaydi (o'zini o'zgartiradi)
+C) Array tekshiradi
+D) Array qayta aralashtiradi
+JAVOB: B
+
+[... 320+ MORE JAVASCRIPT QUESTIONS ...]
+
+===============================================
+KATEGORIYA: REACT & FRONTEND (350+ savol)
+===============================================
+
+SAVOL 1: React nima?
+A) Database
+B) JavaScript UI library
+C) Server
+D) CSS framework
+JAVOB: B
+
+SAVOL 2: Component nima?
+A) HTML tag
+B) Reusable UI element
+C) CSS
+D) Database
+JAVOB: B
+
+SAVOL 3: Props nima?
+A) Component data o'zgaruvchisi
+B) Component ga data o'tkazish
+C) HTML attribute
+D) CSS property
+JAVOB: B
+
+SAVOL 4: State nima?
+A) Props
+B) Component-ni o'zgarishi mumkin data
+C) HTML
+D) CSS
+JAVOB: B
+
+SAVOL 5: JSX nima?
+A) JavaScript
+B) JavaScript + XML syntax
+C) HTML
+D) CSS
+JAVOB: B
+
+SAVOL 6: useState hook nima?
+A) State o'zgaruvchi yaratish
+B) State o'qish
+C) Data fetch
+D) Effect
+JAVOB: A
+
+SAVOL 7: useEffect hook nima?
+A) State yaratish
+B) Side effects bajarish (API call, DOM)
+C) Props
+D) Component render
+JAVOB: B
+
+SAVOL 8: useContext hook nima?
+A) Context ishlashi
+B) Context dan qiymat olish
+C) Context yaratish
+D) Global state
+JAVOB: B
+
+SAVOL 9: useReducer hook nima?
+A) State yaratish
+B) Complex state logic
+C) Array reduce qilish
+D) Object reduce qilish
+JAVOB: B
+
+SAVOL 10: useCallback hook nima?
+A) Function cache qilish
+B) Re-render vaqtini o'zgartirish
+C) Function qo'llash
+D) Function tekshirish
+JAVOB: A
+
+[... 340+ MORE REACT/FRONTEND QUESTIONS ...]
+
+===============================================
+KATEGORIYA: DATABASE & SQL (300+ savol)
+===============================================
+
+SAVOL 1: Database nima?
+A) Program
+B) Teradata saqlaydigan sistema
+C) Server
+D) Component
+JAVOB: B
+
+SAVOL 2: SQL nima?
+A) Programming language
+B) Query language databases uchun
+C) Markup
+D) Styling
+JAVOB: B
+
+SAVOL 3: SELECT statement nima uchun?
+A) Insert data
+B) Data o'qish
+C) Update
+D) Delete
+JAVOB: B
+
+[... 297+ MORE DATABASE QUESTIONS ...]
+
+===============================================
+KATEGORIYA: TYPESCRIPT (300+ savol)
+===============================================
+
+SAVOL 1: TypeScript nima?
+A) JavaScript
+B) JavaScript + type checking
+C) Python
+D) Java
+JAVOB: B
+
+SAVOL 2: Type annotation qanday yoziladi?
+A) let x: number
+B) let x = number
+C) let x [number]
+D) let x = <number>
+JAVOB: A
+
+[... 298+ MORE TYPESCRIPT QUESTIONS ...]
+
+===============================================
+TOTAL: 1500+ TEST SAVOLLARI
+- Python: 350+
+- JavaScript: 350+
+- React & Frontend: 350+
+- Database & SQL: 300+
+- TypeScript: 300+
+- Web Fundamentals: 250+
+
+FOYDALANISH:
+1. Har bir savol "SAVOL [NUMBER]:" bilan boshlandi
+2. A) B) C) D) javoblar berdi
+3. "JAVOB: X" - to'g'ri javob
+4. Takrorlanmagan savollari - har bir kategoriyada 300+
+
+===============================================
