@@ -7,10 +7,8 @@ import { VideoBackground } from "../components/ui";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://allohgaqayt.uz";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(APP_URL),
+  metadataBase: new URL("https://allohgaqayt.uz"),
   title: {
     default: "Allohga Qayting - Islomiy Bilim Platformasi",
     template: "%s | Allohga Qayting",
