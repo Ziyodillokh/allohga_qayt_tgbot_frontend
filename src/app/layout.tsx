@@ -7,7 +7,10 @@ import { VideoBackground } from "../components/ui";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://allohgaqayt.uz";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(APP_URL),
   title: {
     default: "Allohga Qayting - Islomiy Bilim Platformasi",
     template: "%s | Allohga Qayting",
@@ -36,12 +39,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "uz_UZ",
-    url: "https://allohgaqayting.uz",
+    url: APP_URL,
     siteName: "Allohga Qayting",
     title: "Allohga Qayting - Islomiy Bilim Platformasi",
     description:
       "Islomiy bilim testlari topshiring, diniy bilimingizni sinang, raqobatlashing",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/logo.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",

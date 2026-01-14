@@ -27,10 +27,23 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "localhost",
+        hostname: "allohgaqayt.uz",
         pathname: "/uploads/**",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/logo.png",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600",
+          },
+        ],
+      },
+    ];
   },
   async rewrites() {
     return [
