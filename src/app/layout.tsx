@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { Header, BottomNav } from "../components/layout";
 import "./globals.css";
 import { VideoBackground } from "../components/ui";
 
-const inter = Inter({ subsets: ["latin", "cyrillic"] });
+const inter = "system-ui, -apple-system, sans-serif";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://allohgaqayt.uz"),
@@ -92,7 +91,7 @@ export default function RootLayout({
         {/* Telegram WebApp Script */}
         <script src="https://telegram.org/js/telegram-web-app.js" async />
       </head>
-      <body className={inter.className}>
+      <body className="font-sans">
         <VideoBackground />
         <div className="min-h-screen flex flex-col">
           <Header />
