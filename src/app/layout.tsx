@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "uz_UZ",
-    url: APP_URL,
+    url: "https://allohgaqayt.uz",
     siteName: "Allohga Qayting",
     title: "Allohga Qayting - Islomiy Bilim Platformasi",
     description:
