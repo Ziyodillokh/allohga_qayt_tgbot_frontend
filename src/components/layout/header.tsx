@@ -25,7 +25,7 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-10 h-10">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden">
               <Image
                 src="/logo.png"
                 alt="Allohga Qayting Logo"
@@ -34,7 +34,7 @@ export function Header() {
                 priority
               />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
               Allohga Qayting
             </span>
           </Link>
@@ -129,7 +129,7 @@ export function Header() {
                           (pathname.startsWith("/admin") ? (
                             <Link
                               href="/"
-                              className="flex items-center gap-2 px-4 py-2 text-green-600 dark:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                              className="flex items-center gap-2 px-4 py-2 text-teal-600 dark:text-teal-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                               onClick={() => setProfileOpen(false)}
                             >
                               <User className="w-4 h-4" />

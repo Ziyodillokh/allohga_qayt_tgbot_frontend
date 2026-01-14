@@ -1,4 +1,4 @@
-name: Deploy Backend 🚀
+name: Deploy Frontend 🚀
 
 on:
   push:
@@ -19,8 +19,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /root/backend/Bilimdon_ai/backend
+            cd /var/www/allohgaqayt.uz/frontend
             git pull origin main
             npm install --force
             npm run build
-            pm2 restart bilimdon-backend

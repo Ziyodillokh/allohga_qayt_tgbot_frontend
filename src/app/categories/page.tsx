@@ -441,7 +441,7 @@ export default function CategoriesPage() {
       {/* Mixed Test Card */}
       <div className="mt-8">
         <Link href="/test/mixed">
-          <Card className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 hover:shadow-xl transition-shadow">
+          <Card className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-6 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-bold mb-2">🎲 Aralash test</h3>

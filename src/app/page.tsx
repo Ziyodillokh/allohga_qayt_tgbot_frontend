@@ -60,7 +60,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-500 text-white">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
         <div className="container mx-auto px-4 py-16 md:py-24 relative">
           <div className="max-w-3xl">
@@ -78,7 +78,7 @@ export default function HomePage() {
                 <Link href="/categories">
                   <Button
                     size="lg"
-                    className="bg-white text-indigo-600 hover:bg-gray-100"
+                    className="bg-white text-teal-600 hover:bg-gray-100"
                   >
                     Test boshlash <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
@@ -92,7 +92,7 @@ export default function HomePage() {
                   >
                     <Button
                       size="lg"
-                      className="bg-white text-indigo-600 hover:bg-gray-100"
+                      className="bg-white text-teal-600 hover:bg-gray-100"
                     >
                       Boshlash <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -224,7 +224,7 @@ export default function HomePage() {
               category.logo || getCategoryIconUrl(category.slug, category.icon);
             return (
               <Link key={category.id} href={`/test/${category.slug}`}>
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 border border-indigo-100 dark:border-indigo-800 cursor-pointer h-32 flex flex-col items-center justify-center">
+                <div className="bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 border border-teal-100 dark:border-teal-800 cursor-pointer h-32 flex flex-col items-center justify-center">
                   <div className="flex justify-center mb-2 h-12">
                     {logo ? (
                       <img
@@ -347,7 +347,7 @@ export default function HomePage() {
       {/* CTA Section */}
       {!isAuthenticated && (
         <section className="container mx-auto px-4 py-16">
-          <Card className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-8 md:p-12 text-center">
+          <Card className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-8 md:p-12 text-center">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">
               Hoziroq boshlang!
             </h2>
@@ -361,7 +361,7 @@ export default function HomePage() {
               >
                 <Button
                   size="lg"
-                  className="bg-white text-indigo-600 hover:bg-gray-100"
+                  className="bg-white text-teal-600 hover:bg-gray-100"
                 >
                   Ro'yxatdan o'tish
                 </Button>
