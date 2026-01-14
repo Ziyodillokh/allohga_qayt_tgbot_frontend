@@ -21,7 +21,7 @@ jobs:
           script: |
             cd /var/www/allohgaqayt.uz/frontend
             git pull origin main
-            npm install --force
+            rm -rf .next node_modules/.cache
+            npm ci
             npm run build
-            # PM2 bilan frontend ishga tushirish
-            pm2 restart bilimdon-frontend || pm2 start .next/standalone/server.js --name bilimdon-frontend
+            pm2 restart frontend
