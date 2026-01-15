@@ -6,12 +6,15 @@ WORKDIR /app
 # Install dependencies for sharp
 RUN apk add --no-cache libc6-compat
 
-# Install dependencies
-COPY package*.json ./
-RUN npm install
+# Install dependencies with npm ci (faster and more reliable)
+COPY package.json package-lock.json ./
+RUN npm ci --only=production && npm cache clean --force
 
-# Copy source and build
+# Copy source for build
 COPY . .
+
+# Install dev dependencies for build
+RUN npm ci --also=dev && npm cache clean --force
 
 # Build argument - API URL ni build vaqtida olish
 ARG NEXT_PUBLIC_API_URL=http://localhost:3001/api

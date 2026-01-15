@@ -41,12 +41,14 @@ export default function ChatbotQA({
   const [testComplete, setTestComplete] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToTop = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToTop();
   }, [messages]);
 
   // Fetch and parse questions
@@ -337,7 +339,8 @@ export default function ChatbotQA({
       </header>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto mb-4 pb-4 scrollbar-hide relative z-10">
+      <div className="flex-1 overflow-y-auto mb-4 pb-4 scrollbar-hide relative z-10 flex flex-col-reverse">
+        <div ref={messagesEndRef} />
         <div className="space-y-4">
           {messages.map((msg, idx) => (
             <div
@@ -357,7 +360,6 @@ export default function ChatbotQA({
               </div>
             </div>
           ))}
-          <div ref={messagesEndRef} />
         </div>
       </div>
 

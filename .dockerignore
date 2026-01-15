@@ -1,0 +1,15 @@
+.next
+node_modules
+.git
+.gitignore
+README.md
+.env
+.env.local
+.DS_Store
+*.log
+*.json
+.vercel
+.turbo
+coverage
+dist
+.eslintcache
