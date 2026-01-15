@@ -18,13 +18,13 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-script: |
-  cd /var/www/allohgaqayt.uz/frontend
-  git pull origin main
+          script: |
+            cd /var/www/allohgaqayt.uz/frontend
+            git pull origin main
 
-  rm -rf .next
-  npm ci
-  npm run build
+            rm -rf .next node_modules/.cache
+            npm ci
+            npm run build
 
-  pm2 restart frontend || pm2 start npm --name "frontend" -- start
-  pm2 save
+            pm2 restart frontend || pm2 start npm --name "frontend" -- run start
+            pm2 save
