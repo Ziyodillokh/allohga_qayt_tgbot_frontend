@@ -95,7 +95,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -161,7 +161,7 @@ code {
   html {
     font-size: 14px;
   }
-  
+
   .container {
     @apply px-3;
   }
@@ -172,12 +172,16 @@ code {
   .btn-press {
     @apply active:scale-95;
   }
-  
+
   /* Larger touch targets */
-  button, a, input, select, textarea {
+  button,
+  a,
+  input,
+  select,
+  textarea {
     min-height: 44px;
   }
-  
+
   /* Disable hover effects on touch */
   .card-hover:hover {
     transform: none;
@@ -186,7 +190,8 @@ code {
 }
 
 /* Prevent text selection on interactive elements */
-button, a {
+button,
+a {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -199,7 +204,7 @@ button, a {
     /* Prevent bounce scrolling */
     overscroll-behavior: none;
   }
-  
+
   /* Fix for iOS bottom bar */
   .pb-safe {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
@@ -208,7 +213,30 @@ button, a {
 
 /* Android specific fixes */
 @supports not (-webkit-touch-callout: none) {
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     font-size: 16px; /* Prevent zoom on focus */
   }
+}
+
+/* Zikrlar uchun maxsus nafis skroll-bar */
+.zikr-scroll::-webkit-scrollbar {
+  height: 3px; /* Juda ingichka va chiroyli */
+}
+
+.zikr-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03); /* Deyarli ko'rinmas yo'lakcha */
+  margin: 0 40px; /* Ikki chetdan ichkariga tortilgan */
+  border-radius: 100px;
+}
+
+.zikr-scroll::-webkit-scrollbar-thumb {
+  background: rgba(45, 212, 191, 0.4); /* O'sha sizga yoqqan Teal rang */
+  border-radius: 100px;
+  transition: all 0.3s ease;
+}
+
+.zikr-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(45, 212, 191, 0.8); /* Ustiga borganda yorqinlashadi */
 }

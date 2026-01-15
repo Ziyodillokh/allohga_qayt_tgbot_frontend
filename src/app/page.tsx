@@ -1,24 +1,24 @@
 "use client";
 
 import {
-  Heart,
   Home,
   BookOpen,
-  Bot,
-  HelpCircle,
   User,
   Sparkles,
   Trophy,
-  Flame,
   X,
   Star,
   Crown,
   Award,
   Medal,
+  Search,
+  Zap,
+  ChevronRight,
+  Heart,
+  HelpCircle,
 } from "lucide-react";
 import { useState } from "react";
 
-// Zikr turini aniqlash
 interface Zikr {
   name: string;
   count: number;
@@ -26,21 +26,23 @@ interface Zikr {
   arabicText: string;
   translation: string;
   meaning: string;
+  benefit: string;
 }
 
-export default function HomePage() {
+export default function LuxuryZikrApp() {
   const [activeNav, setActiveNav] = useState("home");
-  const [selectedZikr, setSelectedZikr] = useState<Zikr | null>(null); // null yoki Zikr
+  const [selectedZikr, setSelectedZikr] = useState<Zikr | null>(null);
   const [count, setCount] = useState(0);
 
   const dailyZikr: Zikr[] = [
     {
-      name: "Astaghfirullah",
+      name: "Istighfar",
       count: 100,
       emoji: "🤲",
       arabicText: "أَسْتَغْفِرُ اللّهَ",
-      translation: "Astaghfirulloh",
+      translation: "Astaghfirullah",
       meaning: "Allohdan kechirim so'rayman",
+      benefit: "G'am-tashvishdan najot, kutilmagan rizq va baraka eshigi.",
     },
     {
       name: "Salawat",
@@ -49,30 +51,37 @@ export default function HomePage() {
       arabicText: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
       translation: "Allohumma solli ala Muhammad",
       meaning: "Allohim, Muhammadga salovat ayt",
+      benefit:
+        "Sizga Alloh 10 marta salovat aytadi va Qiyomatda Rasulullohga yaqin bo'lasiz.",
     },
     {
       name: "SubhanAllah",
       count: 33,
       emoji: "✨",
-      arabicText: "سُبْحَانَ اللّهِ وَبِحَمْدِهِ",
-      translation: "Subhanalloh wa bihamdihi",
-      meaning: "Alloh pokdir va unga hamd aytaman",
+      arabicText: "سُبْحَانَ اللّهِ",
+      translation: "Subhanalloh",
+      meaning: "Alloh barcha nuqsonlardan pokdir",
+      benefit:
+        "Jannatda siz uchun bir daraxt ekiladi va gunohlar dengiz ko'pigicha bo'lsa ham kechiriladi.",
     },
     {
       name: "Alhamdulillah",
-      count: 100,
+      count: 33,
       emoji: "🙏",
       arabicText: "الْحَمْدُ لِلّهِ",
       translation: "Alhamdulillah",
       meaning: "Barcha hamdlar Allohga xosdir",
+      benefit:
+        "Shukr qiluvchilar ne'mati ziyoda qilinadi va savob tarozisi to'ladi.",
     },
     {
       name: "La ilaha illallah",
       count: 100,
-      emoji: "☪️",
+      emoji: "☝️",
       arabicText: "لَا إِلَهَ إِلَّا اللّهُ",
-      translation: "La ilaha illalloh",
+      translation: "La ilaha illallah",
       meaning: "Allohdan boshqa iloh yo'q",
+      benefit: "Zikrning eng afzali, imonni yangilaydi va jannat kalitidir.",
     },
   ];
 
@@ -81,397 +90,285 @@ export default function HomePage() {
     setCount(0);
   };
 
-  const handleTasbihClick = () => {
-    if (selectedZikr && count < selectedZikr.count) {
-      setCount((prev) => prev + 1);
-    }
-  };
-
-  const handleClose = () => {
-    setSelectedZikr(null);
-    setCount(0);
-  };
-
   const getMotivation = () => {
     if (!selectedZikr) return "";
     const progress = (count / selectedZikr.count) * 100;
-    if (progress === 0) return "Bismillah! Boshlaylik";
-    if (progress < 25) return "Ajoyib boshladingiz! 💫";
-    if (progress < 50) return "Davom eting! Zo'r ketmoqda! 🌟";
-    if (progress < 75) return "Yaxshi! Deyarli yarmini tugatdingiz! ⭐";
-    if (progress < 100) return "Zo'r! Oxirigacha yetib keldingiz! 🎯";
-    return "Barakalloh! Maqsadga yetdingiz! 🎉";
+    if (progress === 0) return "Bismillah!";
+    if (progress < 50) return "Alloh zikringizni qabul qilsin! ✨";
+    if (progress < 100) return "Deyarli tugatdingiz! 🌟";
+    return "MashaAlloh, yakunladingiz! 🎉";
   };
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br from-amber-900 via-orange-950 to-brown-900 pb-28 relative overflow-hidden"
-      style={{ backgroundColor: "#1a0f0a" }}
-    >
-      {/* Decorative Background Pattern */}
-      <div
-        className="fixed inset-0 opacity-5"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 2px 2px, #D4AF37 1px, transparent 0)",
-          backgroundSize: "40px 40px",
-        }}
-      ></div>
+    // Orqa fon rangi biroz "Gold-tinted" ochiqroq qora bo'ldi
+    <div className="min-h-screen bg-[#0F0E0A] text-[#E5C366] font-sans pb-36 relative overflow-x-hidden">
+      {/* Background Glows - Yorqinroq va tilla rang */}
+      <div className="fixed inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-[-5%] right-[-10%] w-[600px] h-[600px] bg-[#D4AF37] rounded-full blur-[180px]"></div>
+        <div className="absolute bottom-[5%] left-[-10%] w-[500px] h-[500px] bg-[#AA8232] rounded-full blur-[160px]"></div>
+        <div className="absolute top-[30%] left-[20%] w-[300px] h-[300px] bg-[#D4AF37]/20 rounded-full blur-[100px]"></div>
+      </div>
 
       {/* Header */}
-      <div className="relative px-6 pt-8 pb-6">
-        <div className="flex items-start justify-between mb-6">
+      <header className="relative z-10 pt-10 px-6 pb-6 border-b border-[#D4AF37]/10 bg-[#0F0E0A]/40 backdrop-blur-md">
+        <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 p-0.5 shadow-lg">
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-amber-900 to-yellow-900 flex items-center justify-center">
-                <Star className="w-7 h-7 text-amber-400 fill-amber-400" />
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[2px] shadow-[0_0_30px_rgba(212,175,55,0.3)]">
+              <div className="w-full h-full rounded-2xl bg-[#14130F] flex items-center justify-center">
+                <Crown className="w-7 h-7 text-[#FBF0B2]" />
               </div>
             </div>
             <div>
-              <h1
-                className="text-3xl font-serif font-bold text-amber-100 mb-1"
-                style={{ letterSpacing: "0.5px" }}
-              >
+              <h1 className="text-2xl font-serif font-bold text-white tracking-tight">
                 Islomiy Darslar
               </h1>
-              <p className="text-amber-300/80 text-sm font-medium">
-                Assalomu alaykum, Ziyodullo!
+              <p className="text-[#D4AF37]/70 text-[10px] font-black uppercase tracking-[0.2em]">
+                Ziyodullo • Musulmon
               </p>
             </div>
           </div>
-          <button className="p-2.5 hover:bg-amber-900/30 rounded-full transition-colors">
-            <div className="w-6 h-6 rounded-full border-2 border-amber-400/50"></div>
+          <button className="w-11 h-11 rounded-2xl bg-white/5 border border-[#D4AF37]/20 flex items-center justify-center active:scale-90 transition-all">
+            <Search className="w-5 h-5 text-[#FBF0B2]" />
           </button>
         </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-2xl p-5 border border-amber-700/30 shadow-xl">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center mb-3 shadow-lg">
-              <Sparkles className="w-6 h-6 text-amber-50" />
-            </div>
-            <h3 className="text-amber-100 font-bold text-lg mb-1 flex items-center gap-2">
-              AI Tavsiya ✨
-            </h3>
-            <p className="text-amber-300/70 text-sm font-medium">
-              Kurs yarating
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-2xl p-5 border border-amber-700/30 shadow-xl">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center mb-3 shadow-lg">
-              <Award className="w-6 h-6 text-amber-50" />
-            </div>
-            <h3 className="text-amber-100 font-bold text-lg mb-1">Yutuqlar</h3>
-            <p className="text-amber-300/70 text-sm font-medium">
-              XP va reyting
-            </p>
-          </div>
-        </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      <div className="px-6">
-        {/* Section Title */}
-        <div className="flex items-center gap-2 mb-5">
-          <Sparkles className="w-6 h-6 text-amber-400 fill-amber-400" />
-          <h2 className="text-2xl font-bold text-amber-100">Kunlik zikrlar</h2>
-        </div>
-
-        {/* Zikr Cards - Horizontal Scroll */}
-        <div
-          className="flex gap-4 overflow-x-auto pb-6 -mx-6 px-6 scrollbar-hide"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {dailyZikr.map((zikr, idx) => (
-            <div
-              key={idx}
-              onClick={() => handleZikrClick(zikr)}
-              className="flex-shrink-0 w-64 cursor-pointer group"
-            >
-              <div className="relative h-80 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-amber-900/50 bg-gradient-to-br from-amber-900/50 to-orange-900/40 backdrop-blur-sm border border-amber-700/30">
-                {/* Islamic Pattern Overlay */}
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage:
-                      'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23D4AF37" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-                  }}
-                ></div>
-
-                {/* Gold Badge */}
-                <div className="absolute top-5 left-5 z-10">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center shadow-xl border-3 border-amber-200/40">
-                    <Medal className="w-7 h-7 text-white" />
-                  </div>
-                </div>
-
-                {/* Content Area */}
-                <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-amber-950/95 via-amber-900/90 to-transparent backdrop-blur-md p-5 flex flex-col justify-end border-t border-amber-700/20">
-                  {/* Arabic Text */}
-                  <div className="mb-4">
-                    <p
-                      className="text-3xl font-bold text-center mb-2"
-                      style={{
-                        direction: "rtl",
-                        fontFamily: "serif",
-                        color: "#D4AF37",
-                      }}
-                    >
-                      {zikr.arabicText}
-                    </p>
-                  </div>
-
-                  {/* Count Display */}
-                  <div className="bg-gradient-to-r from-amber-900/60 to-yellow-900/50 rounded-2xl p-3 mb-3 border border-amber-700/40 shadow-lg backdrop-blur-sm">
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-4xl font-black text-amber-400">
-                        {zikr.count}
-                      </span>
-                      <span className="text-xl font-bold text-amber-300">
-                        marta
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Name and Duration */}
-                  <div className="text-center">
-                    <h3 className="text-lg font-bold text-amber-100 mb-1">
-                      {zikr.name}
-                    </h3>
-                    <div className="flex items-center justify-center gap-2 text-amber-300/70">
-                      <div className="w-4 h-4 rounded-full bg-amber-400/60"></div>
-                      <span className="text-xs font-semibold">5-7 daqiqa</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <main className="relative z-10 px-6 space-y-8 pt-6">
+        {/* Top Feature Cards */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-[30px] p-6 shadow-xl active:scale-95 transition-all">
+            <div className="w-10 h-10 bg-[#D4AF37]/20 rounded-xl flex items-center justify-center mb-5 border border-[#D4AF37]/20">
+              <Sparkles className="w-5 h-5 text-[#FBF0B2]" />
             </div>
-          ))}
-        </div>
+            <h3 className="text-white font-bold text-sm tracking-wide">
+              AI Tavsiya
+            </h3>
+            <p className="text-[#D4AF37]/50 text-[10px] uppercase font-bold mt-1">
+              Vazifa yaratish
+            </p>
+          </div>
 
-        {/* Daily Stats */}
-        <div className="mt-8 bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-3xl p-6 border border-amber-700/30 shadow-xl">
-          <h3 className="text-amber-100 font-bold text-lg mb-4 flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-400" />
-            Bugungi natijalar
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <p className="text-3xl font-black text-amber-400 mb-1">120</p>
-              <p className="text-amber-300/70 text-xs font-semibold">XP</p>
+          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-[30px] p-6 shadow-xl active:scale-95 transition-all">
+            <div className="w-10 h-10 bg-[#D4AF37]/20 rounded-xl flex items-center justify-center mb-5 border border-[#D4AF37]/20">
+              <Trophy className="w-5 h-5 text-[#FBF0B2]" />
             </div>
-            <div className="text-center">
-              <p className="text-3xl font-black text-amber-400 mb-1">3</p>
-              <p className="text-amber-300/70 text-xs font-semibold">Kun</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl font-black text-amber-400 mb-1">15</p>
-              <p className="text-amber-300/70 text-xs font-semibold">Daqiqa</p>
-            </div>
+            <h3 className="text-white font-bold text-sm tracking-wide">
+              Yutuqlar
+            </h3>
+            <p className="text-[#D4AF37]/50 text-[10px] uppercase font-bold mt-1">
+              120 XP • Rank #1
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Tasbih Modal */}
-      {selectedZikr && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-lg">
-            <button
-              onClick={handleClose}
-              className="absolute -top-14 right-0 p-4 bg-amber-900/50 hover:bg-amber-800/50 rounded-full transition-all border border-amber-700/50"
-            >
-              <X className="w-6 h-6 text-amber-100" />
-            </button>
+        {/* Zikrlar Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6 px-1">
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-6 bg-gradient-to-b from-[#FBF0B2] to-[#D4AF37] rounded-full shadow-[0_0_15px_#D4AF37]"></div>
+              <h2 className="text-sm font-black text-white uppercase tracking-[0.25em]">
+                Kunlik Vazifalar
+              </h2>
+            </div>
+            <ChevronRight className="w-4 h-4 text-[#D4AF37]/40" />
+          </div>
 
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-amber-900/50 to-orange-900/40 backdrop-blur-sm border border-amber-700/30 p-8">
-              {/* Pattern Overlay */}
+          <div className="space-y-4">
+            {dailyZikr.map((zikr, idx) => (
               <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                  backgroundImage:
-                    'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23D4AF37" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-                }}
-              ></div>
-
-              <div className="relative">
-                {/* Header */}
-                <div className="text-center mb-8">
-                  <div className="text-6xl mb-4">{selectedZikr.emoji}</div>
-                  <h3 className="text-3xl font-black text-amber-100 mb-2 drop-shadow-lg">
-                    {selectedZikr.name}
-                  </h3>
-                  <p className="text-amber-200/90 font-semibold text-lg">
-                    {selectedZikr.meaning}
-                  </p>
-                </div>
-
-                {/* Counter */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl">
-                  <div className="text-center mb-6">
-                    <p className="text-8xl font-black bg-gradient-to-r from-amber-900 to-yellow-900 bg-clip-text text-transparent mb-3">
-                      {count}
-                    </p>
-                    <p className="text-lg font-bold text-gray-700">
-                      {getMotivation()}
-                    </p>
+                key={idx}
+                onClick={() => handleZikrClick(zikr)}
+                className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-[32px] p-6 shadow-lg active:scale-[0.98] transition-all cursor-pointer group hover:border-[#D4AF37]/60 hover:bg-[#1E1C15]"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#26231A] rounded-2xl flex items-center justify-center text-2xl border border-[#D4AF37]/10 group-hover:border-[#D4AF37]/30 transition-all">
+                      {zikr.emoji}
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold text-base tracking-wide">
+                        {zikr.name}
+                      </h3>
+                      <p className="text-[10px] text-[#D4AF37]/60 font-bold uppercase tracking-widest">
+                        {zikr.translation}
+                      </p>
+                    </div>
                   </div>
-                  <div className="h-4 bg-gray-200 rounded-full overflow-hidden shadow-inner">
-                    <div
-                      className="h-full bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-500 transition-all duration-500 shadow-lg"
-                      style={{
-                        width: `${Math.min(
-                          (count / selectedZikr.count) * 100,
-                          100
-                        )}%`,
-                      }}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between mt-3 px-2">
-                    <span className="text-sm font-bold text-gray-600">0</span>
-                    <span className="text-sm font-bold text-gray-600">
-                      {selectedZikr.count}
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-white tracking-tighter">
+                      {zikr.count}
+                    </span>
+                    <span className="text-[10px] text-[#D4AF37] font-bold ml-1 uppercase">
+                      marta
                     </span>
                   </div>
                 </div>
 
-                {/* Arabic Text */}
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg">
-                  <p
-                    className="text-5xl font-bold text-center mb-3"
-                    style={{
-                      direction: "rtl",
-                      fontFamily: "serif",
-                      color: "#1a0f0a",
-                    }}
-                  >
-                    {selectedZikr.arabicText}
+                {/* Va'da qilingan ajr - Benefit Section - Tiniqroq fon */}
+                <div className="bg-[#D4AF37]/10 rounded-[22px] p-4 border border-[#D4AF37]/20 flex items-start gap-3">
+                  <Zap className="w-4 h-4 text-[#FBF0B2] mt-0.5 shrink-0 fill-[#FBF0B2]/20" />
+                  <p className="text-[12px] text-white/90 leading-relaxed font-medium italic">
+                    {zikr.benefit}
                   </p>
-                  <p className="text-center text-gray-800 font-bold text-lg">
-                    {selectedZikr.translation}
-                  </p>
-                </div>
-
-                {/* Tasbih Button */}
-                <div className="flex justify-center mb-8">
-                  <button
-                    onClick={handleTasbihClick}
-                    disabled={count >= selectedZikr.count}
-                    className="group/btn relative disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <div className="absolute -inset-6 bg-amber-400/40 rounded-full blur-2xl group-hover/btn:bg-amber-400/60 transition-all"></div>
-                    <div className="relative w-56 h-56 rounded-full bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 shadow-2xl flex items-center justify-center transition-all group-hover/btn:scale-110 group-active/btn:scale-95 border-4 border-white/50">
-                      <div className="w-48 h-48 rounded-full bg-gradient-to-br from-white to-amber-50 shadow-2xl flex flex-col items-center justify-center border-4 border-white/80">
-                        <p className="text-2xl font-black text-gray-800 mb-2">
-                          اُنْقُرْ
-                        </p>
-                        <p className="text-sm font-bold text-gray-600">
-                          Bosing
-                        </p>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    onClick={() => setCount(0)}
-                    className="py-4 px-6 bg-white/90 hover:bg-white backdrop-blur-sm text-gray-800 font-bold rounded-2xl transition-all active:scale-95 shadow-lg"
-                  >
-                    🔄 Qaytadan
-                  </button>
-                  <button
-                    onClick={handleClose}
-                    className="py-4 px-6 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl transition-all active:scale-95 shadow-lg"
-                  >
-                    ✓ Tugat
-                  </button>
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      {/* Floating Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-[#0F0E0A]/95 backdrop-blur-2xl border-t border-[#D4AF37]/10 px-6 pt-4 pb-10 z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <div className="max-w-md mx-auto flex justify-around items-end">
+          <NavItem
+            icon={Home}
+            label="Asosiy"
+            active={activeNav === "home"}
+            onClick={() => setActiveNav("home")}
+          />
+          <NavItem
+            icon={BookOpen}
+            label="Kurslar"
+            active={activeNav === "books"}
+            onClick={() => setActiveNav("books")}
+          />
+
+          <div className="px-2">
+            <button className="w-16 h-16 bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] rounded-full flex items-center justify-center shadow-[0_0_35px_rgba(212,175,55,0.4)] -translate-y-4 border-[4px] border-[#0F0E0A] active:scale-90 transition-all">
+              <Sparkles className="w-7 h-7 text-[#0F0E0A] fill-current" />
+            </button>
+            <p className="text-[10px] font-black text-[#D4AF37] uppercase text-center -translate-y-2 tracking-tighter">
+              Ruhiy Holat
+            </p>
+          </div>
+
+          <NavItem
+            icon={HelpCircle}
+            label="Savollar"
+            active={activeNav === "qa"}
+            onClick={() => setActiveNav("qa")}
+          />
+          <NavItem
+            icon={User}
+            label="Profil"
+            active={activeNav === "profile"}
+            onClick={() => setActiveNav("profile")}
+          />
+        </div>
+      </nav>
+
+      {/* Tasbih Modal */}
+      {selectedZikr && (
+        <div className="fixed inset-0 bg-[#0F0E0A] z-50 flex flex-col p-8 animate-in fade-in zoom-in-95 duration-300">
+          <div className="flex justify-between items-center mb-8">
+            <div className="w-10 h-10"></div>
+            <h2 className="text-[#FBF0B2] font-black uppercase tracking-[0.4em] text-[10px]">
+              Tasbih Mode
+            </h2>
+            <button
+              onClick={() => setSelectedZikr(null)}
+              className="p-3 bg-white/5 rounded-2xl border border-[#D4AF37]/20 active:scale-90 transition-all"
+            >
+              <X className="text-[#FBF0B2] w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="text-center mb-12 space-y-4">
+              <p
+                className="text-7xl font-serif text-[#FBF0B2] leading-relaxed drop-shadow-[0_0_25px_rgba(212,175,55,0.4)]"
+                style={{ direction: "rtl" }}
+              >
+                {selectedZikr.arabicText}
+              </p>
+              <h3 className="text-white text-2xl font-bold tracking-wide">
+                {selectedZikr.name}
+              </h3>
+              <p className="text-[#D4AF37]/70 text-base max-w-[280px] mx-auto italic font-medium">
+                "{selectedZikr.meaning}"
+              </p>
             </div>
+
+            {/* Counter Circle - Ochiqroq va yorqinroq */}
+            <div
+              onClick={() =>
+                count < selectedZikr.count && setCount((c) => c + 1)
+              }
+              className="w-80 h-80 rounded-full relative flex items-center justify-center cursor-pointer group active:scale-95 transition-all shadow-[0_0_60px_rgba(212,175,55,0.1)]"
+            >
+              <div className="absolute inset-0 rounded-full border-[2px] border-[#D4AF37]/30 animate-pulse"></div>
+              <div className="absolute inset-6 rounded-full bg-[#1A1812] border border-[#D4AF37]/10 shadow-inner"></div>
+
+              <div className="relative text-center">
+                <span className="text-9xl font-black text-white tracking-tighter drop-shadow-lg">
+                  {count}
+                </span>
+                <p className="text-[#FBF0B2] text-[12px] font-black uppercase tracking-[0.3em] mt-2">
+                  {count === selectedZikr.count ? "Tamom" : "Bosing"}
+                </p>
+              </div>
+
+              <svg className="absolute inset-0 w-full h-full -rotate-90 scale-105">
+                <circle
+                  cx="160"
+                  cy="160"
+                  r="145"
+                  fill="transparent"
+                  stroke="#FBF0B2"
+                  strokeWidth="5"
+                  strokeDasharray={2 * Math.PI * 145}
+                  strokeDashoffset={
+                    2 * Math.PI * 145 * (1 - count / selectedZikr.count)
+                  }
+                  className="transition-all duration-300 drop-shadow-[0_0_8px_#D4AF37]"
+                />
+              </svg>
+            </div>
+
+            <p className="mt-12 text-[#FBF0B2]/60 font-black text-sm uppercase tracking-[0.2em] animate-bounce">
+              {getMotivation()}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mt-8 pb-4">
+            <button
+              onClick={() => setCount(0)}
+              className="py-6 bg-white/5 text-[#FBF0B2] font-black rounded-[28px] border border-[#D4AF37]/20 active:scale-95 transition-all uppercase text-[11px] tracking-widest"
+            >
+              Qayta boshlash
+            </button>
+            <button
+              onClick={() => setSelectedZikr(null)}
+              className="py-6 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] font-black rounded-[28px] active:scale-95 transition-all uppercase text-[11px] tracking-widest shadow-lg shadow-[#D4AF37]/20"
+            >
+              Yakunlash
+            </button>
           </div>
         </div>
       )}
-
-      {/* Bottom Navigation */}
-      <div
-        className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-amber-950 to-orange-950/95 backdrop-blur-xl border-t border-amber-800/30 shadow-2xl z-40"
-        style={{ backgroundColor: "rgba(26, 15, 10, 0.95)" }}
-      >
-        <div className="max-w-2xl mx-auto px-4">
-          <div className="flex justify-around py-4">
-            <NavItem
-              icon={Home}
-              label="Bosh sahifa"
-              active={activeNav === "home"}
-              onClick={() => setActiveNav("home")}
-            />
-            <NavItem
-              icon={BookOpen}
-              label="Kurslar"
-              active={activeNav === "books"}
-              onClick={() => setActiveNav("books")}
-            />
-            <NavItem
-              icon={Sparkles}
-              label="Ruhiy holat"
-              active={activeNav === "spiritual"}
-              onClick={() => setActiveNav("spiritual")}
-              isCenter
-            />
-            <NavItem
-              icon={HelpCircle}
-              label="Savol Javob"
-              active={activeNav === "questions"}
-              onClick={() => setActiveNav("questions")}
-            />
-            <NavItem
-              icon={User}
-              label="Profil"
-              active={activeNav === "profile"}
-              onClick={() => setActiveNav("profile")}
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
 
-import { LucideIcon } from "lucide-react";
-
-interface NavItemProps {
-  icon: LucideIcon;
-  label: string;
-  active?: boolean;
-  onClick?: () => void;
-  isCenter?: boolean;
-}
-
-function NavItem({
-  icon: Icon,
-  label,
-  active = false,
-  onClick,
-  isCenter = false,
-}: NavItemProps) {
+function NavItem({ icon: Icon, label, active, onClick }: any) {
   return (
-    <button onClick={onClick} className="focus:outline-none">
-      <div
-        className={`flex flex-col items-center gap-1.5 py-2 px-3 rounded-2xl transition-all duration-300 ${
-          active
-            ? "text-amber-400 scale-110"
-            : "text-amber-300/60 hover:text-amber-300"
-        } ${isCenter ? "transform -translate-y-2" : ""}`}
+    <button
+      onClick={onClick}
+      className={`flex flex-col items-center gap-1.5 min-w-[60px] transition-all duration-300 ${
+        active ? "opacity-100 scale-110" : "opacity-40 hover:opacity-70"
+      }`}
+    >
+      <Icon
+        className={`w-6 h-6 ${active ? "text-[#FBF0B2]" : "text-[#D4AF37]"}`}
+      />
+      <span
+        className={`text-[10px] font-black uppercase tracking-tighter ${
+          active ? "text-[#FBF0B2]" : "text-[#D4AF37]"
+        }`}
       >
-        <Icon
-          className={`w-6 h-6 transition-transform duration-300 ${
-            active ? "scale-125" : ""
-          } ${active ? "fill-amber-400" : ""}`}
-        />
-        <span className="text-xs font-bold">{label}</span>
-      </div>
+        {label}
+      </span>
     </button>
   );
 }
