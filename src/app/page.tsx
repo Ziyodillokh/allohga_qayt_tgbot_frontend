@@ -9,12 +9,12 @@ import {
   X,
   Search,
   Zap,
-  ChevronRight,
   HelpCircle,
   Crown,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
+// Zikr interfeysi
 interface Zikr {
   name: string;
   count: number;
@@ -25,20 +25,12 @@ interface Zikr {
   benefit: string;
 }
 
-export default function TelegramWebBotApp() {
+export default function LuxuryZikrApp() {
   const [activeNav, setActiveNav] = useState("home");
   const [selectedZikr, setSelectedZikr] = useState<Zikr | null>(null);
   const [count, setCount] = useState(0);
 
-  // WebBot uchun scrollni bloklash (modal ochilganda)
-  useEffect(() => {
-    if (selectedZikr) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [selectedZikr]);
-
+  // Zikrlar bazasi
   const dailyZikr: Zikr[] = [
     {
       name: "Istighfar",
@@ -47,7 +39,7 @@ export default function TelegramWebBotApp() {
       arabicText: "أَسْتَغْفِرُ اللّهَ",
       translation: "Astaghfirullah",
       meaning: "Allohdan kechirim so'rayman",
-      benefit: "G'am-tashvishdan najot va kutilmagan rizq eshigi.",
+      benefit: "G'am-tashvishdan najot va baraka eshigi.",
     },
     {
       name: "Salawat",
@@ -87,57 +79,75 @@ export default function TelegramWebBotApp() {
     },
   ];
 
-  const handleZikrClick = (zikr: Zikr) => {
-    setSelectedZikr(zikr);
-    setCount(0);
+  // Tasbih tugaganda haptic feedback (Telegram WebApp uchun)
+  const handleCount = () => {
+    if (selectedZikr && count < selectedZikr.count) {
+      setCount((prev) => prev + 1);
+      // Telegram titratish funksiyasi (agar script ulangan bo'lsa)
+      if (typeof window !== "undefined" && (window as any).Telegram?.WebApp) {
+        (window as any).Telegram.WebApp.HapticFeedback.impactOccurred("light");
+      }
+    }
   };
 
   return (
-    <div className="flex justify-center bg-black min-h-screen">
-      {/* Container - WebBot dizayni buzilmasligi uchun cheklangan kenglik */}
-      <div className="w-full max-w-md bg-[#0F0E0A] text-[#E5C366] min-h-screen relative flex flex-col shadow-2xl">
-        {/* Background Glows */}
-        <div className="fixed inset-0 pointer-events-none opacity-20 overflow-hidden">
-          <div className="absolute top-[-5%] right-[-10%] w-72 h-72 bg-[#D4AF37] rounded-full blur-[100px]"></div>
-          <div className="absolute bottom-[20%] left-[-10%] w-64 h-64 bg-[#AA8232] rounded-full blur-[80px]"></div>
+    <div className="flex justify-center bg-black min-h-[100dvh]">
+      {/* Asosiy Container */}
+      <div className="w-full max-w-md bg-[#0F0E0A] text-[#E5C366] flex flex-col relative h-[100dvh] overflow-hidden">
+        {/* Orqa fon effektlari */}
+        <div className="absolute inset-0 pointer-events-none opacity-20 z-0 overflow-hidden">
+          <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-[#D4AF37] rounded-full blur-[100px]"></div>
+          <div className="absolute bottom-[20%] left-[-10%] w-64 h-64 bg-[#AA8232] rounded-full blur-[100px]"></div>
         </div>
 
-        {/* Header - Sticky */}
-        <header className="sticky top-0 z-30 pt-8 px-6 pb-4 border-b border-[#D4AF37]/10 bg-[#0F0E0A]/80 backdrop-blur-xl">
+        {/* Header - Qat'iy joylashgan */}
+        <header className="relative z-20 pt-6 px-6 pb-4 border-b border-[#D4AF37]/10 bg-[#0F0E0A]/60 backdrop-blur-md shrink-0">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FBF0B2] to-[#AA8232] p-[1.5px]">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[1.5px] shadow-lg shadow-[#D4AF37]/10">
                 <div className="w-full h-full rounded-xl bg-[#14130F] flex items-center justify-center">
-                  <Crown className="w-6 h-6 text-[#FBF0B2]" />
+                  <Crown className="w-5 h-5 text-[#FBF0B2]" />
                 </div>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white tracking-tight leading-none">
-                  Islomiy
+                <h1 className="text-lg font-bold text-white tracking-tight leading-none">
+                  Islomiy Darslar
                 </h1>
-                <p className="text-[#D4AF37]/70 text-[9px] font-black uppercase tracking-widest mt-1">
-                  Ziyodullo
+                <p className="text-[#D4AF37]/60 text-[8px] font-black uppercase tracking-[0.2em] mt-1">
+                  Ziyodullo • Musulmon
                 </p>
               </div>
             </div>
-            <button className="w-10 h-10 rounded-xl bg-white/5 border border-[#D4AF37]/20 flex items-center justify-center">
-              <Search className="w-5 h-5 text-[#FBF0B2]" />
+            <button className="w-10 h-10 rounded-xl bg-white/5 border border-[#D4AF37]/10 flex items-center justify-center">
+              <Search className="w-4 h-4 text-[#FBF0B2]" />
             </button>
           </div>
         </header>
 
-        {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto px-6 py-6 space-y-6 pb-32">
-          {/* Feature Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <FeatureCard icon={Sparkles} title="AI Tavsiya" sub="Vazifa" />
-            <FeatureCard icon={Trophy} title="Yutuqlar" sub="120 XP" />
+        {/* Markaziy kontent - Scroll bo'ladigan qism */}
+        <main className="flex-1 overflow-y-auto px-6 py-6 pb-32 relative z-10 scrollbar-hide">
+          {/* Kichik stat kartalari */}
+          <div className="grid grid-cols-2 gap-3 mb-8">
+            <div className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-xl">
+              <Sparkles className="w-4 h-4 mb-2 text-[#FBF0B2]" />
+              <p className="text-[9px] uppercase font-black text-[#D4AF37]/40 tracking-wider">
+                AI Tavsiya
+              </p>
+              <p className="text-sm font-bold text-white">Vazifalar</p>
+            </div>
+            <div className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-xl">
+              <Trophy className="w-4 h-4 mb-2 text-[#FBF0B2]" />
+              <p className="text-[9px] uppercase font-black text-[#D4AF37]/40 tracking-wider">
+                Yutuqlar
+              </p>
+              <p className="text-sm font-bold text-white">120 XP</p>
+            </div>
           </div>
 
-          {/* Zikr List */}
+          {/* Ro'yxat */}
           <section className="space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-1 h-4 bg-[#D4AF37] rounded-full"></div>
+            <div className="flex items-center gap-2 mb-2 px-1">
+              <div className="w-1 h-4 bg-[#D4AF37] rounded-full shadow-[0_0_8px_#D4AF37]"></div>
               <h2 className="text-[10px] font-black text-white/80 uppercase tracking-[0.2em]">
                 Kunlik Vazifalar
               </h2>
@@ -146,33 +156,31 @@ export default function TelegramWebBotApp() {
             {dailyZikr.map((zikr, idx) => (
               <div
                 key={idx}
-                onClick={() => handleZikrClick(zikr)}
-                className="bg-[#1A1812]/80 border border-[#D4AF37]/10 rounded-[24px] p-5 active:scale-[0.97] transition-all border-l-2 border-l-[#D4AF37]/40"
+                onClick={() => {
+                  setSelectedZikr(zikr);
+                  setCount(0);
+                }}
+                className="bg-[#1A1812] border border-[#D4AF37]/10 rounded-[28px] p-5 active:scale-[0.97] transition-all flex items-center justify-between group hover:border-[#D4AF37]/30"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#26231A] rounded-lg flex items-center justify-center text-xl border border-[#D4AF37]/10">
-                      {zikr.emoji}
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-sm">
-                        {zikr.name}
-                      </h3>
-                      <p className="text-[9px] text-[#D4AF37]/60 font-bold uppercase">
-                        {zikr.translation}
-                      </p>
-                    </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 bg-[#26231A] rounded-xl flex items-center justify-center text-xl border border-[#D4AF37]/5">
+                    {zikr.emoji}
                   </div>
-                  <div className="bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
-                    <span className="text-white font-black text-lg">
-                      {zikr.count}
-                    </span>
+                  <div>
+                    <h3 className="text-white font-bold text-sm tracking-wide">
+                      {zikr.name}
+                    </h3>
+                    <p className="text-[9px] text-[#D4AF37]/50 font-bold uppercase tracking-widest">
+                      {zikr.translation}
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-start gap-2 pt-3 border-t border-white/5">
-                  <Zap className="w-3 h-3 text-[#FBF0B2] mt-0.5 shrink-0" />
-                  <p className="text-[10px] text-white/60 leading-tight italic">
-                    {zikr.benefit}
+                <div className="text-right">
+                  <span className="text-xl font-black text-white">
+                    {zikr.count}
+                  </span>
+                  <p className="text-[8px] text-[#D4AF37] font-bold uppercase">
+                    marta
                   </p>
                 </div>
               </div>
@@ -180,9 +188,9 @@ export default function TelegramWebBotApp() {
           </section>
         </main>
 
-        {/* Bottom Navigation - Fixed at Bottom of Container */}
-        <nav className="absolute bottom-0 left-0 right-0 bg-[#0F0E0A]/90 backdrop-blur-2xl border-t border-[#D4AF37]/10 px-4 pb-6 pt-3 z-40">
-          <div className="flex justify-around items-center h-16">
+        {/* Navigatsiya - EKRAN TUBIGA YOPISHGAN */}
+        <nav className="absolute bottom-0 left-0 right-0 z-50 bg-[#0F0E0A] border-t border-[#D4AF37]/10 px-6 pt-3 pb-8">
+          <div className="flex justify-around items-center h-12">
             <NavItem
               icon={Home}
               label="Asosiy"
@@ -196,8 +204,8 @@ export default function TelegramWebBotApp() {
               onClick={() => setActiveNav("books")}
             />
 
-            <div className="relative -mt-10">
-              <button className="w-14 h-14 bg-gradient-to-br from-[#FBF0B2] to-[#AA8232] rounded-full flex items-center justify-center shadow-lg shadow-[#D4AF37]/30 border-[4px] border-[#0F0E0A] active:scale-90 transition-all">
+            <div className="relative -mt-12">
+              <button className="w-14 h-14 bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] rounded-full flex items-center justify-center shadow-lg shadow-[#D4AF37]/20 border-[4px] border-[#0F0E0A] active:scale-90 transition-all">
                 <Sparkles className="w-6 h-6 text-black fill-current" />
               </button>
             </div>
@@ -217,82 +225,84 @@ export default function TelegramWebBotApp() {
           </div>
         </nav>
 
-        {/* Tasbih Modal - Full Screen Telegram Style */}
+        {/* Tasbih Modali - Optimallashgan */}
         {selectedZikr && (
-          <div className="fixed inset-0 z-[100] bg-[#0F0E0A] flex flex-col animate-in fade-in slide-in-from-bottom duration-300">
-            <div className="p-6 flex justify-between items-center">
+          <div className="fixed inset-0 z-[100] bg-[#0F0E0A] flex flex-col p-6 animate-in slide-in-from-bottom duration-300 overflow-hidden">
+            <div className="flex justify-between items-center mb-6">
               <button
                 onClick={() => setSelectedZikr(null)}
-                className="p-2 bg-white/5 rounded-full border border-white/10"
+                className="p-2 bg-white/5 rounded-full border border-white/10 active:scale-90 transition-all"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 text-[#FBF0B2]" />
               </button>
-              <span className="text-[10px] font-black tracking-widest uppercase">
-                Tasbih
-              </span>
+              <p className="text-[10px] font-black tracking-[0.4em] uppercase text-[#FBF0B2]">
+                Tasbeeh Rejimi
+              </p>
               <div className="w-10"></div>
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center px-8">
-              <div className="text-center mb-8">
+            <div className="flex-1 flex flex-col items-center justify-center gap-10">
+              <div className="text-center shrink-0">
                 <p
-                  className="text-6xl font-serif text-[#FBF0B2] mb-4"
+                  className="text-6xl font-serif text-[#FBF0B2] mb-3 drop-shadow-[0_0_15px_rgba(251,240,178,0.3)]"
                   style={{ direction: "rtl" }}
                 >
                   {selectedZikr.arabicText}
                 </p>
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="text-2xl font-bold text-white tracking-wide">
                   {selectedZikr.name}
                 </h2>
-                <p className="text-white/40 text-sm italic italic">
+                <p className="text-[#D4AF37]/60 text-sm mt-2 italic font-medium px-6 leading-relaxed">
                   "{selectedZikr.meaning}"
                 </p>
               </div>
 
-              {/* Counter - WebBot uchun o'lchami kichraytirildi */}
+              {/* Tasbeeh Aylanasi - Buzilmaydigan dizayn */}
               <div
-                onClick={() =>
-                  count < selectedZikr.count && setCount((c) => c + 1)
-                }
-                className="w-64 h-64 rounded-full relative flex items-center justify-center active:scale-95 transition-all shadow-[0_0_40px_rgba(212,175,55,0.15)]"
+                onClick={handleCount}
+                className="w-60 h-60 rounded-full relative flex items-center justify-center active:scale-95 transition-all shrink-0 select-none shadow-[0_0_50px_rgba(212,175,55,0.05)]"
               >
-                <div className="absolute inset-0 rounded-full border border-[#D4AF37]/20 animate-pulse"></div>
-                <div className="text-center z-10">
-                  <span className="text-8xl font-black text-white">
+                <div className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/10"></div>
+                <div className="absolute inset-4 rounded-full bg-[#1A1812] border border-[#D4AF37]/5 shadow-inner"></div>
+
+                <div className="relative text-center z-10">
+                  <span className="text-8xl font-black text-white leading-none tracking-tighter">
                     {count}
                   </span>
-                  <p className="text-[#FBF0B2] text-[10px] font-bold uppercase tracking-widest mt-1">
+                  <p className="text-[#FBF0B2] text-[11px] font-black uppercase tracking-[0.3em] mt-3 animate-pulse">
                     Bosing
                   </p>
                 </div>
-                <svg className="absolute inset-0 w-full h-full -rotate-90">
+
+                <svg className="absolute inset-0 w-full h-full -rotate-90 scale-[1.01]">
                   <circle
-                    cx="128"
-                    cy="128"
-                    r="120"
+                    cx="120"
+                    cy="120"
+                    r="115"
                     fill="transparent"
                     stroke="#FBF0B2"
-                    strokeWidth="4"
-                    strokeDasharray={2 * Math.PI * 120}
+                    strokeWidth="7"
+                    strokeLinecap="round"
+                    strokeDasharray={2 * Math.PI * 115}
                     strokeDashoffset={
-                      2 * Math.PI * 120 * (1 - count / selectedZikr.count)
+                      2 * Math.PI * 115 * (1 - count / selectedZikr.count)
                     }
-                    className="transition-all duration-300"
+                    className="transition-all duration-300 drop-shadow-[0_0_10px_rgba(251,240,178,0.5)]"
                   />
                 </svg>
               </div>
             </div>
 
-            <div className="p-6 grid grid-cols-2 gap-3 mb-4">
+            <div className="grid grid-cols-2 gap-4 mt-auto pt-8 pb-4">
               <button
                 onClick={() => setCount(0)}
-                className="py-4 bg-white/5 rounded-2xl border border-white/10 font-bold uppercase text-[10px]"
+                className="py-5 bg-white/5 rounded-3xl text-[11px] font-black uppercase border border-white/10 text-[#FBF0B2] active:scale-95 transition-all"
               >
                 Qayta
               </button>
               <button
                 onClick={() => setSelectedZikr(null)}
-                className="py-4 bg-[#D4AF37] text-black rounded-2xl font-black uppercase text-[10px]"
+                className="py-5 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-black rounded-3xl text-[11px] font-black uppercase shadow-xl shadow-[#D4AF37]/20 active:scale-95 transition-all"
               >
                 Tugatish
               </button>
@@ -304,32 +314,23 @@ export default function TelegramWebBotApp() {
   );
 }
 
-function FeatureCard({ icon: Icon, title, sub }: any) {
-  return (
-    <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-4 active:scale-95 transition-all">
-      <div className="w-8 h-8 bg-[#D4AF37]/20 rounded-lg flex items-center justify-center mb-3">
-        <Icon className="w-4 h-4 text-[#FBF0B2]" />
-      </div>
-      <h3 className="text-white font-bold text-xs">{title}</h3>
-      <p className="text-[#D4AF37]/50 text-[8px] font-bold uppercase mt-0.5">
-        {sub}
-      </p>
-    </div>
-  );
-}
-
+// Navigatsiya tugmasi komponenti
 function NavItem({ icon: Icon, label, active, onClick }: any) {
   return (
     <button
       onClick={onClick}
-      className={`flex flex-col items-center gap-1 transition-all ${
-        active ? "opacity-100 scale-105" : "opacity-40"
+      className={`flex flex-col items-center gap-1.5 transition-all duration-300 ${
+        active ? "opacity-100 scale-110" : "opacity-40 hover:opacity-60"
       }`}
     >
       <Icon
         className={`w-5 h-5 ${active ? "text-[#FBF0B2]" : "text-[#D4AF37]"}`}
       />
-      <span className="text-[8px] font-black uppercase tracking-tighter">
+      <span
+        className={`text-[9px] font-black uppercase tracking-tighter ${
+          active ? "text-[#FBF0B2]" : "text-[#D4AF37]"
+        }`}
+      >
         {label}
       </span>
     </button>
