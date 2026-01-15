@@ -1,384 +1,457 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import {
-  ArrowRight,
-  Zap,
-  Trophy,
+  Heart,
+  Home,
+  BookOpen,
   Bot,
-  Target,
-  TrendingUp,
-  Users,
+  HelpCircle,
+  User,
+  Sparkles,
+  Trophy,
+  Flame,
+  X,
+  Star,
+  Crown,
+  Award,
+  Medal,
 } from "lucide-react";
-import { useAuth, useCategories, useStats } from "@/hooks";
-import { Button, Card, Avatar, Progress, Badge } from "@/components/ui";
-import {
-  formatXP,
-  calculateLevelProgress,
-  cn,
-  getCategoryIconUrl,
-} from "@/lib/utils";
-import { isTelegramWebApp } from "@/lib/telegram";
+import { useState } from "react";
 
 export default function HomePage() {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  const { categories, loading: categoriesLoading } = useCategories();
-  const { stats, loading: statsLoading } = useStats();
-  const isTelegram = isTelegramWebApp();
+  const [activeNav, setActiveNav] = useState("home");
+  const [selectedZikr, setSelectedZikr] = useState(null);
+  const [count, setCount] = useState(0);
 
-  // Faqat 6 ta ommabop kategoriya - bosh sahifa uchun
-  const popularCategories = [
-    { id: "1", name: "Python", slug: "python", logo: "/img/Python-logo.png" },
+  const dailyZikr = [
     {
-      id: "2",
-      name: "JavaScript",
-      slug: "javascript",
-      logo: "/img/JavaScript-logo.png",
+      name: "Astaghfirullah",
+      count: 100,
+      emoji: "🤲",
+      arabicText: "أَسْتَغْفِرُ اللّهَ",
+      translation: "Astaghfirulloh",
+      meaning: "Allohdan kechirim so'rayman",
     },
-    { id: "3", name: "React", slug: "react", logo: "/img/react-logo.png" },
     {
-      id: "4",
-      name: "TypeScript",
-      slug: "typescript",
-      logo: "/img/TypeScript-logo.png",
+      name: "Salawat",
+      count: 50,
+      emoji: "☪️",
+      arabicText: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
+      translation: "Allohumma solli ala Muhammad",
+      meaning: "Allohim, Muhammadga salovat ayt",
     },
-    { id: "5", name: "Java", slug: "java", logo: "/img/Java-logo.png" },
-    { id: "6", name: "Node.js", slug: "nodejs", logo: "/img/node.js-logo.png" },
+    {
+      name: "SubhanAllah",
+      count: 33,
+      emoji: "✨",
+      arabicText: "سُبْحَانَ اللّهِ وَبِحَمْدِهِ",
+      translation: "Subhanalloh wa bihamdihi",
+      meaning: "Alloh pokdir va unga hamd aytaman",
+    },
+    {
+      name: "Alhamdulillah",
+      count: 100,
+      emoji: "🙏",
+      arabicText: "الْحَمْدُ لِلّهِ",
+      translation: "Alhamdulillah",
+      meaning: "Barcha hamdlar Allohga xosdir",
+    },
+    {
+      name: "La ilaha illallah",
+      count: 100,
+      emoji: "☪️",
+      arabicText: "لَا إِلَهَ إِلَّا اللّهُ",
+      translation: "La ilaha illalloh",
+      meaning: "Allohdan boshqa iloh yo'q",
+    },
   ];
 
-  // Faqat 6 ta ko'rsat
-  const displayCategories = popularCategories;
+  const handleZikrClick = (zikr) => {
+    setSelectedZikr(zikr);
+    setCount(0);
+  };
 
-  // Calculate real statistics from categories
-  const totalQuestions = categories.reduce(
-    (sum, cat) => sum + (cat._count?.questions || 0),
-    0
-  );
-  const totalCategories = categories.length || 30;
+  const handleTasbihClick = () => {
+    if (selectedZikr && count < selectedZikr.count) {
+      setCount((prev) => prev + 1);
+    }
+  };
+
+  const handleClose = () => {
+    setSelectedZikr(null);
+    setCount(0);
+  };
+
+  const getMotivation = () => {
+    if (!selectedZikr) return "";
+    const progress = (count / selectedZikr.count) * 100;
+    if (progress === 0) return "Bismillah! Boshlaylik";
+    if (progress < 25) return "Ajoyib boshladingiz! 💫";
+    if (progress < 50) return "Davom eting! Zo'r ketmoqda! 🌟";
+    if (progress < 75) return "Yaxshi! Deyarli yarmini tugatdingiz! ⭐";
+    if (progress < 100) return "Zo'r! Oxirigacha yetib keldingiz! 🎯";
+    return "Barakalloh! Maqsadga yetdingiz! 🎉";
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-500 text-white">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
-        <div className="container mx-auto px-4 py-16 md:py-24 relative">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Bilimingizni sinang va{" "}
-              <span className="text-yellow-300">rivojlaning</span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/80 mb-8">
-              Test topshiring, XP to'plang, reytingda raqobatlashing va AI
-              yordamchisidan foydalaning. 30+ kategoriya va minglab savollar
-              sizni kutmoqda!
-            </p>
-            <div className="flex flex-wrap gap-4">
-              {isAuthenticated ? (
-                <Link href="/categories">
-                  <Button
-                    size="lg"
-                    className="bg-white text-teal-600 hover:bg-gray-100"
-                  >
-                    Test boshlash <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-              ) : (
-                <>
-                  <Link
-                    href={
-                      isTelegram ? "/auth/telegram-register" : "/auth/register"
-                    }
-                  >
-                    <Button
-                      size="lg"
-                      className="bg-white text-teal-600 hover:bg-gray-100"
-                    >
-                      Boshlash <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/auth/login">
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="border-white text-white hover:bg-white/10"
-                    >
-                      Kirish
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
+    <div
+      className="min-h-screen bg-gradient-to-br from-amber-900 via-orange-950 to-brown-900 pb-28 relative overflow-hidden"
+      style={{ backgroundColor: "#1a0f0a" }}
+    >
+      {/* Decorative Background Pattern */}
+      <div
+        className="fixed inset-0 opacity-5"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 2px 2px, #D4AF37 1px, transparent 0)",
+          backgroundSize: "40px 40px",
+        }}
+      ></div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-            {[
-              {
-                icon: Users,
-                value: stats?.users?.toLocaleString() || "2",
-                label: "Foydalanuvchilar",
-              },
-              {
-                icon: Target,
-                value:
-                  totalQuestions > 0
-                    ? totalQuestions.toLocaleString()
-                    : "10,386",
-                label: "Savollar",
-              },
-              {
-                icon: Trophy,
-                value: totalCategories > 0 ? totalCategories.toString() : "27",
-                label: "Kategoriyalar",
-              },
-              {
-                icon: TrendingUp,
-                value:
-                  totalCategories > 0 && totalQuestions > 0
-                    ? Math.round(
-                        totalQuestions / totalCategories
-                      ).toLocaleString()
-                    : "385",
-                label: "O'rtacha savol/kategoriya",
-              },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center hover:bg-white/20 transition-all duration-300"
+      {/* Header */}
+      <div className="relative px-6 pt-8 pb-6">
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 p-0.5 shadow-lg">
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-amber-900 to-yellow-900 flex items-center justify-center">
+                <Star className="w-7 h-7 text-amber-400 fill-amber-400" />
+              </div>
+            </div>
+            <div>
+              <h1
+                className="text-3xl font-serif font-bold text-amber-100 mb-1"
+                style={{ letterSpacing: "0.5px" }}
               >
-                <stat.icon className="w-8 h-8 mx-auto mb-2 text-yellow-300" />
-                <p className="text-2xl md:text-3xl font-bold">{stat.value}</p>
-                <p className="text-sm text-white/70">{stat.label}</p>
-              </div>
-            ))}
+                Islomiy Darslar
+              </h1>
+              <p className="text-amber-300/80 text-sm font-medium">
+                Assalomu alaykum, Ziyodullo!
+              </p>
+            </div>
+          </div>
+          <button className="p-2.5 hover:bg-amber-900/30 rounded-full transition-colors">
+            <div className="w-6 h-6 rounded-full border-2 border-amber-400/50"></div>
+          </button>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-2xl p-5 border border-amber-700/30 shadow-xl">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center mb-3 shadow-lg">
+              <Sparkles className="w-6 h-6 text-amber-50" />
+            </div>
+            <h3 className="text-amber-100 font-bold text-lg mb-1 flex items-center gap-2">
+              AI Tavsiya ✨
+            </h3>
+            <p className="text-amber-300/70 text-sm font-medium">
+              Kurs yarating
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-2xl p-5 border border-amber-700/30 shadow-xl">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center mb-3 shadow-lg">
+              <Award className="w-6 h-6 text-amber-50" />
+            </div>
+            <h3 className="text-amber-100 font-bold text-lg mb-1">Yutuqlar</h3>
+            <p className="text-amber-300/70 text-sm font-medium">
+              XP va reyting
+            </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* User Stats (if authenticated) */}
-      {isAuthenticated && user && (
-        <section className="container mx-auto px-4 -mt-8 relative z-10">
-          <Card className="bg-white dark:bg-gray-900 shadow-xl">
-            <div className="flex flex-col md:flex-row items-center gap-6 p-6">
-              <Avatar
-                key={user.avatar || "no-avatar"}
-                src={user.avatar}
-                name={user.fullName}
-                size="xl"
-              />
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Salom, {user.fullName}! 👋
-                </h2>
-                <p className="text-gray-500 dark:text-gray-400">
-                  @{user.username} • Level {user.level}
-                </p>
-                <div className="mt-4 max-w-md">
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      Level {user.level} → {user.level + 1}
-                    </span>
-                    <span className="font-medium text-indigo-600">
-                      {formatXP(user.totalXP)} XP
-                    </span>
-                  </div>
-                  <Progress
-                    value={calculateLevelProgress(user.totalXP).percentage}
-                    variant="default"
-                    size="md"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <Link href="/categories">
-                  <Button>
-                    <Zap className="w-4 h-4 mr-2" />
-                    Test boshlash
-                  </Button>
-                </Link>
-                <Link href="/profile">
-                  <Button variant="outline">Profil</Button>
-                </Link>
-              </div>
-            </div>
-          </Card>
-        </section>
-      )}
-
-      {/* Categories */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-            Ommabob Kategoriyalar
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Eng ko'p qo'llaniladigan kategoriyalar
-          </p>
+      {/* Main Content */}
+      <div className="px-6">
+        {/* Section Title */}
+        <div className="flex items-center gap-2 mb-5">
+          <Sparkles className="w-6 h-6 text-amber-400 fill-amber-400" />
+          <h2 className="text-2xl font-bold text-amber-100">Kunlik zikrlar</h2>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {displayCategories.map((category: any) => {
-            const logo =
-              category.logo || getCategoryIconUrl(category.slug, category.icon);
-            return (
-              <Link key={category.id} href={`/test/${category.slug}`}>
-                <div className="bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 border border-teal-100 dark:border-teal-800 cursor-pointer h-32 flex flex-col items-center justify-center">
-                  <div className="flex justify-center mb-2 h-12">
-                    {logo ? (
-                      <img
-                        src={logo}
-                        alt={category.name}
-                        className="h-full w-auto object-contain"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center text-3xl rounded-lg w-12 h-12 bg-indigo-100 dark:bg-indigo-800">
-                        📚
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                    {category.name}
-                  </h3>
-                  {category._count && (
-                    <p className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mt-1">
-                      {category._count.questions}+ savol
-                    </p>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* View All Categories Link */}
-        <div className="text-center mt-8">
-          <Link href="/categories">
-            <Button
-              variant="outline"
-              className="border-indigo-500 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+        {/* Zikr Cards - Horizontal Scroll */}
+        <div
+          className="flex gap-4 overflow-x-auto pb-6 -mx-6 px-6 scrollbar-hide"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {dailyZikr.map((zikr, idx) => (
+            <div
+              key={idx}
+              onClick={() => handleZikrClick(zikr)}
+              className="flex-shrink-0 w-64 cursor-pointer group"
             >
-              Barcha kategoriyalar <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="bg-gray-100 dark:bg-gray-900/50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-              Nima uchun Bilimdon?
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-2xl mx-auto">
-              Platformamiz sizga bilimingizni samarali o'stirish uchun barcha
-              zarur vositalarni taqdim etadi
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Target,
-                title: "Testlar va savollar",
-                description:
-                  "30+ kategoriya va minglab savollar. Har bir kategoriyada 10 ta random savol bilan test topshiring.",
-                color: "bg-blue-500",
-              },
-              {
-                icon: Zap,
-                title: "XP va Level tizimi",
-                description:
-                  "Har bir to'g'ri javob uchun XP oling. Level ko'taring va yutuqlar qo'lga kiriting.",
-                color: "bg-yellow-500",
-              },
-              {
-                icon: Trophy,
-                title: "Reyting tizimi",
-                description:
-                  "Boshqa foydalanuvchilar bilan raqobatlashing. Haftalik va oylik reytingda ishtirok eting.",
-                color: "bg-green-500",
-              },
-              {
-                icon: Bot,
-                title: "AI Yordamchi",
-                description:
-                  "Bilimdon AI bilan suhbatlashing. Savollaringizga javob oling va bilimingizni oshiring.",
-                color: "bg-purple-500",
-              },
-              {
-                icon: TrendingUp,
-                title: "Statistika",
-                description:
-                  "O'z progressingizni kuzating. Har bir kategoriya bo'yicha batafsil statistika.",
-                color: "bg-pink-500",
-              },
-              {
-                icon: Users,
-                title: "Jamiyat",
-                description:
-                  "Minglab foydalanuvchilar bilan bir platformada. Birgalikda o'rganish yanada qiziqarli.",
-                color: "bg-orange-500",
-              },
-            ].map((feature, i) => (
-              <Card key={i} className="p-6 hover:shadow-lg transition-shadow">
+              <div className="relative h-80 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-amber-900/50 bg-gradient-to-br from-amber-900/50 to-orange-900/40 backdrop-blur-sm border border-amber-700/30">
+                {/* Islamic Pattern Overlay */}
                 <div
-                  className={cn(
-                    "w-12 h-12 rounded-xl flex items-center justify-center text-white mb-4",
-                    feature.color
-                  )}
-                >
-                  <feature.icon className="w-6 h-6" />
+                  className="absolute inset-0 opacity-10"
+                  style={{
+                    backgroundImage:
+                      'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23D4AF37" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+                  }}
+                ></div>
+
+                {/* Gold Badge */}
+                <div className="absolute top-5 left-5 z-10">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center shadow-xl border-3 border-amber-200/40">
+                    <Medal className="w-7 h-7 text-white" />
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  {feature.description}
-                </p>
-              </Card>
-            ))}
+
+                {/* Content Area */}
+                <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-amber-950/95 via-amber-900/90 to-transparent backdrop-blur-md p-5 flex flex-col justify-end border-t border-amber-700/20">
+                  {/* Arabic Text */}
+                  <div className="mb-4">
+                    <p
+                      className="text-3xl font-bold text-center mb-2"
+                      style={{
+                        direction: "rtl",
+                        fontFamily: "serif",
+                        color: "#D4AF37",
+                      }}
+                    >
+                      {zikr.arabicText}
+                    </p>
+                  </div>
+
+                  {/* Count Display */}
+                  <div className="bg-gradient-to-r from-amber-900/60 to-yellow-900/50 rounded-2xl p-3 mb-3 border border-amber-700/40 shadow-lg backdrop-blur-sm">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-4xl font-black text-amber-400">
+                        {zikr.count}
+                      </span>
+                      <span className="text-xl font-bold text-amber-300">
+                        marta
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Name and Duration */}
+                  <div className="text-center">
+                    <h3 className="text-lg font-bold text-amber-100 mb-1">
+                      {zikr.name}
+                    </h3>
+                    <div className="flex items-center justify-center gap-2 text-amber-300/70">
+                      <div className="w-4 h-4 rounded-full bg-amber-400/60"></div>
+                      <span className="text-xs font-semibold">5-7 daqiqa</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Daily Stats */}
+        <div className="mt-8 bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-3xl p-6 border border-amber-700/30 shadow-xl">
+          <h3 className="text-amber-100 font-bold text-lg mb-4 flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-amber-400" />
+            Bugungi natijalar
+          </h3>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="text-center">
+              <p className="text-3xl font-black text-amber-400 mb-1">120</p>
+              <p className="text-amber-300/70 text-xs font-semibold">XP</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-black text-amber-400 mb-1">3</p>
+              <p className="text-amber-300/70 text-xs font-semibold">Kun</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-black text-amber-400 mb-1">15</p>
+              <p className="text-amber-300/70 text-xs font-semibold">Daqiqa</p>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* CTA Section */}
-      {!isAuthenticated && (
-        <section className="container mx-auto px-4 py-16">
-          <Card className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-4xl font-bold mb-4">
-              Hoziroq boshlang!
-            </h2>
-            <p className="text-white/80 mb-8 max-w-xl mx-auto">
-              Ro'yxatdan o'ting va bilimingizni sinashni boshlang. Bepul va
-              oson!
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href={isTelegram ? "/auth/telegram-register" : "/auth/register"}
-              >
-                <Button
-                  size="lg"
-                  className="bg-white text-teal-600 hover:bg-gray-100"
-                >
-                  Ro'yxatdan o'tish
-                </Button>
-              </Link>
-              <Link href="/categories">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white/10"
-                >
-                  Kategoriyalarni ko'rish
-                </Button>
-              </Link>
+      {/* Tasbih Modal */}
+      {selectedZikr && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-lg">
+            <button
+              onClick={handleClose}
+              className="absolute -top-14 right-0 p-4 bg-amber-900/50 hover:bg-amber-800/50 rounded-full transition-all border border-amber-700/50"
+            >
+              <X className="w-6 h-6 text-amber-100" />
+            </button>
+
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-amber-900/50 to-orange-900/40 backdrop-blur-sm border border-amber-700/30 p-8">
+              {/* Pattern Overlay */}
+              <div
+                className="absolute inset-0 opacity-10"
+                style={{
+                  backgroundImage:
+                    'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23D4AF37" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+                }}
+              ></div>
+
+              <div className="relative">
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <div className="text-6xl mb-4">{selectedZikr.emoji}</div>
+                  <h3 className="text-3xl font-black text-amber-100 mb-2 drop-shadow-lg">
+                    {selectedZikr.name}
+                  </h3>
+                  <p className="text-amber-200/90 font-semibold text-lg">
+                    {selectedZikr.meaning}
+                  </p>
+                </div>
+
+                {/* Counter */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl">
+                  <div className="text-center mb-6">
+                    <p className="text-8xl font-black bg-gradient-to-r from-amber-900 to-yellow-900 bg-clip-text text-transparent mb-3">
+                      {count}
+                    </p>
+                    <p className="text-lg font-bold text-gray-700">
+                      {getMotivation()}
+                    </p>
+                  </div>
+                  <div className="h-4 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                    <div
+                      className="h-full bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-500 transition-all duration-500 shadow-lg"
+                      style={{
+                        width: `${Math.min(
+                          (count / selectedZikr.count) * 100,
+                          100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
+                  <div className="flex justify-between mt-3 px-2">
+                    <span className="text-sm font-bold text-gray-600">0</span>
+                    <span className="text-sm font-bold text-gray-600">
+                      {selectedZikr.count}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Arabic Text */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg">
+                  <p
+                    className="text-5xl font-bold text-center mb-3"
+                    style={{
+                      direction: "rtl",
+                      fontFamily: "serif",
+                      color: "#1a0f0a",
+                    }}
+                  >
+                    {selectedZikr.arabicText}
+                  </p>
+                  <p className="text-center text-gray-800 font-bold text-lg">
+                    {selectedZikr.translation}
+                  </p>
+                </div>
+
+                {/* Tasbih Button */}
+                <div className="flex justify-center mb-8">
+                  <button
+                    onClick={handleTasbihClick}
+                    disabled={count >= selectedZikr.count}
+                    className="group/btn relative disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="absolute -inset-6 bg-amber-400/40 rounded-full blur-2xl group-hover/btn:bg-amber-400/60 transition-all"></div>
+                    <div className="relative w-56 h-56 rounded-full bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 shadow-2xl flex items-center justify-center transition-all group-hover/btn:scale-110 group-active/btn:scale-95 border-4 border-white/50">
+                      <div className="w-48 h-48 rounded-full bg-gradient-to-br from-white to-amber-50 shadow-2xl flex flex-col items-center justify-center border-4 border-white/80">
+                        <p className="text-2xl font-black text-gray-800 mb-2">
+                          اُنْقُرْ
+                        </p>
+                        <p className="text-sm font-bold text-gray-600">
+                          Bosing
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={() => setCount(0)}
+                    className="py-4 px-6 bg-white/90 hover:bg-white backdrop-blur-sm text-gray-800 font-bold rounded-2xl transition-all active:scale-95 shadow-lg"
+                  >
+                    🔄 Qaytadan
+                  </button>
+                  <button
+                    onClick={handleClose}
+                    className="py-4 px-6 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl transition-all active:scale-95 shadow-lg"
+                  >
+                    ✓ Tugat
+                  </button>
+                </div>
+              </div>
             </div>
-          </Card>
-        </section>
+          </div>
+        </div>
       )}
+
+      {/* Bottom Navigation */}
+      <div
+        className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-amber-950 to-orange-950/95 backdrop-blur-xl border-t border-amber-800/30 shadow-2xl z-40"
+        style={{ backgroundColor: "rgba(26, 15, 10, 0.95)" }}
+      >
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="flex justify-around py-4">
+            <NavItem
+              icon={Home}
+              label="Bosh sahifa"
+              active={activeNav === "home"}
+              onClick={() => setActiveNav("home")}
+            />
+            <NavItem
+              icon={BookOpen}
+              label="Kurslar"
+              active={activeNav === "books"}
+              onClick={() => setActiveNav("books")}
+            />
+            <NavItem
+              icon={Sparkles}
+              label="Ruhiy holat"
+              active={activeNav === "spiritual"}
+              onClick={() => setActiveNav("spiritual")}
+              isCenter
+            />
+            <NavItem
+              icon={HelpCircle}
+              label="Savol Javob"
+              active={activeNav === "questions"}
+              onClick={() => setActiveNav("questions")}
+            />
+            <NavItem
+              icon={User}
+              label="Profil"
+              active={activeNav === "profile"}
+              onClick={() => setActiveNav("profile")}
+            />
+          </div>
+        </div>
+      </div>
     </div>
+  );
+}
+
+function NavItem({
+  icon: Icon,
+  label,
+  active = false,
+  onClick,
+  isCenter = false,
+}) {
+  return (
+    <button onClick={onClick} className="focus:outline-none">
+      <div
+        className={`flex flex-col items-center gap-1.5 py-2 px-3 rounded-2xl transition-all duration-300 ${
+          active
+            ? "text-amber-400 scale-110"
+            : "text-amber-300/60 hover:text-amber-300"
+        } ${isCenter ? "transform -translate-y-2" : ""}`}
+      >
+        <Icon
+          className={`w-6 h-6 transition-transform duration-300 ${
+            active ? "scale-125" : ""
+          } ${active ? "fill-amber-400" : ""}`}
+        />
+        <span className="text-xs font-bold">{label}</span>
+      </div>
+    </button>
   );
 }

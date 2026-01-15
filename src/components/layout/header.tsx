@@ -19,6 +19,10 @@ export function Header() {
 
   const isTelegram = isTelegramWebApp();
 
+  // Hide global header on the home page because the home page
+  // (`/src/app/page.tsx`) includes its own top section.
+  if (pathname === "/") return null;
+
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
       <div className="container mx-auto px-4">

@@ -22,6 +22,9 @@ export function BottomNav() {
   if (pathname.startsWith("/auth") || pathname.startsWith("/admin"))
     return null;
 
+  // Hide global bottom nav on the home page because home has its own nav/footer
+  if (pathname === "/") return null;
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pb-safe">
       <div className="max-w-2xl mx-auto flex items-center justify-around h-16">
