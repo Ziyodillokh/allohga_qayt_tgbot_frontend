@@ -1,28 +1,34 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, Send, ChevronRight, Trophy } from "lucide-react";
+import {
+  X,
+  Trophy,
+  CheckCircle2,
+  XCircle,
+  Zap,
+  ChevronRight,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface TestQuestion {
   number: number;
   category: string;
-  difficulty?: string;
   question: string;
   options: { key: string; text: string }[];
   correctAnswer: string;
 }
 
-interface ChatbotQAProps {
-  category?: string;
-  difficulty?: "easy" | "medium" | "hard";
-  onClose?: () => void;
+interface Message {
+  type: "bot" | "user" | "system";
+  content: string;
+  isCorrect?: boolean;
 }
 
-interface Message {
-  type: "bot" | "user";
-  content: string;
-  timestamp: number;
+interface ChatbotQAProps {
+  category?: string;
+  difficulty?: string;
+  onClose?: () => void;
 }
 
 export default function ChatbotQA({
@@ -35,381 +41,240 @@ export default function ChatbotQA({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [showOptions, setShowOptions] = useState(false);
   const [score, setScore] = useState(0);
   const [loading, setLoading] = useState(true);
   const [testComplete, setTestComplete] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToTop = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    scrollToTop();
+    scrollToBottom();
   }, [messages]);
 
-  // Fetch and parse questions
   useEffect(() => {
-    const fetchAndParseQuestions = async () => {
+    const fetchQuestions = async () => {
       try {
         const response = await fetch(
           `/test/${category.toLowerCase()}/questions_${difficulty}.txt`
         );
-        if (!response.ok) {
-          throw new Error(`Failed to load questions`);
-        }
-        const questionsText = await response.text();
+        if (!response.ok) throw new Error("Fayl topilmadi");
 
-        const lines = questionsText.split("\n");
+        const text = await response.text();
+        const lines = text.split("\n");
         const parsed: TestQuestion[] = [];
-        let currentQuestion: Partial<TestQuestion> = {};
-        let options: { key: string; text: string }[] = [];
-        let currentCategory = "";
+        let currentQ: Partial<TestQuestion> = {};
+        let opts: { key: string; text: string }[] = [];
+        let currentCat = "";
 
         lines.forEach((line) => {
-          line = line.trim();
-
-          if (line.startsWith("KATEGORIYA:")) {
-            const cat = line.replace("KATEGORIYA:", "").trim().split("(")[0];
-            currentCategory = cat;
-          } else if (line.startsWith("SAVOL")) {
-            if (Object.keys(currentQuestion).length > 0 && options.length > 0) {
+          const l = line.trim();
+          if (l.startsWith("KATEGORIYA:")) currentCat = l.split(":")[1].trim();
+          else if (l.startsWith("SAVOL")) {
+            if (currentQ.question && opts.length === 4) {
               parsed.push({
-                number: currentQuestion.number || 0,
-                category: currentQuestion.category || currentCategory,
-                question: currentQuestion.question || "",
-                options: options,
-                correctAnswer: currentQuestion.correctAnswer || "",
-              });
+                ...currentQ,
+                options: opts,
+                category: currentCat,
+              } as TestQuestion);
             }
-            options = [];
-
-            const match = line.match(/SAVOL (\d+):\s*(.+)/);
-            if (match) {
-              currentQuestion = {
-                number: parseInt(match[1]),
-                question: match[2],
-                category: currentCategory,
-              };
-            }
-          } else if (line.match(/^[A-D]\)\s/)) {
-            const [key, ...textParts] = line.split(")");
-            options.push({
-              key: key.trim(),
-              text: textParts.join(")").trim(),
-            });
-          } else if (line.startsWith("JAVOB:")) {
-            currentQuestion.correctAnswer = line.replace("JAVOB:", "").trim();
+            opts = [];
+            const match = l.match(/SAVOL (\d+):\s*(.+)/);
+            if (match)
+              currentQ = { number: parseInt(match[1]), question: match[2] };
+          } else if (l.match(/^[A-D]\)\s/)) {
+            const [key, ...txt] = l.split(")");
+            opts.push({ key: key.trim(), text: txt.join(")").trim() });
+          } else if (l.startsWith("JAVOB:")) {
+            currentQ.correctAnswer = l.replace("JAVOB:", "").trim();
           }
         });
 
-        if (Object.keys(currentQuestion).length > 0 && options.length > 0) {
+        if (currentQ.question && opts.length === 4) {
           parsed.push({
-            number: currentQuestion.number || 0,
-            category: currentQuestion.category || currentCategory,
-            question: currentQuestion.question || "",
-            options: options,
-            correctAnswer: currentQuestion.correctAnswer || "",
-          });
+            ...currentQ,
+            options: opts,
+            category: currentCat,
+          } as TestQuestion);
         }
 
-        const validQuestions = parsed.filter(
-          (q) =>
-            q.question &&
-            q.options.length === 4 &&
-            q.correctAnswer &&
-            q.category
-        );
-
-        setQuestions(validQuestions);
-
-        // Start with first question
-        if (validQuestions.length > 0) {
-          setMessages([
-            {
-              type: "bot",
-              content: validQuestions[0].question,
-              timestamp: Date.now(),
-            },
-          ]);
-          setShowOptions(true);
+        const final20 = parsed.slice(0, 20);
+        setQuestions(final20);
+        if (final20.length > 0) {
+          setMessages([{ type: "bot", content: final20[0].question }]);
         }
-      } catch (error) {
-        console.error("Error loading questions:", error);
-        setMessages([
-          {
-            type: "bot",
-            content:
-              "Savollarni yuklashda xatolik. Iltimos, qayta urinib ko'ring.",
-            timestamp: Date.now(),
-          },
-        ]);
+      } catch (err) {
+        setMessages([{ type: "system", content: "Xatolik yuz berdi." }]);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchAndParseQuestions();
+    fetchQuestions();
   }, [category, difficulty]);
 
-  const currentQuestion = questions[currentIndex];
-
   const handleAnswerSelect = (answerKey: string) => {
-    if (selectedAnswer) return; // Already answered
+    if (selectedAnswer || testComplete) return;
+
+    const currentQ = questions[currentIndex];
+    const isCorrect = answerKey === currentQ.correctAnswer;
+    const selectedOpt = currentQ.options.find((o) => o.key === answerKey);
 
     setSelectedAnswer(answerKey);
-    setShowOptions(false);
+    if (isCorrect) setScore((s) => s + 1);
 
-    // Add user message
-    const selectedOption = currentQuestion.options.find(
-      (opt) => opt.key === answerKey
-    );
-    if (selectedOption) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: "user",
-          content: `${answerKey}) ${selectedOption.text}`,
-          timestamp: Date.now(),
-        },
-      ]);
-    }
-
-    // Check answer and add bot response
-    const isCorrect = answerKey === currentQuestion.correctAnswer;
-    if (isCorrect) {
-      setScore(score + 1);
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            type: "bot",
-            content: "✓ To'g'ri javob! Yaxshi!",
-            timestamp: Date.now(),
-          },
-        ]);
-      }, 500);
-    } else {
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            type: "bot",
-            content: `✗ Noto'g'ri. To'g'ri javob: ${currentQuestion.correctAnswer}`,
-            timestamp: Date.now(),
-          },
-        ]);
-      }, 500);
-    }
-
-    // Prepare next question or finish
-    setTimeout(() => {
-      if (currentIndex < questions.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-        setSelectedAnswer(null);
-        const nextQ = questions[currentIndex + 1];
-        setMessages((prev) => [
-          ...prev,
-          {
-            type: "bot",
-            content: nextQ.question,
-            timestamp: Date.now(),
-          },
-        ]);
-        setShowOptions(true);
-      } else {
-        setTestComplete(true);
-        const percentage = (
-          ((isCorrect ? score + 1 : score) / questions.length) *
-          100
-        ).toFixed(1);
-        setMessages((prev) => [
-          ...prev,
-          {
-            type: "bot",
-            content: `Test tugadi! ${percentage}% to'g'ri javob. Siz ${
-              isCorrect ? score + 1 : score
-            }/${questions.length} ta savolga to'g'ri javob berdingiz.`,
-            timestamp: Date.now(),
-          },
-        ]);
-      }
-    }, 1500);
-  };
-
-  const handleRestart = () => {
-    setCurrentIndex(0);
-    setSelectedAnswer(null);
-    setMessages([
+    // 1. Foydalanuvchi javobi va tahlilni darhol chiqarish
+    setMessages((prev) => [
+      ...prev,
+      { type: "user", content: `${answerKey}) ${selectedOpt?.text}` },
       {
-        type: "bot",
-        content: questions[0]?.question || "Savollar yuklanmoqda...",
-        timestamp: Date.now(),
+        type: "system",
+        content: isCorrect
+          ? "To'g'ri. Barakalloh!"
+          : `Noto'g'ri. Javob: ${currentQ.correctAnswer}`,
+        isCorrect,
       },
     ]);
-    setShowOptions(true);
-    setScore(0);
-    setTestComplete(false);
+
+    // 2. 1 soniya kutib yangi savolga o'tish (Jami pauza siz xohlagandek silliq bo'ladi)
+    setTimeout(() => {
+      if (currentIndex < questions.length - 1) {
+        const next = currentIndex + 1;
+        setCurrentIndex(next);
+        setSelectedAnswer(null); // Variantlar o'chib yonmasdan shunchaki yangilanadi
+        setMessages((prev) => [
+          ...prev,
+          { type: "bot", content: questions[next].question },
+        ]);
+      } else {
+        setTestComplete(true);
+      }
+    }, 1500); // Tahlilni o'qish va yangi savol chiqishi orasidagi silliq vaqt
   };
 
-  const handleClose = () => {
-    if (onClose) {
-      onClose();
-    } else {
-      router.back();
-    }
-  };
-
-  if (loading) {
+  if (loading)
     return (
-      <div
-        className="fixed inset-0 z-50 bg-[#0F0E0A] flex flex-col p-6 overflow-hidden"
-        style={{ backgroundColor: "#0F0E0A" }}
-      >
-        <header className="flex justify-between items-center mb-4 shrink-0">
-          <button
-            onClick={handleClose}
-            className="p-2.5 bg-white/5 rounded-full border border-white/10 active:bg-white/10"
-          >
-            <X className="w-6 h-6 text-[#FBF0B2]" />
-          </button>
-          <p className="text-[10px] font-black tracking-[0.4em] uppercase text-[#FBF0B2]">
-            Savollar yuklanmoqda...
-          </p>
-          <div className="w-10"></div>
-        </header>
-        <div className="flex-1 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FBF0B2]"></div>
-        </div>
+      <div className="fixed inset-0 bg-[#0F0E0A] flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-[#D4AF37]/20 border-t-[#D4AF37] rounded-full animate-spin"></div>
       </div>
     );
-  }
-
-  if (questions.length === 0) {
-    return (
-      <div
-        className="fixed inset-0 z-50 bg-[#0F0E0A] flex flex-col p-6 overflow-hidden"
-        style={{ backgroundColor: "#0F0E0A" }}
-      >
-        <header className="flex justify-between items-center mb-4 shrink-0">
-          <button
-            onClick={handleClose}
-            className="p-2.5 bg-white/5 rounded-full border border-white/10 active:bg-white/10"
-          >
-            <X className="w-6 h-6 text-[#FBF0B2]" />
-          </button>
-          <div className="w-10"></div>
-        </header>
-        <div className="flex-1 flex items-center justify-center text-center">
-          <div className="text-[#FBF0B2]">
-            <p className="text-lg font-semibold">Savollar topilmadi!</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-[#0F0E0A] flex flex-col p-6 overflow-hidden"
-      style={{ backgroundColor: "#0F0E0A" }}
-    >
-      {/* Orqa fon nur */}
+    <div className="fixed inset-0 z-[100] bg-[#0F0E0A] flex flex-col overflow-hidden">
+      {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none opacity-10">
-        <div className="absolute top-[-5%] right-[-10%] w-64 h-64 bg-[#D4AF37] rounded-full blur-[110px]"></div>
-        <div className="absolute bottom-[20%] left-[-10%] w-64 h-64 bg-[#AA8232] rounded-full blur-[110px]"></div>
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#D4AF37] rounded-full blur-[150px]"></div>
       </div>
 
       {/* Header */}
-      <header className="relative z-20 flex justify-between items-center mb-3 shrink-0">
-        <div className="flex-1 text-center">
-          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-[#FBF0B2]">
-            Savol {currentIndex + 1} / {questions.length}
-          </p>
-        </div>
+      <header className="relative z-30 px-6 pt-12 pb-4 flex justify-between items-center border-b border-white/5 bg-[#0F0E0A]/80 backdrop-blur-xl">
         <button
-          onClick={handleClose}
-          className="p-2 bg-white/5 rounded-full border border-white/10 active:bg-white/10 hover:bg-white/10 transition-colors ml-2"
+          onClick={onClose}
+          className="p-2.5 bg-white/5 rounded-full border border-white/10 active:scale-90"
         >
           <X className="w-5 h-5 text-[#FBF0B2]" />
         </button>
+        <div className="text-center">
+          <p className="text-[10px] font-black tracking-[0.4em] text-[#D4AF37] uppercase">
+            Imtihon
+          </p>
+          <p className="text-white text-xs font-bold mt-1 tracking-widest">
+            {currentIndex + 1} / {questions.length}
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5 bg-[#D4AF37]/10 px-3 py-1.5 rounded-xl border border-[#D4AF37]/20">
+          <Zap className="w-3.5 h-3.5 text-[#D4AF37] fill-[#D4AF37]" />
+          <span className="text-xs font-black text-[#FBF0B2]">{score}</span>
+        </div>
       </header>
 
-      {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto mb-4 pb-4 scrollbar-hide relative z-10 flex flex-col-reverse">
-        <div ref={messagesEndRef} />
-        <div className="space-y-4">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`flex ${
-                msg.type === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
+      {/* Chat Messages */}
+      <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6 scrollbar-hide relative z-10">
+        {messages.map((msg, idx) => (
+          <div
+            key={idx}
+            className={`flex ${
+              msg.type === "user" ? "justify-end" : "justify-start"
+            } animate-in fade-in slide-in-from-bottom-2 duration-500`}
+          >
+            {msg.type === "system" ? (
               <div
-                className={`max-w-xs px-4 py-3 rounded-2xl ${
-                  msg.type === "user"
-                    ? "bg-[#D4AF37] text-[#0F0E0A] rounded-br-none font-semibold"
-                    : "bg-[#1A1812] border border-[#D4AF37]/30 text-[#FBF0B2] rounded-bl-none"
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-bold border ${
+                  msg.isCorrect
+                    ? "bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30"
+                    : "bg-white/5 text-white/50 border-white/10"
                 }`}
               >
-                <p className="text-sm leading-relaxed">{msg.content}</p>
+                {msg.isCorrect ? (
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                ) : (
+                  <XCircle className="w-3.5 h-3.5" />
+                )}
+                {msg.content}
               </div>
-            </div>
-          ))}
-        </div>
+            ) : (
+              <div
+                className={`max-w-[85%] px-5 py-4 rounded-[26px] ${
+                  msg.type === "user"
+                    ? "bg-[#D4AF37] text-black rounded-tr-none font-bold shadow-lg"
+                    : "bg-[#1A1812] border border-white/5 text-[#FBF0B2] rounded-tl-none"
+                }`}
+              >
+                <p className="text-[15px] leading-relaxed">{msg.content}</p>
+              </div>
+            )}
+          </div>
+        ))}
+        <div ref={messagesEndRef} className="h-10" />
       </div>
 
-      {/* Options or Final State */}
-      <div className="relative z-20 space-y-3 shrink-0">
-        {!testComplete && showOptions && currentQuestion && (
-          <div className="space-y-2">
-            {currentQuestion.options.map((option) => (
+      {/* Footer / Options */}
+      <div className="relative z-30 px-6 pb-12 pt-4 bg-[#0F0E0A] border-t border-white/5">
+        {!testComplete ? (
+          <div className="grid grid-cols-1 gap-2.5">
+            {questions[currentIndex]?.options.map((option) => (
               <button
                 key={option.key}
                 onClick={() => handleAnswerSelect(option.key)}
                 disabled={!!selectedAnswer}
-                className={`w-full text-left px-4 py-3 rounded-2xl border-2 transition-all active:scale-95 ${
-                  selectedAnswer
-                    ? "opacity-50 cursor-not-allowed"
-                    : "border-[#D4AF37]/30 hover:border-[#D4AF37]/60 bg-[#1A1812] hover:bg-[#26231A] text-[#FBF0B2]"
+                className={`w-full text-left px-5 py-4 rounded-2xl border transition-all duration-200 flex items-center ${
+                  selectedAnswer === option.key
+                    ? "border-[#D4AF37] bg-[#D4AF37] text-black font-bold scale-[0.98]"
+                    : "border-white/5 bg-[#161510] text-[#FBF0B2] active:bg-[#1A1812]"
                 }`}
               >
-                <span className="font-bold text-[#FBF0B2]">{option.key}</span>
-                <span className="ml-3 text-sm">{option.text}</span>
+                <div
+                  className={`w-8 h-8 rounded-xl border border-current flex items-center justify-center mr-4 text-[10px] font-black transition-colors ${
+                    selectedAnswer === option.key
+                      ? "bg-black text-[#D4AF37]"
+                      : "bg-white/5 text-[#D4AF37]/40"
+                  }`}
+                >
+                  {option.key}
+                </div>
+                <span className="text-[14px] font-medium flex-1">
+                  {option.text}
+                </span>
+                <ChevronRight className="w-4 h-4 opacity-10" />
               </button>
             ))}
           </div>
-        )}
-
-        {testComplete && (
-          <div className="space-y-3">
-            <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl p-6 text-center">
-              <Trophy className="w-8 h-8 text-[#FBF0B2] mx-auto mb-3" />
-              <p className="text-[#FBF0B2] text-sm font-semibold">
-                Test Tugadi!
-              </p>
-              <p className="text-[#D4AF37] text-xs mt-2 opacity-70">
-                Natija saqlandi va reytingga qo'shildi
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={handleRestart}
-                className="py-3 bg-[#D4AF37] text-[#0F0E0A] rounded-2xl text-sm font-bold hover:bg-[#FBF0B2] transition-colors active:scale-95"
-              >
-                Qayta Boshlash
-              </button>
-              <button
-                onClick={handleClose}
-                className="py-3 bg-white/5 border border-white/10 text-[#FBF0B2] rounded-2xl text-sm font-bold hover:bg-white/10 transition-colors active:scale-95"
-              >
-                Yopish
-              </button>
-            </div>
+        ) : (
+          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-[35px] p-8 text-center animate-in zoom-in">
+            <Trophy className="w-12 h-12 text-[#D4AF37] mx-auto mb-4" />
+            <h3 className="text-xl font-black text-white uppercase tracking-widest italic">
+              Test yakunlandi
+            </h3>
+            <p className="text-[#D4AF37] text-3xl font-black mt-2 mb-8 tracking-tighter">
+              {score} / 20
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full py-4 bg-[#D4AF37] text-black rounded-2xl font-black text-[10px] uppercase tracking-widest active:scale-95 shadow-lg shadow-[#D4AF37]/20"
+            >
+              Qayta boshlash
+            </button>
           </div>
         )}
       </div>
