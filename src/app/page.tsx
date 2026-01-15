@@ -18,12 +18,22 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+// Zikr turini aniqlash
+interface Zikr {
+  name: string;
+  count: number;
+  emoji: string;
+  arabicText: string;
+  translation: string;
+  meaning: string;
+}
+
 export default function HomePage() {
   const [activeNav, setActiveNav] = useState("home");
-  const [selectedZikr, setSelectedZikr] = useState(null);
+  const [selectedZikr, setSelectedZikr] = useState<Zikr | null>(null); // null yoki Zikr
   const [count, setCount] = useState(0);
 
-  const dailyZikr = [
+  const dailyZikr: Zikr[] = [
     {
       name: "Astaghfirullah",
       count: 100,
@@ -66,7 +76,7 @@ export default function HomePage() {
     },
   ];
 
-  const handleZikrClick = (zikr: any) => {
+  const handleZikrClick = (zikr: Zikr) => {
     setSelectedZikr(zikr);
     setCount(0);
   };
