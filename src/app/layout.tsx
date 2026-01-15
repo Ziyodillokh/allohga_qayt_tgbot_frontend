@@ -9,7 +9,7 @@ const inter = "system-ui, -apple-system, sans-serif";
 export const metadata: Metadata = {
   metadataBase: new URL("https://allohgaqayt.uz"),
   title: {
-    default: "Allohga Qayting - Islomiy Bilim Platformasi",
+    default: "Allohga Qayting - Islomiy Platformasi",
     template: "%s | Allohga Qayting",
   },
   description:
