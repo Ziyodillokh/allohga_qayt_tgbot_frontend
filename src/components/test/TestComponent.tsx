@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styles from './TestComponent.module.css';
+import React, { useState, useEffect } from "react";
+import styles from "./TestComponent.module.css";
 
 interface TestQuestion {
   number: number;
@@ -12,12 +12,12 @@ interface TestQuestion {
 
 interface TestComponentProps {
   category?: string;
-  difficulty?: 'easy' | 'medium' | 'hard';
+  difficulty?: "easy" | "medium" | "hard";
 }
 
 export default function TestComponent({
-  category = 'python',
-  difficulty = 'easy',
+  category = "python",
+  difficulty = "easy",
 }: TestComponentProps) {
   const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -38,30 +38,30 @@ export default function TestComponent({
         }
         const questionsText = await response.text();
 
-        const lines = questionsText.split('\n');
+        const lines = questionsText.split("\n");
         const parsed: TestQuestion[] = [];
         let currentQuestion: Partial<TestQuestion> = {};
         let options: { key: string; text: string }[] = [];
-        let currentCategory = '';
+        let currentCategory = "";
 
         lines.forEach((line) => {
           line = line.trim();
 
-          if (line.startsWith('KATEGORIYA:')) {
+          if (line.startsWith("KATEGORIYA:")) {
             const category = line
-              .replace('KATEGORIYA:', '')
+              .replace("KATEGORIYA:", "")
               .trim()
-              .split('(')[0];
+              .split("(")[0];
             currentCategory = category;
-          } else if (line.startsWith('SAVOL')) {
+          } else if (line.startsWith("SAVOL")) {
             // Save previous question
             if (Object.keys(currentQuestion).length > 0 && options.length > 0) {
               parsed.push({
                 number: currentQuestion.number || 0,
                 category: currentQuestion.category || currentCategory,
-                question: currentQuestion.question || '',
+                question: currentQuestion.question || "",
                 options: options,
-                correctAnswer: currentQuestion.correctAnswer || '',
+                correctAnswer: currentQuestion.correctAnswer || "",
               });
             }
             options = [];
@@ -76,15 +76,13 @@ export default function TestComponent({
               };
             }
           } else if (line.match(/^[A-D]\)\s/)) {
-            const [key, ...textParts] = line.split(')');
+            const [key, ...textParts] = line.split(")");
             options.push({
               key: key.trim(),
-              text: textParts.join(')').trim(),
+              text: textParts.join(")").trim(),
             });
-          } else if (line.startsWith('JAVOB:')) {
-            currentQuestion.correctAnswer = line
-              .replace('JAVOB:', '')
-              .trim();
+          } else if (line.startsWith("JAVOB:")) {
+            currentQuestion.correctAnswer = line.replace("JAVOB:", "").trim();
           }
         });
 
@@ -93,9 +91,9 @@ export default function TestComponent({
           parsed.push({
             number: currentQuestion.number || 0,
             category: currentQuestion.category || currentCategory,
-            question: currentQuestion.question || '',
+            question: currentQuestion.question || "",
             options: options,
-            correctAnswer: currentQuestion.correctAnswer || '',
+            correctAnswer: currentQuestion.correctAnswer || "",
           });
         }
 
@@ -111,7 +109,7 @@ export default function TestComponent({
         console.log(`Loaded ${validQuestions.length} questions`);
         setQuestions(validQuestions);
       } catch (error) {
-        console.error('Error loading questions:', error);
+        console.error("Error loading questions:", error);
       } finally {
         setLoading(false);
       }
@@ -158,10 +156,13 @@ export default function TestComponent({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <p className="text-gray-700 font-semibold">Savollar yuklanmoqda...</p>
+      <div
+        className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-900 via-orange-950 to-brown-900"
+        style={{ backgroundColor: "#1a0f0a" }}
+      >
+        <div className="text-center text-amber-100">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
+          <p className="font-semibold">Savollar yuklanmoqda...</p>
         </div>
       </div>
     );
@@ -169,9 +170,12 @@ export default function TestComponent({
 
   if (questions.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div
+        className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-900 via-orange-950 to-brown-900"
+        style={{ backgroundColor: "#1a0f0a" }}
+      >
         <div className="text-center">
-          <p className="text-red-600 font-semibold">Savollar topilmadi!</p>
+          <p className="text-amber-200 font-semibold">Savollar topilmadi!</p>
         </div>
       </div>
     );
@@ -181,15 +185,18 @@ export default function TestComponent({
   const percentage = ((score / questions.length) * 100).toFixed(1);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div
+      className="min-h-screen bg-gradient-to-br from-amber-900 via-orange-950 to-brown-900 p-6"
+      style={{ backgroundColor: "#1a0f0a" }}
+    >
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-gradient-to-br from-amber-900/40 to-orange-900/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-amber-700/30 shadow-xl text-amber-100">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold">
               {currentQuestion.category} Testi
             </h1>
-            <span className="text-lg font-semibold text-indigo-600">
+            <span className="text-lg font-semibold text-amber-300">
               Savol {currentIndex + 1} / {questions.length}
             </span>
           </div>
@@ -201,15 +208,15 @@ export default function TestComponent({
               }}
             ></div>
           </div>
-          <div className="mt-2 text-sm text-gray-600">
+          <div className="mt-2 text-sm text-amber-300">
             Score: {score} / {questions.length} ({percentage}%)
           </div>
         </div>
 
         {/* Question Card */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+        <div className="bg-white/95 rounded-3xl p-8 mb-6 shadow-2xl">
           {/* Question Text */}
-          <h2 className="text-xl font-bold text-gray-800 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">
             {currentQuestion.question}
           </h2>
 
@@ -219,39 +226,36 @@ export default function TestComponent({
               const isSelected = selectedAnswer === option.key;
               const isCorrect = option.key === currentQuestion.correctAnswer;
               const isWrong =
-                isSelected &&
-                selectedAnswer !== currentQuestion.correctAnswer;
+                isSelected && selectedAnswer !== currentQuestion.correctAnswer;
 
               return (
                 <button
                   key={option.key}
                   onClick={() => handleAnswer(option.key)}
                   disabled={showAnswer}
-                  className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
+                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 ${
                     !showAnswer
-                      ? 'border-gray-300 hover:border-indigo-400 hover:bg-indigo-50 cursor-pointer'
-                      : ''
+                      ? "border-amber-700/30 hover:border-amber-400 hover:bg-amber-50 cursor-pointer"
+                      : ""
                   } ${
-                    isSelected && isWrong
-                      ? 'bg-red-50 border-red-500'
-                      : ''
+                    isSelected && isWrong ? "bg-red-50 border-red-500" : ""
                   } ${
                     isSelected && isCorrect
-                      ? 'bg-green-50 border-green-500'
-                      : ''
+                      ? "bg-emerald-50 border-emerald-500"
+                      : ""
                   } ${
                     !isSelected && isCorrect && showAnswer
-                      ? 'bg-green-50 border-green-500'
-                      : ''
+                      ? "bg-emerald-50 border-emerald-500"
+                      : ""
                   }`}
                 >
                   <div className="flex items-center">
-                    <span className="font-bold text-lg mr-4">
+                    <span className="font-bold text-lg mr-4 text-amber-900">
                       {option.key})
                     </span>
-                    <span className="text-gray-700">{option.text}</span>
+                    <span className="text-gray-800">{option.text}</span>
                     {showAnswer && isCorrect && (
-                      <span className="ml-auto text-green-600">✓</span>
+                      <span className="ml-auto text-emerald-600">✓</span>
                     )}
                     {showAnswer && isWrong && (
                       <span className="ml-auto text-red-600">✗</span>
@@ -265,21 +269,21 @@ export default function TestComponent({
           {/* Result Message */}
           {showAnswer && (
             <div
-              className={`p-4 rounded-lg mb-6 ${
+              className={`p-4 rounded-2xl mb-6 ${
                 selectedAnswer === currentQuestion.correctAnswer
-                  ? 'bg-green-50 border border-green-500'
-                  : 'bg-red-50 border border-red-500'
+                  ? "bg-emerald-50 border border-emerald-500"
+                  : "bg-red-50 border border-red-500"
               }`}
             >
               <p
                 className={`font-semibold ${
                   selectedAnswer === currentQuestion.correctAnswer
-                    ? 'text-green-700'
-                    : 'text-red-700'
+                    ? "text-emerald-700"
+                    : "text-red-700"
                 }`}
               >
                 {selectedAnswer === currentQuestion.correctAnswer
-                  ? '✓ To\'g\'ri javob!'
+                  ? "✓ To'g'ri javob!"
                   : `✗ Noto\'g\'ri! To\'g\'ri javob: ${currentQuestion.correctAnswer}`}
               </p>
             </div>
@@ -332,12 +336,9 @@ export default function TestComponent({
                   🎉 Ajoyib natija!
                 </p>
               )}
-              {parseFloat(percentage) >= 60 &&
-                parseFloat(percentage) < 80 && (
-                  <p className="text-blue-600 font-semibold">
-                    👍 Yaxshi natija!
-                  </p>
-                )}
+              {parseFloat(percentage) >= 60 && parseFloat(percentage) < 80 && (
+                <p className="text-blue-600 font-semibold">👍 Yaxshi natija!</p>
+              )}
               {parseFloat(percentage) < 60 && (
                 <p className="text-orange-600 font-semibold">
                   📚 Yana ko\'p o\'rganish kerak!

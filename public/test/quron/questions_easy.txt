@@ -1,0 +1,141 @@
+KATEGORIYA: Qur'on
+
+SAVOL 1: Qur'oni Karim necha suradan iborat?
+A) 114
+B) 99
+C) 120
+D) 100
+JAVOB: A
+
+SAVOL 2: Qur'onda eng uzun sura qaysi?
+A) Al-Furqan
+B) Al-Baqara
+C) Al-Ikhlas
+D) Yasin
+JAVOB: B
+
+SAVOL 3: "Bismillahirrahmanirrahim" qaysi surada hamda har suraning boshida bormi?
+A) Har surada bor
+B) Faqat suralarning boshida
+C) Har surada, lekin "Tawba" surasida yo'q
+D) Hech qaysida yo'q
+JAVOB: C
+
+SAVOL 4: Qur'oni Karim qaysi tilda muboraklangan?
+A) Lotin
+B) Arab tili
+C) Fors tili
+D) O'zbek tili
+JAVOB: B
+
+SAVOL 5: Musofir surasi qayerda joylashgan?
+A) Qur'onda yo'q
+B) Makkada nozil bo'lgan suralar qatorida
+C) Madinada nozil bo'lgan suralar qatorida
+D) Yunoncha tarjimada
+JAVOB: B
+
+SAVOL 6: Qur'ondagi eng qisqa sura qaysi?
+A) Al-Kawthar
+B) Al-Falaq
+C) An-Nas
+D) Al-Ikhlas
+JAVOB: A
+
+SAVOL 7: Qur'onda payg'ambarlar haqidagi hikoyalar ko'p joy olgan sura qaysi?
+A) Yusuf
+B) Maryam
+C) Hud
+D) Qasas
+JAVOB: A
+
+SAVOL 8: Qur'onda "Ayatul Kursi" qaysi surada joylashgan?
+A) Al-Baqara
+B) Al-Imran
+C) An-Nisa
+D) Al-Ma'idah
+JAVOB: A
+
+SAVOL 9: Qur'onni yodlashga nima deyiladi?
+A) Hajj
+B) Hadya
+C) Hifz
+D) Salat
+JAVOB: C
+
+SAVOL 10: "La ilaha illallah" iborasi nimani anglatadi?
+A) Allohdan boshqa iloh yo'q
+B) Iso Masih ilohdir
+C) Ishonmayman
+D) Hayvon nomi
+JAVOB: A
+
+SAVOL 11: Qur'onni kimlarga nozil qilingan deb hisoblanadi?
+A) Har bir bandaga alohida
+B) Muhammad (s.a.v.) ga
+C) Yusufga
+D) Musoga
+JAVOB: B
+
+SAVOL 12: "Al-Fatiha" surasi nechta oyatdan iborat?
+A) 5
+B) 6
+C) 7
+D) 8
+JAVOB: C
+
+SAVOL 13: Qur'onda "Sabr" haqida ko'proq qaysi surada ta'kidlangan?
+A) Al-Baqara
+B) Al-Asr
+C) An-Nahl
+D) Al-Mulk
+JAVOB: B
+
+SAVOL 14: Qaysi sura islomning asosiy maqsadini, ibodat va iymonni umumlashtiradi? 
+A) Al-Ikhlas
+B) Al-Fatiha
+C) Al-Baqara
+D) Al-Kahf
+JAVOB: B
+
+SAVOL 15: Qur'onda o'limdan keyingi hayot haqida qaysi atama ishlatiladi?
+A) Dunyoviy hayot
+B) Qiyomat
+C) Tug'ilish
+D) Uxlash
+JAVOB: B
+
+SAVOL 16: Qur'onda insonning halol rizqlanishi haqida qaysi buyruq mavjud?
+A) Zakat
+B) Halol rizq topish va shukr qilish
+C) Firibgarlik qilish
+D) O'g'irlash
+JAVOB: B
+
+SAVOL 17: "Al-Kahf" surasi qaysi kuni o'qilishi sunnatga ko'ra kerak?
+A) Juma kuni
+B) Shanba kuni
+C) Dushanba kuni
+D) Yakshanba kuni
+JAVOB: A
+
+SAVOL 18: Qur'onda musibatga sabr qilishga nima rag'batlantiriladi?
+A) Mag'rurlik
+B) Sabr - ajr yuqori
+C) Tez jahling chiqadi
+D) Vijdonsizlik
+JAVOB: B
+
+SAVOL 19: Qur'onda Allohning ism-lari jamlanmasi qaysi atama bilan ataladi?
+A) Asmaul Husna
+B) Ayatul Kursi
+C) Hadis
+D) Sunnat
+JAVOB: A
+
+SAVOL 20: Qur'onda namoz qanchalik muhimligi qaysi oyatda alohida qayd etilgan?
+A) Namoz albatta kerak emas
+B) Alloh namozni farz qilgan va uni bajarish buyurilgan
+C) Namoz faqat bayramda
+D) Namozni kechiktirish maqbul
+JAVOB: B

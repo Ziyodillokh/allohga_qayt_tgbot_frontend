@@ -4,8 +4,6 @@ import { Header, BottomNav } from "../components/layout";
 import "./globals.css";
 import { VideoBackground } from "../components/ui";
 
-const inter = "system-ui, -apple-system, sans-serif";
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://allohgaqayt.uz"),
   title: {
@@ -38,14 +36,14 @@ export const metadata: Metadata = {
     locale: "uz_UZ",
     url: "https://allohgaqayt.uz",
     siteName: "Allohga Qayting",
-    title: "Allohga Qayting - Islomiy Bilim Platformasi",
+    title: "Allohga Qayting - Islomiy Platformasi",
     description:
       "Islomiy bilim testlari topshiring, diniy bilimingizni sinang, raqobatlashing",
     images: [{ url: "/logo.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Allohga Qayting - Islomiy Bilim Platformasi",
+    title: "Allohga Qayting - Islomiy Platformasi",
     description:
       "Islomiy bilim testlari topshiring, diniy bilimingizni sinang, raqobatlashing",
     images: ["/og-image.png"],
@@ -78,22 +76,22 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                if (localStorage.getItem('bilimdon-app') && JSON.parse(localStorage.getItem('bilimdon-app')).state.theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                } else if (!localStorage.getItem('bilimdon-app') && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                  document.documentElement.classList.add('dark');
-                }
-              } catch (e) {}
-            `,
+                try {
+                  if (localStorage.getItem('bilimdon-app') && JSON.parse(localStorage.getItem('bilimdon-app')).state.theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else if (!localStorage.getItem('bilimdon-app') && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
+              `,
           }}
         />
         {/* Telegram WebApp Script */}
         <script src="https://telegram.org/js/telegram-web-app.js" async />
       </head>
-      <body className="font-sans">
+      <body className="font-sans" style={{ backgroundColor: "#1a0f0a" }}>
         <VideoBackground />
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-900 via-orange-950 to-brown-900">
           <Header />
           <main className="flex-1 pb-20">{children}</main>
           <BottomNav />

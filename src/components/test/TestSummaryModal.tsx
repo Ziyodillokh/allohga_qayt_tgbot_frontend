@@ -1,9 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, XCircle, Zap, Trophy, Star, ArrowRight } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  CheckCircle,
+  XCircle,
+  Zap,
+  Trophy,
+  Star,
+  ArrowRight,
+} from "lucide-react";
+import confetti from "canvas-confetti";
 
 interface TestSummaryProps {
   isOpen: boolean;
@@ -50,7 +57,7 @@ export default function TestSummaryModal({
           particleCount: 150,
           spread: 100,
           origin: { y: 0.6 },
-          colors: ['#667eea', '#764ba2', '#f093fb', '#4facfe'],
+          colors: ["#667eea", "#764ba2", "#f093fb", "#4facfe"],
         });
       }, 300);
     }
@@ -74,14 +81,14 @@ export default function TestSummaryModal({
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-8 max-w-md w-full"
           >
             {/* Header Animation */}
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
               className="text-center mb-8"
             >
               {isPerfect ? (
@@ -95,10 +102,10 @@ export default function TestSummaryModal({
               )}
 
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                {isPerfect && 'Mukammal natija!'}
-                {!isPerfect && isExcellent && 'Shunchaki ajoyib!'}
-                {!isPerfect && !isExcellent && isGood && 'Yaxshi natija!'}
-                {!isGood && 'Davom etib yaxshilang!'}
+                {isPerfect && "Mukammal natija!"}
+                {!isPerfect && isExcellent && "Shunchaki ajoyib!"}
+                {!isPerfect && !isExcellent && isGood && "Yaxshi natija!"}
+                {!isGood && "Davom etib yaxshilang!"}
               </h2>
               <p className="text-gray-600 dark:text-gray-400">Test tugadi!</p>
             </motion.div>
@@ -131,16 +138,16 @@ export default function TestSummaryModal({
                   strokeLinecap="round"
                   className={
                     score >= 90
-                      ? 'text-green-500'
+                      ? "text-green-500"
                       : score >= 70
-                        ? 'text-blue-500'
-                        : score >= 50
-                          ? 'text-yellow-500'
-                          : 'text-red-500'
+                      ? "text-blue-500"
+                      : score >= 50
+                      ? "text-yellow-500"
+                      : "text-red-500"
                   }
-                  initial={{ strokeDasharray: '0 352' }}
+                  initial={{ strokeDasharray: "0 352" }}
                   animate={{ strokeDasharray: `${score * 3.52} 352` }}
-                  transition={{ delay: 0.4, duration: 1.5, ease: 'easeOut' }}
+                  transition={{ delay: 0.4, duration: 1.5, ease: "easeOut" }}
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -168,14 +175,16 @@ export default function TestSummaryModal({
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 0.6, type: 'spring' }}
+                  transition={{ delay: 0.6, type: "spring" }}
                 >
                   <CheckCircle className="w-6 h-6 text-green-600 mx-auto mb-2" />
                 </motion.div>
                 <p className="text-2xl font-bold text-green-700 dark:text-green-400">
                   {correctAnswers}
                 </p>
-                <p className="text-xs text-green-600 dark:text-green-500 mt-1">To'g'ri</p>
+                <p className="text-xs text-green-600 dark:text-green-500 mt-1">
+                  To'g'ri
+                </p>
               </div>
 
               {/* Wrong Answers */}
@@ -183,14 +192,16 @@ export default function TestSummaryModal({
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 0.65, type: 'spring' }}
+                  transition={{ delay: 0.65, type: "spring" }}
                 >
                   <XCircle className="w-6 h-6 text-red-600 mx-auto mb-2" />
                 </motion.div>
                 <p className="text-2xl font-bold text-red-700 dark:text-red-400">
                   {incorrectAnswers}
                 </p>
-                <p className="text-xs text-red-600 dark:text-red-500 mt-1">Noto'g'ri</p>
+                <p className="text-xs text-red-600 dark:text-red-500 mt-1">
+                  Noto'g'ri
+                </p>
               </div>
 
               {/* XP Earned */}
@@ -198,14 +209,16 @@ export default function TestSummaryModal({
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 0.7, type: 'spring' }}
+                  transition={{ delay: 0.7, type: "spring" }}
                 >
                   <Zap className="w-6 h-6 text-yellow-600 mx-auto mb-2" />
                 </motion.div>
                 <p className="text-2xl font-bold text-yellow-700 dark:text-yellow-400">
                   +{xpEarned}
                 </p>
-                <p className="text-xs text-yellow-600 dark:text-yellow-500 mt-1">XP</p>
+                <p className="text-xs text-yellow-600 dark:text-yellow-500 mt-1">
+                  XP
+                </p>
               </div>
             </motion.div>
 
@@ -225,7 +238,9 @@ export default function TestSummaryModal({
                   ⭐
                 </motion.div>
                 <p className="font-bold mb-1">Level Up!</p>
-                <p className="text-sm opacity-90">Siz Level {newLevel} ga ko'tarildingiz!</p>
+                <p className="text-sm opacity-90">
+                  Siz Level {newLevel} ga ko'tarildingiz!
+                </p>
               </motion.div>
             )}
 
@@ -251,10 +266,16 @@ export default function TestSummaryModal({
                       </p>
                       <div className="space-y-1 text-xs">
                         <p className="text-red-700 dark:text-red-400">
-                          ❌ Sizning javob: <span className="font-semibold">{wrong.options[wrong.selectedAnswer]}</span>
+                          ❌ Sizning javob:{" "}
+                          <span className="font-semibold">
+                            {wrong.options[wrong.selectedAnswer]}
+                          </span>
                         </p>
                         <p className="text-green-700 dark:text-green-400">
-                          ✓ To'g'ri javob: <span className="font-semibold">{wrong.options[wrong.correctAnswer]}</span>
+                          ✓ To'g'ri javob:{" "}
+                          <span className="font-semibold">
+                            {wrong.options[wrong.correctAnswer]}
+                          </span>
                         </p>
                         {wrong.xpReward && (
                           <p className="text-yellow-600 dark:text-yellow-400 mt-1">

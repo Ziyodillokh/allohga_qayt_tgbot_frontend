@@ -1,0 +1,141 @@
+KATEGORIYA: Fiqh
+
+SAVOL 1: Fiqh nima?
+A) Dinning nazariy qismi
+B) Islomiy huquq va amallarni anglash ilmi
+C) Sport musobaqasi
+D) Musiqa janri
+JAVOB: B
+
+SAVOL 2: Namozni to'liq qay tarzda bajarish fiqhda qaysi bo'limga kiradi?
+A) Iymon
+B) Ibadat (ibodat hukmlari)
+C) Tarix
+D) San'at
+JAVOB: B
+
+SAVOL 3: Zakat kimga farz?
+A) Har kimga
+B) Mol-mulkga ega bo'lgan va shartlarga mos keladigan musulmonlarga
+C) Faqat olimlarga
+D) Faqat savdogarlarga
+JAVOB: B
+
+SAVOL 4: Haj qachon farz bo'ladi?
+A) Har yili hamma uchun
+B) Mol va imkoniyati yetgan har bir musulmon uchun hech bo'lmaganda bir marta
+C) Faqat yoshlar uchun
+D) Qishda faqat
+JAVOB: B
+
+SAVOL 5: O'rinli zakot miqdori haqida qaysi mezon ishlatiladi?
+A) Hafta kunlari
+B) Nisab (belgilangan moliyaviy shartlar)
+C) Ranglar
+D) Hech qanday mezon yo'q
+JAVOB: B
+
+SAVOL 6: Oila va turmush masalalaridagi hukmlar qaysi ilmda o'rganiladi?
+A) Fiqh
+B) Astronomiya
+C) Biologiya
+D) Iqtisod
+JAVOB: A
+
+SAVOL 7: Olingan nikoh kontrakti qaysi sohada muhim hisoblanadi?
+A) Fiqh va shariat me'yorlari
+B) Faqat siyosat
+C) Ijod
+D) Sport
+JAVOB: A
+
+SAVOL 8: Qaysi manba fiqh hukmlarini chiqarishda asosiy hisoblanadi?
+A) Qur'on, hadis, ijmo va qiyas
+B) Faqat afsonalar
+C) Tarixiy hikoyalar
+D) O'yinlar
+JAVOB: A
+
+SAVOL 9: O'lib ketgan kishining merosini kimlar oladi - bu qaysi fiqh mavzusi?
+A) Tarix
+B) Meros va vorislik shariatining masalasi
+C) Gastronomiya
+D) Musiqa
+JAVOB: B
+
+SAVOL 10: Ro'za qaysi oyda farz qilinadi?
+A) Shawwal
+B) Ramadan
+C) Muharram
+D) Dhul-Hijjah
+JAVOB: B
+
+SAVOL 11: Fiqh amaliy qonunlarni tushunish uchun nima kerak?
+A) Ilmiy tadqiqot va o'rganish
+B) Ijodiy yozuv
+C) Sport mashg'ulotlari
+D) Ovqat pishirish
+JAVOB: A
+
+SAVOL 12: Qarz va moliyaviy masalalarda fiqh qanday yordam beradi?
+A) O'zgarishsiz mulkni tarqatish
+B) Halol, adolatli va shariatga mos yondashuvni belgilaydi
+C) Faqat qog'oz ishlarini kamaytiradi
+D) Faqat xalq o'yinlarini tashkil qiladi
+JAVOB: B
+
+SAVOL 13: Fiqh olimlari nima qiladi?
+A) Shariat hukmlarini tadqiq qiladi va amaliy maslahatlarga chiqaradi
+B) Faqat tarix yozadi
+C) Faol sport bilan shug'ullanadi
+D) Musiqani ijro etadi
+JAVOB: A
+
+SAVOL 14: Istihola (hayz) holatidagi ayollar qaysi masalada fiqhiy hukmga muvofiq harakat qiladi?
+A) Namoz va ro'za bilan bog'liq bo'lgan maxsus hukmlar
+B) Hech qanday maxsus hukm yo'q
+C) Faqat safarga chiqish
+D) Faqat bayramlarda
+JAVOB: A
+
+SAVOL 15: Fiqhda ijma nima anglatadi?
+A) Musiqa guruhining nomi
+B) Ulamolarning bir masala bo'yicha umumiy fikr birligi
+C) Tarixiy voqea
+D) Ijtimoiy tarmoq
+JAVOB: B
+
+SAVOL 16: Qiyom, ruk'u va sajda qaysi ibodatning qismlari?
+A) Hajj
+B) Namoz
+C) Zakat
+D) Duolar
+JAVOB: B
+
+SAVOL 17: Fiqhda qiyos nima uchun ishlatiladi?
+A) Zamonni o'lchash
+B) Yangi masalalar uchun analogiya orqali hukm chiqarish
+C) Faqat qiziqish uchun
+D) Musiqa yaratish
+JAVOB: B
+
+SAVOL 18: Fiqhiy hukmni qo'llashda e'tibor qaysi jihatga beriladi?
+A) O'z xohishiga
+B) Shariat manbalari va holat sharoitiga
+C) Faqat xalq fikriga
+D) Faqat iqtisodiy foydaga
+JAVOB: B
+
+SAVOL 19: Fiqh qoidalari qaysi sohalarni qamrab oladi?
+A) Faqat siyosat
+B) Ibadat, muomalat, nikoh, meros va boshqalar
+C) Faqat oziq-ovqat
+D) Faqat sport
+JAVOB: B
+
+SAVOL 20: Fiqhiy maslahat olish uchun kimga murojaat qilish tavsiya etiladi?
+A) Islom olimlariga (mufti yoki malakali olimlar)
+B) Tasodifiy odamga
+C) Ijtimoiy media foydalanuvchisiga
+D) Yolg'iz kompyuterga
+JAVOB: A

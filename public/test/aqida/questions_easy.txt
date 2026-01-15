@@ -1,0 +1,141 @@
+KATEGORIYA: Aqida
+
+SAVOL 1: Aqida nima?
+A) Siyosat
+B) Iymon va e'tiqodning asosiy tamoyillari
+C) Adabiyot janri
+D) Sport turi
+JAVOB: B
+
+SAVOL 2: Islomning to'liq islomiy e'tiqodida nechta asosiy imon tamoyili bor (Imonning "arkan")?
+A) 3
+B) 5
+C) 6
+D) 8
+JAVOB: C
+
+SAVOL 3: Iymaning bir qismi bo'lgan farishtalar haqidagi e'tiqod qaysi toifaga kiradi?
+A) Fiqh
+B) Aqida
+C) Tarix
+D) San'at
+JAVOB: B
+
+SAVOL 4: Qiyomat kuni haqida imon qanday talqin etiladi?
+A) U yo'q deb hisoblanadi
+B) U albatta keladi va odamlar hisob-kitob qilinadi
+C) Faqat ayrim odamlar uchun
+D) Faoliyatlarni tugatish bilan bog'liq
+JAVOB: B
+
+SAVOL 5: Allohning rububiyati nimani anglatadi?
+A) Uning bo'lmasligi
+B) Allohning yaratish, ta'minlash va hukmronlik etishi
+C) Ertalabki ibodat
+D) Musiqa
+JAVOB: B
+
+SAVOL 6: Qadimgi idrokda shirk nima deb ataladi?
+A) Iymonni mustahkamlash
+B) Allohga sherik qo'yish
+C) Do'stlik qilish
+D) Hushnudlik
+JAVOB: B
+
+SAVOL 7: Qaysi tafsir e'tiqod masalalarini yoritishda muhim?
+A) Hadis
+B) Tafsir va aqida asarlari
+C) Faqat geografiya
+D) Sport materiallari
+JAVOB: B
+
+SAVOL 8: Iymon va amal o'rtasidagi munosabat nima?
+A) Iymon amalga bog'liq emas
+B) Iymon qalbiy, amal esa uni tasdiqlovchi belgidir
+C) Amal iymonning ustunidir
+D) Iymon faqat nutqdir
+JAVOB: B
+
+SAVOL 9: Insonlaryning yaratgan yovuzliklariga e'tiqod qaysi amal bilan kurashiladi?
+A) Sabr va duolar orqali
+B) Faqat zarbili sport orqali
+C) Vaziyatni e'tiborsiz qoldirish
+D) Hech qanday choralar yo'q
+JAVOB: A
+
+SAVOL 10: Iymon tamoyillari haqida o'rganish qaysi manba orqali asosan olinadi?
+A) Tarixiy romanlar
+B) Qur'on va hadis
+C) Astronomiya kitoblari
+D) Retsept kitoblari
+JAVOB: B
+
+SAVOL 11: Allohning ism-u sifatlariga imon nima ma'noni beradi?
+A) Ularni o'rganmaslik
+B) Uning sifatlarini to'g'ri tushunish va ularga iymon keltirish
+C) Faqat nomlarini eslab qolish
+D) Faqat tilga olish
+JAVOB: B
+
+SAVOL 12: "Tawhid" atamasi nimani anglatadi?
+A) Ilohiy kitoblar to'plami
+B) Allohning birligi va yagona Iloh ekanligi
+C) Ko'p xasharlar
+D) Eski urf-odat
+JAVOB: B
+
+SAVOL 13: Aqida ilmiga qaysi olimlar hissa qo'shgan?
+A) Imom Ahmad, Imom Tirmiziy
+B) Imom Abu Hanifa, Imom Malik (fiqh olimlari bo'lsa ham aqida sohasida ham fikrlarni bayon qilganlar)
+C) Faol sportchilar
+D) Farabi faqat falsafa
+JAVOB: B
+
+SAVOL 14: Qiyomatga ishonmaslik natijasi qanday bo'ladi?
+A) Iymon kuchayadi
+B) Axloqiy javobgarlik kamayadi
+C) Faqat yaxshi natija
+D) Hech qanday ta'siri yo'q
+JAVOB: B
+
+SAVOL 15: "Qadar" (taqdir) haqida aqida nima deydi?
+A) Hamma narsa Allohning ilmida va irodasida
+B) Taxt qurish haqida
+C) Yilning fasllari
+D) Faqat inson tomonidan boshqariladi
+JAVOB: A
+
+SAVOL 16: Aqida va fiqh o'rtasidagi asosiy farq nima?
+A) Aqida e'tiqod, fiqh amaliy hukmlar bilan shug'ullanadi
+B) Ikkalasi ham bir xil
+C) Fiqh e'tiqod, aqida amaliy hukmlar
+D) Hech qanday farqi yo'q
+JAVOB: A
+
+SAVOL 17: Aqida bo'yicha noto'g'ri qarashlardan biri nima?
+A) Allohni inkor etish yoki Uning sifati haqida xato fikrlar
+B) To'g'ri tushunish
+C) Qur'on o'qish
+D) Duoni oshirish
+JAVOB: A
+
+SAVOL 18: Aqida ilmini o'rganish kimlar uchun zarur?
+A) Faqat olimlar uchun
+B) Har bir musulmon uchun asosiy e'tiqodni tushunish uchun
+C) Faqat yosh bolalar uchun
+D) Faqat o'yinchilar uchun
+JAVOB: B
+
+SAVOL 19: Aqida haqida ma'lumot olish uchun tavsiya etiladigan manba qaysi?
+A) Iymonsiz saytlarga
+B) Qur'on, sahih hadislar va ishonchli aqida kitoblari
+C) Tasodifiy bloglar
+D) Kompyuter o'yinlari
+JAVOB: B
+
+SAVOL 20: Aqidaning praktik ta'siri qanday bo'ladi?
+A) Hech qanday ta'siri yo'q
+B) Musulmonning hayotini shakllantiradi, axloq va amallarni tartiblaydi
+C) Faqat nazariy muhokama
+D) Faqat tashqi bezak
+JAVOB: B

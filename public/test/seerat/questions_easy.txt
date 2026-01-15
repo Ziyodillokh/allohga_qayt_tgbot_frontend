@@ -1,0 +1,141 @@
+KATEGORIYA: Seerat
+
+SAVOL 1: Payg'ambarimiz Muhammad (s.a.v.) qayerda tavallud topgan?
+A) Madina
+B) Makkada
+C) Kufada
+D) Damashqda
+JAVOB: B
+
+SAVOL 2: Payg'ambarimizning (s.a.v.) hayotini o'rganish faniga nima deyiladi?
+A) Tafsir
+B) Seerat
+C) Fiqh
+D) Tibbiyot
+JAVOB: B
+
+SAVOL 3: Hijra qachon sodir bo'lgan voqea?
+A) Payg'ambarimizning Makkadan Madinaga ko'chishi
+B) Madinadan Makkaga qaytishi
+C) Musaffoga sayohat
+D) Iqtisodiy o'zgarish
+JAVOB: A
+
+SAVOL 4: Payg'ambarimiz (s.a.v.) ning maktabi qaysi kasb bilan bog'liq edi?
+A) Qasrsoz
+B) Tovar savdosi (sovdagarlik)
+C) Doktorlik
+D) Astronom
+JAVOB: B
+
+SAVOL 5: A'lo darajadagi sahobalardan biri kim?
+A) Abu Bakr Siddiq
+B) Ibn Sina
+C) Farobi
+D) Umarxon haqida ma'lumot yo'q
+JAVOB: A
+
+SAVOL 6: Payg'ambarimiz (s.a.v.) ning hayoti qaysi asrda sodir bo'lgan?
+A) 20-asr
+B) 7-asr milodiy
+C) 15-asr
+D) 1-asr milodiy
+JAVOB: B
+
+SAVOL 7: Hijra paytida Payg'ambarimiz kim bilan birga edi?
+A) Abu Bakr Siddiq (s.a.v.) bilan
+B) Ibn Sina bilan
+C) Yunus bilan
+D) U yolg'iz edi
+JAVOB: A
+
+SAVOL 8: Payg'ambarimiz qaysi shaharda vafot etdi?
+A) Makkada
+B) Madinada
+C) Kufada
+D) Iroqda
+JAVOB: B
+
+SAVOL 9: Seeratni o'rganishning maqsadi nima?
+A) Birovni tanqid qilish
+B) Payg'ambarimizning hayotini, sunnatini va axloqini o'rganish va amal qilish
+C) Faqat tarixni o'zgartirish
+D) Futbol o'ynash
+JAVOB: B
+
+SAVOL 10: Payg'ambarimiz qaysi yoshda rasul bo'lgan deb hisoblanadi?
+A) 40 yosh atrofida
+B) 20 yoshda
+C) 60 yoshda
+D) 10 yoshda
+JAVOB: A
+
+SAVOL 11: Payg'ambarimizga (s.a.v.) kimning ismi bilan duo qilingan xabarlar bor?
+A) Hazrati Ayshaga duo qilinmagani
+B) Uning (s.a.v.) hayoti va sunnatlari orqali ko'rsatmalar berilgan
+C) Hech qanday duo yo'q
+D) Faqat bitikirgan qo'shiq
+JAVOB: B
+
+SAVOL 12: Seeratda Payg'ambarimizning adolat va rahm-shafqat hususiyatlari qayerda ko'rinadi?
+A) Faqat nutqlarida emas, balki amallarida va munosabatlarida
+B) Faqat kitoblarda tasvirlangan
+C) Hech qachon ko'rinmaydi
+D) Faoliyat bilan bog'liq emas
+JAVOB: A
+
+SAVOL 13: Payg'ambarimiz (s.a.v.) ning oilaviy hayoti haqida ma'lumotni qaysi manbadan olamiz?
+A) Sahih hadislar va seerat asarlaridan
+B) Faqat tasodifiy hikoyalardan
+C) Musiqadan
+D) Hech qaysi manbadan
+JAVOB: A
+
+SAVOL 14: Payg'ambarimiz (s.a.v.) ning tavallud yili taxminan qachon?
+A) Milodiy 570 atrofida (Fil yili)
+B) Milodiy 1000
+C) Milodiy 400
+D) Milodiy 1500
+JAVOB: A
+
+SAVOL 15: Payg'ambarimiz (s.a.v.) qanday xulq-atvor bilan mashhur edi?
+A) Mehribonlik, to'g'rilik va sabr
+B) Zo'ravonlik
+C) Qattiqqo'llik
+D) Beparvolik
+JAVOB: A
+
+SAVOL 16: Payg'ambarimiz (s.a.v.) qaysi shaharni Islom markazi sifatida mustahkamladi?
+A) Makkani
+B) Madinani
+C) Bosforni
+D) Qohironi
+JAVOB: B
+
+SAVOL 17: Payg'ambarimiz bilan bog'liq ishonchli seerat manbalaridan biri?
+A) Seerat ibn Ishoq (asosan ishonchli rivoyatlar bilan)
+B) Tasodifiy blog post
+C) Faqat roman
+D) Manga komiks
+JAVOB: A
+
+SAVOL 18: Seerat o'rganishda asosiy e'tibor qayerga qaratiladi?
+A) Tarixiy voqealar, sunnatlar va Payg'ambar amallari
+B) Faqat geografiya
+C) Faqat iqtisodiy faktlar
+D) Faqat sport natijalari
+JAVOB: A
+
+SAVOL 19: Payg'ambarimiz (s.a.v.) ning sahobalarga mehr-muruvvati qanday namoyon bo'lgan?
+A) Ularni jazolagan
+B) Ularning maslahatlariga quloq solgan, himoya qilgan va yo'l-yo'riq ko'rsatgan
+C) Ularni qochgan
+D) Hech qachon uchrashmagan
+JAVOB: B
+
+SAVOL 20: Seeratni o'rganishdan nima foyda ko'rish mumkin?
+A) Faoliyatlarni osonlashtirish
+B) Payg'ambarimizning hayotini o'rganib, o'z hayotimizga sunnatni tatbiq etish
+C) Hech qanday foyda yo'q
+D) Faqat o'yin-kulgi
+JAVOB: B

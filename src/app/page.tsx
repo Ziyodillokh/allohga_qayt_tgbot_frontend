@@ -14,6 +14,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import ChatbotQA from "@/components/test/ChatbotQA";
 
 const dailyZikrData = [
   {
@@ -79,10 +81,12 @@ const dailyZikrData = [
 
 export default function LuxuryZikrApp() {
   const [activeNav, setActiveNav] = useState("home");
+  const router = useRouter();
   const [selectedZikr, setSelectedZikr] = useState<any | null>(null);
   const [count, setCount] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [userName, setUserName] = useState("Aziz dindoshim");
+  const [showChatbotQA, setShowChatbotQA] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && (window as any).Telegram?.WebApp) {
@@ -92,6 +96,17 @@ export default function LuxuryZikrApp() {
       tg.expand();
     }
   }, []);
+
+  // Manage data-chatbot-open attribute
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (showChatbotQA) {
+        document.body.setAttribute("data-chatbot-open", "true");
+      } else {
+        document.body.removeAttribute("data-chatbot-open");
+      }
+    }
+  }, [showChatbotQA]);
 
   const handleCount = () => {
     if (!selectedZikr || isFinished) return;
@@ -159,19 +174,22 @@ export default function LuxuryZikrApp() {
         <main className="flex-1 overflow-y-auto px-6 py-4 pb-40 relative z-10 scrollbar-hide">
           <div className="grid grid-cols-2 gap-3 mb-8">
             <div className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-md active:bg-[#26231A] transition-colors">
-              <Sparkles className="w-4 h-4 mb-2 text-[#FBF0B2]" />
+              <span className="text-2xl mb-2 block">💡</span>
               <p className="text-[9px] uppercase font-black text-[#D4AF37]/40 tracking-wider">
                 AI Tavsiya
               </p>
               <p className="text-sm font-bold text-white">Vazifalar</p>
             </div>
-            <div className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-md active:bg-[#26231A] transition-colors">
-              <Trophy className="w-4 h-4 mb-2 text-[#FBF0B2]" />
+            <button
+              onClick={() => setShowChatbotQA(true)}
+              className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-md active:bg-[#26231A] transition-colors active:scale-95"
+            >
+              <span className="text-2xl mb-2 block">🧠</span>
               <p className="text-[9px] uppercase font-black text-[#D4AF37]/40 tracking-wider">
-                Yutuqlar
+                Bilim Sinovi
               </p>
-              <p className="text-sm font-bold text-white">#1 Rank</p>
-            </div>
+              <p className="text-sm font-bold text-white">Savol</p>
+            </button>
           </div>
 
           <div className="space-y-3">
@@ -210,40 +228,41 @@ export default function LuxuryZikrApp() {
           </div>
         </main>
 
-        {/* Bottom Nav */}
-        <nav className="absolute bottom-0 left-0 right-0 z-[60] bg-[#0F0E0A]/95 backdrop-blur-md border-t border-[#D4AF37]/10 px-6 pt-3 pb-8">
-          <div className="flex justify-around items-center h-12 max-w-md mx-auto">
-            <NavItem
-              icon={Home}
-              label="Asosiy"
-              active={activeNav === "home"}
-              onClick={() => setActiveNav("home")}
-            />
-            <NavItem
-              icon={BookOpen}
-              label="Kitoblar"
-              active={activeNav === "books"}
-              onClick={() => setActiveNav("books")}
-            />
-            <div className="relative -mt-12">
-              <button className="w-14 h-14 bg-gradient-to-br from-[#FBF0B2] to-[#AA8232] rounded-full flex items-center justify-center shadow-lg border-[4px] border-[#0F0E0A] active:scale-90">
-                <Sparkles className="w-6 h-6 text-black fill-current" />
-              </button>
-            </div>
-            <NavItem
-              icon={HelpCircle}
-              label="Savol"
-              active={activeNav === "qa"}
-              onClick={() => setActiveNav("qa")}
-            />
-            <NavItem
-              icon={User}
-              label="Profil"
-              active={activeNav === "profile"}
-              onClick={() => setActiveNav("profile")}
-            />
-          </div>
+        {/* Bottom Navigation */}
+        <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#0F0E0A] border-t border-[#D4AF37]/20 px-6 py-3 flex justify-around items-center max-w-md mx-auto w-full">
+          <NavItem
+            icon={Home}
+            label="Bosh sahifa"
+            active={activeNav === "home"}
+            onClick={() => setActiveNav("home")}
+          />
+          <NavItem
+            icon={BookOpen}
+            label="Kitoblar"
+            active={activeNav === "books"}
+            onClick={() => setActiveNav("books")}
+          />
+          <NavItem
+            icon={Sparkles}
+            label="AI"
+            active={activeNav === "ai"}
+            onClick={() => setActiveNav("ai")}
+          />
+          <NavItem
+            icon={HelpCircle}
+            label="Savol"
+            active={activeNav === "questions"}
+            onClick={() => setShowChatbotQA(true)}
+          />
+          <NavItem
+            icon={User}
+            label="Profil"
+            active={activeNav === "profile"}
+            onClick={() => setActiveNav("profile")}
+          />
         </nav>
+
+        {/* Bottom Nav is provided globally via `BottomNav` component */}
 
         {/* TASBEH MODAL */}
         {selectedZikr && (
@@ -361,6 +380,15 @@ export default function LuxuryZikrApp() {
               </button>
             </footer>
           </div>
+        )}
+
+        {/* CHATBOT QA MODAL */}
+        {showChatbotQA && (
+          <ChatbotQA
+            category="quron"
+            difficulty="easy"
+            onClose={() => setShowChatbotQA(false)}
+          />
         )}
       </div>
     </div>

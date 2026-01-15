@@ -1,0 +1,141 @@
+KATEGORIYA: Hadis
+
+SAVOL 1: Hadis nima?
+A) Qur'onning sinonimi
+B) Payg'ambarimiz (s.a.v.) so'zlari, amallari va tasdiqlari
+C) Tarixiy hikoya
+D) Ijodiy she'r
+JAVOB: B
+
+SAVOL 2: Sahih hadislar to'plami sifatida mashhur kutubdan biri?
+A) Sahih al-Bukhari
+B) Kitob al-Jinn
+C) Masnaviy
+D) Shahname
+JAVOB: A
+
+SAVOL 3: "La yu'akhidhullahu nafsun illa wus'ihi" qaysi mavzuga oid?
+A) Oziq-ovqat
+B) Gunoh va kechirim
+C) Tarixiy voqea
+D) Geografiya
+JAVOB: B
+
+SAVOL 4: Hadislarni tasniflashda "sahih" nima anglatadi?
+A) Noaniq
+B) Ishonchli va isbotlangan
+C) Soxta
+D) Qisqartirilgan
+JAVOB: B
+
+SAVOL 5: Hadislarni to'plash va tasniflash bilan mashhur olim kim?
+A) Imom Buxoriy
+B) Imom Ahmad
+C) Ibn Sina
+D) Farobi
+JAVOB: A
+
+SAVOL 6: Hadislar ishonchliligini tekshirish ilmi nima deb ataladi?
+A) Fiqh
+B) Usul al-hadith (ilm al-jarh wa al-ta'dil)
+C) Tafsir
+D) Nahv
+JAVOB: B
+
+SAVOL 7: Payg'ambarimiz (s.a.v.) ning hayotini o'rganish uchun hadislar nima uchun muhim?
+A) Ular shoirlikni o'rgatadi
+B) Sunnat va amallarning manbai bo'lib xizmat qiladi
+C) Matematika asoslarini beradi
+D) Tibbiyot bo'limi
+JAVOB: B
+
+SAVOL 8: "Tirmiziy" qaysi sohada mashhur?
+A) Hadis to'plami
+B) Sayohat kitobi
+C) Astronomiya
+D) Kuchli ko'ngilochar
+JAVOB: A
+
+SAVOL 9: Hadislar orqali qanday axloqiy qadriyatlarni o'rganamiz?
+A) Aldash va yolg'on
+B) Sabr, halollik, mehr-oqibat
+C) Faqat boylik orttirish
+D) Faol sport
+JAVOB: B
+
+SAVOL 10: Hadislar va sunnat o'rtasidagi munosabat qanday?
+A) Sunnat hadislardan ajralib turadi va hadislarda saqlanadi
+B) Sunnat tarix kitobi
+C) Hech qanday munosabat yo'q
+D) Sunnat bino qurishdir
+JAVOB: A
+
+SAVOL 11: Hadislarning matni va isnodi nima imkon beradi?
+A) Faqat tarix yozish
+B) Hadisning asl manbai va ishonchliligini ko'rsatadi
+C) O'yin o'ynash
+D) Har bir hadis kitobida yo'q
+JAVOB: B
+
+SAVOL 12: Hadislarni o'rganish qaysi ilmga yordam beradi?
+A) Muzika
+B) Shariat va amallarni tushunish
+C) Raqamli marketing
+D) Fizika
+JAVOB: B
+
+SAVOL 13: "Sahih Muslim" qaysi to'plamga mansub?
+A) Hadis to'plami
+B) Tajvid qo'llanmasi
+C) Tarixiy roman
+D) Tibbiy risola
+JAVOB: A
+
+SAVOL 14: Hadislar orqali musulmonlar nima qiladi?
+A) Ularni e'tiborsiz qoldiradi
+B) Sunnatni o'rganadi va amal qiladi
+C) Ularni tarjima qilmaydi
+D) Faqat musiqa tarifa qiladi
+JAVOB: B
+
+SAVOL 15: Hadisdagi "Isnad" nimaga tegishli?
+A) Bank hisobvaraqlari
+B) Havola qilingan rivoyatchilar zanjiri
+C) San'at asari
+D) Oziq-ovqat retsepti
+JAVOB: B
+
+SAVOL 16: Hadis ilmi qachon kuchli rivojlangan?
+A) O'rta asrlarda va Sahobalar davridan keyin
+B) Hozirgi zamonda faqat
+C) Qadimiy davrda faqat
+D) Hech qachon
+JAVOB: A
+
+SAVOL 17: Hadislarni to'g'ri tushunish uchun nima kerak?
+A) Tashqi ko'rinish
+B) Ilm, kontekst va isnod tahlili
+C) Tasodifiy fikrlar
+D) Baxt omadi
+JAVOB: B
+
+SAVOL 18: Hadislar shariat huquqiga qanday ta'sir ko'rsatadi?
+A) Hech qanday ta'siri yo'q
+B) Fiqh asoslarini shakllantirishga yordam beradi
+C) Faqat shaxsiy hayotga ta'siri bor
+D) Faqat iqtisodiy masalalarda foydalaniladi
+JAVOB: B
+
+SAVOL 19: Hadislarni tanqid qilish va ijobiy baholash qaysi jarayon?
+A) Jarh va ta'dil
+B) Matematika deduksiya
+C) Faqat taxmin
+D) Ruhiy mashqlar
+JAVOB: A
+
+SAVOL 20: Hadis ilmining asosiy maqsadi nima?
+A) Tarixiy voqealarni ro'yxatga olish
+B) Sunnatni aniqlash, shariat va axloq uchun ishonchli manba yaratish
+C) Piyoz yetishtirish
+D) Sport musobaqalarini uyushtirish
+JAVOB: B
