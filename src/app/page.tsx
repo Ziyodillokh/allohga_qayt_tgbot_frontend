@@ -7,17 +7,13 @@ import {
   Sparkles,
   Trophy,
   X,
-  Star,
-  Crown,
-  Award,
-  Medal,
   Search,
   Zap,
   ChevronRight,
-  Heart,
   HelpCircle,
+  Crown,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Zikr {
   name: string;
@@ -29,10 +25,19 @@ interface Zikr {
   benefit: string;
 }
 
-export default function LuxuryZikrApp() {
+export default function TelegramWebBotApp() {
   const [activeNav, setActiveNav] = useState("home");
   const [selectedZikr, setSelectedZikr] = useState<Zikr | null>(null);
   const [count, setCount] = useState(0);
+
+  // WebBot uchun scrollni bloklash (modal ochilganda)
+  useEffect(() => {
+    if (selectedZikr) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [selectedZikr]);
 
   const dailyZikr: Zikr[] = [
     {
@@ -42,7 +47,7 @@ export default function LuxuryZikrApp() {
       arabicText: "أَسْتَغْفِرُ اللّهَ",
       translation: "Astaghfirullah",
       meaning: "Allohdan kechirim so'rayman",
-      benefit: "G'am-tashvishdan najot, kutilmagan rizq va baraka eshigi.",
+      benefit: "G'am-tashvishdan najot va kutilmagan rizq eshigi.",
     },
     {
       name: "Salawat",
@@ -51,8 +56,7 @@ export default function LuxuryZikrApp() {
       arabicText: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
       translation: "Allohumma solli ala Muhammad",
       meaning: "Allohim, Muhammadga salovat ayt",
-      benefit:
-        "Sizga Alloh 10 marta salovat aytadi va Qiyomatda Rasulullohga yaqin bo'lasiz.",
+      benefit: "Sizga Alloh 10 marta salovat aytadi.",
     },
     {
       name: "SubhanAllah",
@@ -61,8 +65,7 @@ export default function LuxuryZikrApp() {
       arabicText: "سُبْحَانَ اللّهِ",
       translation: "Subhanalloh",
       meaning: "Alloh barcha nuqsonlardan pokdir",
-      benefit:
-        "Jannatda siz uchun bir daraxt ekiladi va gunohlar dengiz ko'pigicha bo'lsa ham kechiriladi.",
+      benefit: "Jannatda siz uchun bir daraxt ekiladi.",
     },
     {
       name: "Alhamdulillah",
@@ -71,8 +74,7 @@ export default function LuxuryZikrApp() {
       arabicText: "الْحَمْدُ لِلّهِ",
       translation: "Alhamdulillah",
       meaning: "Barcha hamdlar Allohga xosdir",
-      benefit:
-        "Shukr qiluvchilar ne'mati ziyoda qilinadi va savob tarozisi to'ladi.",
+      benefit: "Shukr qiluvchilar ne'mati ziyoda qilinadi.",
     },
     {
       name: "La ilaha illallah",
@@ -81,7 +83,7 @@ export default function LuxuryZikrApp() {
       arabicText: "لَا إِلَهَ إِلَّا اللّهُ",
       translation: "La ilaha illallah",
       meaning: "Allohdan boshqa iloh yo'q",
-      benefit: "Zikrning eng afzali, imonni yangilaydi va jannat kalitidir.",
+      benefit: "Zikrning eng afzali va jannat kalitidir.",
     },
   ];
 
@@ -90,263 +92,228 @@ export default function LuxuryZikrApp() {
     setCount(0);
   };
 
-  const getMotivation = () => {
-    if (!selectedZikr) return "";
-    const progress = (count / selectedZikr.count) * 100;
-    if (progress === 0) return "Bismillah!";
-    if (progress < 50) return "Alloh zikringizni qabul qilsin! ✨";
-    if (progress < 100) return "Deyarli tugatdingiz! 🌟";
-    return "MashaAlloh, yakunladingiz! 🎉";
-  };
-
   return (
-    // Orqa fon rangi biroz "Gold-tinted" ochiqroq qora bo'ldi
-    <div className="min-h-screen bg-[#0F0E0A] text-[#E5C366] font-sans pb-36 relative overflow-x-hidden">
-      {/* Background Glows - Yorqinroq va tilla rang */}
-      <div className="fixed inset-0 pointer-events-none opacity-30">
-        <div className="absolute top-[-5%] right-[-10%] w-[600px] h-[600px] bg-[#D4AF37] rounded-full blur-[180px]"></div>
-        <div className="absolute bottom-[5%] left-[-10%] w-[500px] h-[500px] bg-[#AA8232] rounded-full blur-[160px]"></div>
-        <div className="absolute top-[30%] left-[20%] w-[300px] h-[300px] bg-[#D4AF37]/20 rounded-full blur-[100px]"></div>
-      </div>
+    <div className="flex justify-center bg-black min-h-screen">
+      {/* Container - WebBot dizayni buzilmasligi uchun cheklangan kenglik */}
+      <div className="w-full max-w-md bg-[#0F0E0A] text-[#E5C366] min-h-screen relative flex flex-col shadow-2xl">
+        {/* Background Glows */}
+        <div className="fixed inset-0 pointer-events-none opacity-20 overflow-hidden">
+          <div className="absolute top-[-5%] right-[-10%] w-72 h-72 bg-[#D4AF37] rounded-full blur-[100px]"></div>
+          <div className="absolute bottom-[20%] left-[-10%] w-64 h-64 bg-[#AA8232] rounded-full blur-[80px]"></div>
+        </div>
 
-      {/* Header */}
-      <header className="relative z-10 pt-10 px-6 pb-6 border-b border-[#D4AF37]/10 bg-[#0F0E0A]/40 backdrop-blur-md">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[2px] shadow-[0_0_30px_rgba(212,175,55,0.3)]">
-              <div className="w-full h-full rounded-2xl bg-[#14130F] flex items-center justify-center">
-                <Crown className="w-7 h-7 text-[#FBF0B2]" />
+        {/* Header - Sticky */}
+        <header className="sticky top-0 z-30 pt-8 px-6 pb-4 border-b border-[#D4AF37]/10 bg-[#0F0E0A]/80 backdrop-blur-xl">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FBF0B2] to-[#AA8232] p-[1.5px]">
+                <div className="w-full h-full rounded-xl bg-[#14130F] flex items-center justify-center">
+                  <Crown className="w-6 h-6 text-[#FBF0B2]" />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white tracking-tight leading-none">
+                  Islomiy
+                </h1>
+                <p className="text-[#D4AF37]/70 text-[9px] font-black uppercase tracking-widest mt-1">
+                  Ziyodullo
+                </p>
               </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-serif font-bold text-white tracking-tight">
-                Islomiy Darslar
-              </h1>
-              <p className="text-[#D4AF37]/70 text-[10px] font-black uppercase tracking-[0.2em]">
-                Ziyodullo • Musulmon
-              </p>
-            </div>
+            <button className="w-10 h-10 rounded-xl bg-white/5 border border-[#D4AF37]/20 flex items-center justify-center">
+              <Search className="w-5 h-5 text-[#FBF0B2]" />
+            </button>
           </div>
-          <button className="w-11 h-11 rounded-2xl bg-white/5 border border-[#D4AF37]/20 flex items-center justify-center active:scale-90 transition-all">
-            <Search className="w-5 h-5 text-[#FBF0B2]" />
-          </button>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="relative z-10 px-6 space-y-8 pt-6">
-        {/* Top Feature Cards */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-[30px] p-6 shadow-xl active:scale-95 transition-all">
-            <div className="w-10 h-10 bg-[#D4AF37]/20 rounded-xl flex items-center justify-center mb-5 border border-[#D4AF37]/20">
-              <Sparkles className="w-5 h-5 text-[#FBF0B2]" />
-            </div>
-            <h3 className="text-white font-bold text-sm tracking-wide">
-              AI Tavsiya
-            </h3>
-            <p className="text-[#D4AF37]/50 text-[10px] uppercase font-bold mt-1">
-              Vazifa yaratish
-            </p>
+        {/* Scrollable Content */}
+        <main className="flex-1 overflow-y-auto px-6 py-6 space-y-6 pb-32">
+          {/* Feature Grid */}
+          <div className="grid grid-cols-2 gap-3">
+            <FeatureCard icon={Sparkles} title="AI Tavsiya" sub="Vazifa" />
+            <FeatureCard icon={Trophy} title="Yutuqlar" sub="120 XP" />
           </div>
 
-          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-[30px] p-6 shadow-xl active:scale-95 transition-all">
-            <div className="w-10 h-10 bg-[#D4AF37]/20 rounded-xl flex items-center justify-center mb-5 border border-[#D4AF37]/20">
-              <Trophy className="w-5 h-5 text-[#FBF0B2]" />
-            </div>
-            <h3 className="text-white font-bold text-sm tracking-wide">
-              Yutuqlar
-            </h3>
-            <p className="text-[#D4AF37]/50 text-[10px] uppercase font-bold mt-1">
-              120 XP • Rank #1
-            </p>
-          </div>
-        </div>
-
-        {/* Zikrlar Section */}
-        <section>
-          <div className="flex items-center justify-between mb-6 px-1">
-            <div className="flex items-center gap-3">
-              <div className="w-1.5 h-6 bg-gradient-to-b from-[#FBF0B2] to-[#D4AF37] rounded-full shadow-[0_0_15px_#D4AF37]"></div>
-              <h2 className="text-sm font-black text-white uppercase tracking-[0.25em]">
+          {/* Zikr List */}
+          <section className="space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-1 h-4 bg-[#D4AF37] rounded-full"></div>
+              <h2 className="text-[10px] font-black text-white/80 uppercase tracking-[0.2em]">
                 Kunlik Vazifalar
               </h2>
             </div>
-            <ChevronRight className="w-4 h-4 text-[#D4AF37]/40" />
-          </div>
 
-          <div className="space-y-4">
             {dailyZikr.map((zikr, idx) => (
               <div
                 key={idx}
                 onClick={() => handleZikrClick(zikr)}
-                className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-[32px] p-6 shadow-lg active:scale-[0.98] transition-all cursor-pointer group hover:border-[#D4AF37]/60 hover:bg-[#1E1C15]"
+                className="bg-[#1A1812]/80 border border-[#D4AF37]/10 rounded-[24px] p-5 active:scale-[0.97] transition-all border-l-2 border-l-[#D4AF37]/40"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-[#26231A] rounded-2xl flex items-center justify-center text-2xl border border-[#D4AF37]/10 group-hover:border-[#D4AF37]/30 transition-all">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#26231A] rounded-lg flex items-center justify-center text-xl border border-[#D4AF37]/10">
                       {zikr.emoji}
                     </div>
                     <div>
-                      <h3 className="text-white font-bold text-base tracking-wide">
+                      <h3 className="text-white font-bold text-sm">
                         {zikr.name}
                       </h3>
-                      <p className="text-[10px] text-[#D4AF37]/60 font-bold uppercase tracking-widest">
+                      <p className="text-[9px] text-[#D4AF37]/60 font-bold uppercase">
                         {zikr.translation}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-2xl font-black text-white tracking-tighter">
+                  <div className="bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
+                    <span className="text-white font-black text-lg">
                       {zikr.count}
-                    </span>
-                    <span className="text-[10px] text-[#D4AF37] font-bold ml-1 uppercase">
-                      marta
                     </span>
                   </div>
                 </div>
-
-                {/* Va'da qilingan ajr - Benefit Section - Tiniqroq fon */}
-                <div className="bg-[#D4AF37]/10 rounded-[22px] p-4 border border-[#D4AF37]/20 flex items-start gap-3">
-                  <Zap className="w-4 h-4 text-[#FBF0B2] mt-0.5 shrink-0 fill-[#FBF0B2]/20" />
-                  <p className="text-[12px] text-white/90 leading-relaxed font-medium italic">
+                <div className="flex items-start gap-2 pt-3 border-t border-white/5">
+                  <Zap className="w-3 h-3 text-[#FBF0B2] mt-0.5 shrink-0" />
+                  <p className="text-[10px] text-white/60 leading-tight italic">
                     {zikr.benefit}
                   </p>
                 </div>
               </div>
             ))}
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
 
-      {/* Floating Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-[#0F0E0A]/95 backdrop-blur-2xl border-t border-[#D4AF37]/10 px-6 pt-4 pb-10 z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-        <div className="max-w-md mx-auto flex justify-around items-end">
-          <NavItem
-            icon={Home}
-            label="Asosiy"
-            active={activeNav === "home"}
-            onClick={() => setActiveNav("home")}
-          />
-          <NavItem
-            icon={BookOpen}
-            label="Kurslar"
-            active={activeNav === "books"}
-            onClick={() => setActiveNav("books")}
-          />
+        {/* Bottom Navigation - Fixed at Bottom of Container */}
+        <nav className="absolute bottom-0 left-0 right-0 bg-[#0F0E0A]/90 backdrop-blur-2xl border-t border-[#D4AF37]/10 px-4 pb-6 pt-3 z-40">
+          <div className="flex justify-around items-center h-16">
+            <NavItem
+              icon={Home}
+              label="Asosiy"
+              active={activeNav === "home"}
+              onClick={() => setActiveNav("home")}
+            />
+            <NavItem
+              icon={BookOpen}
+              label="Kurslar"
+              active={activeNav === "books"}
+              onClick={() => setActiveNav("books")}
+            />
 
-          <div className="px-2">
-            <button className="w-16 h-16 bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] rounded-full flex items-center justify-center shadow-[0_0_35px_rgba(212,175,55,0.4)] -translate-y-4 border-[4px] border-[#0F0E0A] active:scale-90 transition-all">
-              <Sparkles className="w-7 h-7 text-[#0F0E0A] fill-current" />
-            </button>
-            <p className="text-[10px] font-black text-[#D4AF37] uppercase text-center -translate-y-2 tracking-tighter">
-              Ruhiy Holat
-            </p>
-          </div>
-
-          <NavItem
-            icon={HelpCircle}
-            label="Savollar"
-            active={activeNav === "qa"}
-            onClick={() => setActiveNav("qa")}
-          />
-          <NavItem
-            icon={User}
-            label="Profil"
-            active={activeNav === "profile"}
-            onClick={() => setActiveNav("profile")}
-          />
-        </div>
-      </nav>
-
-      {/* Tasbih Modal */}
-      {selectedZikr && (
-        <div className="fixed inset-0 bg-[#0F0E0A] z-50 flex flex-col p-8 animate-in fade-in zoom-in-95 duration-300">
-          <div className="flex justify-between items-center mb-8">
-            <div className="w-10 h-10"></div>
-            <h2 className="text-[#FBF0B2] font-black uppercase tracking-[0.4em] text-[10px]">
-              Tasbih Mode
-            </h2>
-            <button
-              onClick={() => setSelectedZikr(null)}
-              className="p-3 bg-white/5 rounded-2xl border border-[#D4AF37]/20 active:scale-90 transition-all"
-            >
-              <X className="text-[#FBF0B2] w-6 h-6" />
-            </button>
-          </div>
-
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="text-center mb-12 space-y-4">
-              <p
-                className="text-7xl font-serif text-[#FBF0B2] leading-relaxed drop-shadow-[0_0_25px_rgba(212,175,55,0.4)]"
-                style={{ direction: "rtl" }}
-              >
-                {selectedZikr.arabicText}
-              </p>
-              <h3 className="text-white text-2xl font-bold tracking-wide">
-                {selectedZikr.name}
-              </h3>
-              <p className="text-[#D4AF37]/70 text-base max-w-[280px] mx-auto italic font-medium">
-                "{selectedZikr.meaning}"
-              </p>
+            <div className="relative -mt-10">
+              <button className="w-14 h-14 bg-gradient-to-br from-[#FBF0B2] to-[#AA8232] rounded-full flex items-center justify-center shadow-lg shadow-[#D4AF37]/30 border-[4px] border-[#0F0E0A] active:scale-90 transition-all">
+                <Sparkles className="w-6 h-6 text-black fill-current" />
+              </button>
             </div>
 
-            {/* Counter Circle - Ochiqroq va yorqinroq */}
-            <div
-              onClick={() =>
-                count < selectedZikr.count && setCount((c) => c + 1)
-              }
-              className="w-80 h-80 rounded-full relative flex items-center justify-center cursor-pointer group active:scale-95 transition-all shadow-[0_0_60px_rgba(212,175,55,0.1)]"
-            >
-              <div className="absolute inset-0 rounded-full border-[2px] border-[#D4AF37]/30 animate-pulse"></div>
-              <div className="absolute inset-6 rounded-full bg-[#1A1812] border border-[#D4AF37]/10 shadow-inner"></div>
+            <NavItem
+              icon={HelpCircle}
+              label="Savol"
+              active={activeNav === "qa"}
+              onClick={() => setActiveNav("qa")}
+            />
+            <NavItem
+              icon={User}
+              label="Profil"
+              active={activeNav === "profile"}
+              onClick={() => setActiveNav("profile")}
+            />
+          </div>
+        </nav>
 
-              <div className="relative text-center">
-                <span className="text-9xl font-black text-white tracking-tighter drop-shadow-lg">
-                  {count}
-                </span>
-                <p className="text-[#FBF0B2] text-[12px] font-black uppercase tracking-[0.3em] mt-2">
-                  {count === selectedZikr.count ? "Tamom" : "Bosing"}
+        {/* Tasbih Modal - Full Screen Telegram Style */}
+        {selectedZikr && (
+          <div className="fixed inset-0 z-[100] bg-[#0F0E0A] flex flex-col animate-in fade-in slide-in-from-bottom duration-300">
+            <div className="p-6 flex justify-between items-center">
+              <button
+                onClick={() => setSelectedZikr(null)}
+                className="p-2 bg-white/5 rounded-full border border-white/10"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <span className="text-[10px] font-black tracking-widest uppercase">
+                Tasbih
+              </span>
+              <div className="w-10"></div>
+            </div>
+
+            <div className="flex-1 flex flex-col items-center justify-center px-8">
+              <div className="text-center mb-8">
+                <p
+                  className="text-6xl font-serif text-[#FBF0B2] mb-4"
+                  style={{ direction: "rtl" }}
+                >
+                  {selectedZikr.arabicText}
+                </p>
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  {selectedZikr.name}
+                </h2>
+                <p className="text-white/40 text-sm italic italic">
+                  "{selectedZikr.meaning}"
                 </p>
               </div>
 
-              <svg className="absolute inset-0 w-full h-full -rotate-90 scale-105">
-                <circle
-                  cx="160"
-                  cy="160"
-                  r="145"
-                  fill="transparent"
-                  stroke="#FBF0B2"
-                  strokeWidth="5"
-                  strokeDasharray={2 * Math.PI * 145}
-                  strokeDashoffset={
-                    2 * Math.PI * 145 * (1 - count / selectedZikr.count)
-                  }
-                  className="transition-all duration-300 drop-shadow-[0_0_8px_#D4AF37]"
-                />
-              </svg>
+              {/* Counter - WebBot uchun o'lchami kichraytirildi */}
+              <div
+                onClick={() =>
+                  count < selectedZikr.count && setCount((c) => c + 1)
+                }
+                className="w-64 h-64 rounded-full relative flex items-center justify-center active:scale-95 transition-all shadow-[0_0_40px_rgba(212,175,55,0.15)]"
+              >
+                <div className="absolute inset-0 rounded-full border border-[#D4AF37]/20 animate-pulse"></div>
+                <div className="text-center z-10">
+                  <span className="text-8xl font-black text-white">
+                    {count}
+                  </span>
+                  <p className="text-[#FBF0B2] text-[10px] font-bold uppercase tracking-widest mt-1">
+                    Bosing
+                  </p>
+                </div>
+                <svg className="absolute inset-0 w-full h-full -rotate-90">
+                  <circle
+                    cx="128"
+                    cy="128"
+                    r="120"
+                    fill="transparent"
+                    stroke="#FBF0B2"
+                    strokeWidth="4"
+                    strokeDasharray={2 * Math.PI * 120}
+                    strokeDashoffset={
+                      2 * Math.PI * 120 * (1 - count / selectedZikr.count)
+                    }
+                    className="transition-all duration-300"
+                  />
+                </svg>
+              </div>
             </div>
 
-            <p className="mt-12 text-[#FBF0B2]/60 font-black text-sm uppercase tracking-[0.2em] animate-bounce">
-              {getMotivation()}
-            </p>
+            <div className="p-6 grid grid-cols-2 gap-3 mb-4">
+              <button
+                onClick={() => setCount(0)}
+                className="py-4 bg-white/5 rounded-2xl border border-white/10 font-bold uppercase text-[10px]"
+              >
+                Qayta
+              </button>
+              <button
+                onClick={() => setSelectedZikr(null)}
+                className="py-4 bg-[#D4AF37] text-black rounded-2xl font-black uppercase text-[10px]"
+              >
+                Tugatish
+              </button>
+            </div>
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-          <div className="grid grid-cols-2 gap-4 mt-8 pb-4">
-            <button
-              onClick={() => setCount(0)}
-              className="py-6 bg-white/5 text-[#FBF0B2] font-black rounded-[28px] border border-[#D4AF37]/20 active:scale-95 transition-all uppercase text-[11px] tracking-widest"
-            >
-              Qayta boshlash
-            </button>
-            <button
-              onClick={() => setSelectedZikr(null)}
-              className="py-6 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] font-black rounded-[28px] active:scale-95 transition-all uppercase text-[11px] tracking-widest shadow-lg shadow-[#D4AF37]/20"
-            >
-              Yakunlash
-            </button>
-          </div>
-        </div>
-      )}
+function FeatureCard({ icon: Icon, title, sub }: any) {
+  return (
+    <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-4 active:scale-95 transition-all">
+      <div className="w-8 h-8 bg-[#D4AF37]/20 rounded-lg flex items-center justify-center mb-3">
+        <Icon className="w-4 h-4 text-[#FBF0B2]" />
+      </div>
+      <h3 className="text-white font-bold text-xs">{title}</h3>
+      <p className="text-[#D4AF37]/50 text-[8px] font-bold uppercase mt-0.5">
+        {sub}
+      </p>
     </div>
   );
 }
@@ -355,18 +322,14 @@ function NavItem({ icon: Icon, label, active, onClick }: any) {
   return (
     <button
       onClick={onClick}
-      className={`flex flex-col items-center gap-1.5 min-w-[60px] transition-all duration-300 ${
-        active ? "opacity-100 scale-110" : "opacity-40 hover:opacity-70"
+      className={`flex flex-col items-center gap-1 transition-all ${
+        active ? "opacity-100 scale-105" : "opacity-40"
       }`}
     >
       <Icon
-        className={`w-6 h-6 ${active ? "text-[#FBF0B2]" : "text-[#D4AF37]"}`}
+        className={`w-5 h-5 ${active ? "text-[#FBF0B2]" : "text-[#D4AF37]"}`}
       />
-      <span
-        className={`text-[10px] font-black uppercase tracking-tighter ${
-          active ? "text-[#FBF0B2]" : "text-[#D4AF37]"
-        }`}
-      >
+      <span className="text-[8px] font-black uppercase tracking-tighter">
         {label}
       </span>
     </button>
