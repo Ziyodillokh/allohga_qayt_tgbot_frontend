@@ -22,9 +22,9 @@ jobs:
             cd /var/www/allohgaqayt.uz/frontend
             git pull origin main
 
-            rm -rf .next node_modules/.cache
+            rm -rf .next node_modules package-lock.json
             npm ci
             npm run build
 
-            pm2 restart frontend || pm2 start npm --name "frontend" -- run start
+            pm2 restart frontend || pm2 start npm --name "frontend" -- start
             pm2 save
