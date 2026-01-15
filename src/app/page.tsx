@@ -65,6 +65,16 @@ const dailyZikrData = [
     benefit:
       "Zikrning eng afzali bo'lib, jannat kalitidir va imonni yangilaydi.",
   },
+  {
+    name: "Ixtiyoriy zikr",
+    count: 100,
+    emoji: "📿",
+    arabicText: "ذِكْرُ اللهِ",
+    translation: "Zikrulloh",
+    meaning: "Allohni yod etish",
+    benefit:
+      "Ushbu bo'limda o'zingiz bilgan ixtiyoriy salovat, tasbih yoki duolarni o'qib, sanog'ini yuritishingiz mumkin.",
+  },
 ];
 
 export default function LuxuryZikrApp() {
@@ -211,7 +221,7 @@ export default function LuxuryZikrApp() {
             />
             <NavItem
               icon={BookOpen}
-              label="Kurslar"
+              label="Kitoblar"
               active={activeNav === "books"}
               onClick={() => setActiveNav("books")}
             />
@@ -238,6 +248,7 @@ export default function LuxuryZikrApp() {
         {/* TASBEH MODAL */}
         {selectedZikr && (
           <div className="fixed inset-0 z-[100] bg-[#0F0E0A] flex flex-col p-6 overflow-hidden touch-none animate-in slide-in-from-bottom duration-300">
+            {/* Header qismi */}
             <header className="flex justify-between items-center mb-4 shrink-0">
               <button
                 onClick={closeZikr}
@@ -252,10 +263,11 @@ export default function LuxuryZikrApp() {
             </header>
 
             <div className="flex-1 flex flex-col items-center justify-center gap-8 overflow-hidden">
-              <div className="text-center shrink-0 w-full px-4">
+              {/* Matnlar qismi */}
+              <div className="text-center shrink-0 w-full px-4 min-h-[160px] flex flex-col justify-center">
                 <p
-                  className={`text-5xl font-serif text-[#FBF0B2] mb-6 transition-all duration-500 ${
-                    isFinished ? "opacity-30 scale-90 blur-sm" : "opacity-100"
+                  className={`text-4xl font-serif text-white mb-6 transition-all duration-500 ${
+                    isFinished ? "opacity-20 scale-90 blur-sm" : "opacity-100"
                   }`}
                   style={{ direction: "rtl" }}
                 >
@@ -263,86 +275,89 @@ export default function LuxuryZikrApp() {
                 </p>
 
                 {isFinished ? (
-                  <div className="bg-[#D4AF37]/20 py-5 px-8 rounded-[32px] border-2 border-[#FBF0B2]/30 animate-in zoom-in duration-500">
+                  <div className="bg-[#D4AF37]/10 py-5 px-8 rounded-[32px] border border-[#FBF0B2]/20 animate-in zoom-in duration-500">
                     <CheckCircle2 className="w-8 h-8 text-[#FBF0B2] mx-auto mb-2" />
                     <h2 className="text-xl font-black text-white tracking-wide uppercase">
                       MashaAlloh!
                     </h2>
-                    <p className="text-[#FBF0B2] text-sm font-bold mt-1 tracking-tight">
+                    <p className="text-[#FBF0B2]/80 text-sm font-medium mt-1">
                       Alloh qabul qilsin!
                     </p>
                   </div>
                 ) : (
-                  <div className="bg-[#D4AF37]/5 py-4 px-6 rounded-3xl border border-[#D4AF37]/10">
-                    <p className="text-[12px] text-[#FBF0B2]/80 leading-relaxed italic italic text-center">
-                      "{selectedZikr.benefit}"
+                  <div className="space-y-3">
+                    <p className="text-lg text-[#FBF0B2] font-semibold italic uppercase tracking-tight">
+                      "{selectedZikr.translation}"
+                    </p>
+                    <p className="text-[11px] text-[#FBF0B2]/50 leading-relaxed max-w-[260px] mx-auto uppercase">
+                      {selectedZikr.benefit}
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Progress Circle */}
+              {/* Progress Circle - Toza va fonsiz */}
               <div
                 onClick={handleCount}
-                className={`w-64 h-64 rounded-full relative flex items-center justify-center transition-all duration-300 shrink-0 select-none touch-manipulation ${
-                  isFinished
-                    ? "scale-105 shadow-[0_0_50px_rgba(212,175,55,0.3)]"
-                    : "active:scale-[0.95]"
+                className={`w-56 h-56 rounded-full relative flex items-center justify-center transition-all duration-300 shrink-0 select-none touch-manipulation bg-transparent ${
+                  isFinished ? "opacity-50" : "active:scale-95"
                 }`}
               >
-                <div
-                  className={`absolute inset-0 rounded-full border-[6px] transition-colors duration-500 ${
-                    isFinished ? "border-[#FBF0B2]" : "border-[#D4AF37]/10"
-                  }`}
-                ></div>
-                <div className="relative text-center z-10">
+                {/* Hech qanday to'rtburchak fonsiz markaziy qism */}
+                <div className="relative text-center z-10 bg-transparent">
                   {isFinished ? (
-                    <Trophy className="w-16 h-16 text-[#FBF0B2] animate-bounce" />
+                    <Trophy className="w-12 h-12 text-[#FBF0B2] animate-bounce" />
                   ) : (
                     <>
                       <span className="text-8xl font-black text-white leading-none tabular-nums tracking-tighter">
                         {count}
                       </span>
-                      <p className="text-[#FBF0B2] text-[10px] font-black uppercase tracking-[0.3em] mt-4 animate-pulse">
+                      <p className="text-[#FBF0B2]/30 text-[9px] font-black uppercase tracking-[0.4em] mt-4">
                         Bosish
                       </p>
                     </>
                   )}
                 </div>
+
+                {/* Tashqi o'zgarmas doira */}
+                <div className="absolute inset-0 rounded-full border-[2px] border-white/5 bg-transparent"></div>
+
+                {/* Dinamik progress SVG */}
                 <svg
                   viewBox="0 0 200 200"
-                  className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none scale-[1.03]"
+                  className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
                 >
                   <circle
                     cx="100"
                     cy="100"
-                    r="94"
+                    r="92"
                     fill="transparent"
-                    stroke={isFinished ? "#FBF0B2" : "#D4AF37"}
-                    strokeWidth="8"
+                    stroke="#D4AF37"
+                    strokeWidth="7"
                     strokeLinecap="round"
-                    strokeDasharray={2 * Math.PI * 94}
+                    strokeDasharray={2 * Math.PI * 92}
                     strokeDashoffset={
-                      2 * Math.PI * 94 * (1 - count / selectedZikr.count)
+                      2 * Math.PI * 92 * (1 - count / selectedZikr.count)
                     }
-                    className="transition-all duration-500 drop-shadow-[0_0_15px_rgba(251,240,178,0.7)]"
+                    className="transition-all duration-200"
                   />
                 </svg>
               </div>
             </div>
 
-            <footer className="grid grid-cols-2 gap-4 mt-auto pt-6 pb-6 shrink-0">
+            {/* Footer tugmalari */}
+            <footer className="grid grid-cols-2 gap-4 mt-auto pt-6 pb-10 shrink-0">
               <button
                 onClick={resetZikr}
-                className="py-5 bg-white/5 rounded-3xl text-[11px] font-black uppercase border border-white/10 text-[#FBF0B2]"
+                className="py-5 bg-white/5 rounded-3xl text-[10px] font-black uppercase border border-white/10 text-[#FBF0B2]"
               >
-                Qayta
+                Qayta boshlash
               </button>
               <button
                 onClick={closeZikr}
-                className="py-5 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-black rounded-3xl text-[11px] font-black uppercase shadow-xl active:brightness-110"
+                className="py-5 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-black rounded-3xl text-[10px] font-black uppercase shadow-xl"
               >
-                {isFinished ? "Boshqa Zikr" : "Tugatish"}
+                {isFinished ? "Yangi Zikr" : "Tugatish"}
               </button>
             </footer>
           </div>
