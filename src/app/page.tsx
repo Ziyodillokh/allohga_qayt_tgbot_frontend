@@ -66,7 +66,9 @@ export default function HomePage() {
     },
   ];
 
-  const handleZikrClick = (zikr) => {
+  type Zikr = { name: string; count: string };
+
+  const handleZikrClick = (zikr: Zikr) => {
     setSelectedZikr(zikr);
     setCount(0);
   };
