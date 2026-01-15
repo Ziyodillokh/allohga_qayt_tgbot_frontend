@@ -20,21 +20,14 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /var/www/allohgaqayt.uz/frontend
+            git pull origin main
 
-            # Pull latest code
-            git fetch origin main
-            git reset --hard origin/main
-
-            # Clear old build & dependencies
             rm -rf .next node_modules package-lock.json
-
-            # Install fresh dependencies
-            npm ci
-
-            # Build production
+            npm install
             npm run build
 
-            # Restart or start frontend with PM2
             pm2 delete frontend || true
             pm2 start npm --name "frontend" -- start --prefix /var/www/allohgaqayt.uz/frontend
             pm2 save
+            pm2 restart all
+            pm2 logs

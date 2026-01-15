@@ -439,13 +439,23 @@ export default function HomePage() {
   );
 }
 
+import { LucideIcon } from "lucide-react";
+
+interface NavItemProps {
+  icon: LucideIcon;
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+  isCenter?: boolean;
+}
+
 function NavItem({
   icon: Icon,
   label,
   active = false,
   onClick,
   isCenter = false,
-}) {
+}: NavItemProps) {
   return (
     <button onClick={onClick} className="focus:outline-none">
       <div
