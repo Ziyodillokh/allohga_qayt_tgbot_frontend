@@ -87,6 +87,17 @@ export default function LuxuryZikrApp() {
   const [isFinished, setIsFinished] = useState(false);
   const [userName, setUserName] = useState("Aziz dindoshim");
   const [showChatbotQA, setShowChatbotQA] = useState(false);
+  const [showCategorySelect, setShowCategorySelect] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("quron");
+
+  const categories = [
+    { name: "quron", label: "Qur'on", emoji: "📖" },
+    { name: "hadis", label: "Hadis", emoji: "📜" },
+    { name: "aqida", label: "Aqida", emoji: "✨" },
+    { name: "fiqh", label: "Fiqh", emoji: "⚖️" },
+    { name: "seerat", label: "Seerat", emoji: "👤" },
+    { name: "zikr", label: "Zikr & Duolar", emoji: "🤲" },
+  ];
 
   useEffect(() => {
     if (typeof window !== "undefined" && (window as any).Telegram?.WebApp) {
@@ -144,7 +155,7 @@ export default function LuxuryZikrApp() {
     >
       <div className="w-full max-w-md bg-[#0F0E0A] text-[#E5C366] flex flex-col relative h-full shadow-2xl overflow-hidden border-x border-white/5">
         {/* Orqa fon nur */}
-        <div className="absolute inset-0 pointer-events-none opacity-10">
+        <div className="absolute inset-0 pointer-events-none opacity-20">
           <div className="absolute top-[-5%] right-[-10%] w-64 h-64 bg-[#D4AF37] rounded-full blur-[110px]"></div>
           <div className="absolute bottom-[20%] left-[-10%] w-64 h-64 bg-[#AA8232] rounded-full blur-[110px]"></div>
         </div>
@@ -172,23 +183,27 @@ export default function LuxuryZikrApp() {
 
         {/* List Content */}
         <main className="flex-1 overflow-y-auto px-6 py-4 pb-40 relative z-10 scrollbar-hide">
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            <div className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-md active:bg-[#26231A] transition-colors">
-              <span className="text-2xl mb-2 block">💡</span>
-              <p className="text-[9px] uppercase font-black text-[#D4AF37]/40 tracking-wider">
-                AI Tavsiya
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="bg-[#1A1812] border border-[#D4AF37]/20 p-6 rounded-3xl shadow-lg active:bg-[#26231A] transition-all hover:border-[#D4AF37]/40 active:scale-95 flex flex-col items-center justify-center text-center gap-2">
+              <span className="text-4xl">💡</span>
+              <p className="text-[8px] uppercase font-black text-[#D4AF37]/50 tracking-widest">
+                AI
               </p>
-              <p className="text-sm font-bold text-white">Vazifalar</p>
+              <p className="text-xs font-bold text-[#FBF0B2] leading-tight">
+                Tavsiya
+              </p>
             </div>
             <button
-              onClick={() => setShowChatbotQA(true)}
-              className="bg-[#1A1812] border border-[#D4AF37]/20 p-4 rounded-2xl shadow-md active:bg-[#26231A] transition-colors active:scale-95"
+              onClick={() => setShowCategorySelect(true)}
+              className="bg-[#1A1812] border border-[#D4AF37]/20 p-6 rounded-3xl shadow-lg active:bg-[#26231A] transition-all hover:border-[#D4AF37]/40 active:scale-95 flex flex-col items-center justify-center text-center gap-2"
             >
-              <span className="text-2xl mb-2 block">🧠</span>
-              <p className="text-[9px] uppercase font-black text-[#D4AF37]/40 tracking-wider">
-                Bilim Sinovi
+              <span className="text-4xl">✨</span>
+              <p className="text-[8px] uppercase font-black text-[#D4AF37]/50 tracking-widest">
+                Bilim
               </p>
-              <p className="text-sm font-bold text-white">Savol</p>
+              <p className="text-xs font-bold text-[#FBF0B2] leading-tight">
+                Sinovi
+              </p>
             </button>
           </div>
 
@@ -247,12 +262,13 @@ export default function LuxuryZikrApp() {
             label="AI"
             active={activeNav === "ai"}
             onClick={() => setActiveNav("ai")}
+            isLarge={true}
           />
           <NavItem
             icon={HelpCircle}
             label="Savol"
             active={activeNav === "questions"}
-            onClick={() => setShowChatbotQA(true)}
+            onClick={() => setShowCategorySelect(true)}
           />
           <NavItem
             icon={User}
@@ -382,10 +398,57 @@ export default function LuxuryZikrApp() {
           </div>
         )}
 
+        {/* CATEGORY SELECTION MODAL */}
+        {showCategorySelect && !showChatbotQA && (
+          <div className="fixed inset-0 z-[100] bg-[#0F0E0A] flex flex-col p-6 overflow-hidden">
+            {/* Orqa fon nur */}
+            <div className="absolute inset-0 pointer-events-none opacity-10">
+              <div className="absolute top-[-5%] right-[-10%] w-64 h-64 bg-[#D4AF37] rounded-full blur-[110px]"></div>
+              <div className="absolute bottom-[20%] left-[-10%] w-64 h-64 bg-[#AA8232] rounded-full blur-[110px]"></div>
+            </div>
+
+            {/* Header */}
+            <header className="relative z-20 flex justify-between items-center mb-6 shrink-0">
+              <button
+                onClick={() => setShowCategorySelect(false)}
+                className="p-2.5 bg-white/5 rounded-full border border-white/10 active:bg-white/10"
+              >
+                <X className="w-6 h-6 text-[#FBF0B2]" />
+              </button>
+              <p className="text-[10px] font-black tracking-[0.4em] uppercase text-[#FBF0B2]">
+                Kategoriya Tanlang
+              </p>
+              <div className="w-10"></div>
+            </header>
+
+            {/* Categories Grid */}
+            <div className="flex-1 overflow-y-auto relative z-10">
+              <div className="grid grid-cols-2 gap-4">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.name}
+                    onClick={() => {
+                      setSelectedCategory(cat.name);
+                      setShowCategorySelect(false);
+                      setShowChatbotQA(true);
+                    }}
+                    className="bg-[#1A1812] border border-[#D4AF37]/20 p-6 rounded-2xl shadow-md active:bg-[#26231A] transition-all hover:border-[#D4AF37]/40 active:scale-95 flex flex-col items-center justify-center text-center gap-2"
+                  >
+                    <span className="text-3xl">{cat.emoji}</span>
+                    <p className="text-sm font-bold text-[#FBF0B2]">
+                      {cat.label}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* CHATBOT QA MODAL */}
         {showChatbotQA && (
           <ChatbotQA
-            category="quron"
+            category={selectedCategory}
             difficulty="easy"
             onClose={() => setShowChatbotQA(false)}
           />
@@ -395,19 +458,23 @@ export default function LuxuryZikrApp() {
   );
 }
 
-function NavItem({ icon: Icon, label, active, onClick }: any) {
+function NavItem({ icon: Icon, label, active, onClick, isLarge }: any) {
   return (
     <button
       onClick={onClick}
       className={`flex flex-col items-center gap-1.5 transition-all active:scale-90 ${
-        active ? "opacity-100 scale-105" : "opacity-40"
-      }`}
+        isLarge ? "scale-125" : ""
+      } ${active ? "opacity-100 scale-105" : "opacity-40"}`}
     >
       <Icon
-        className={`w-5 h-5 ${active ? "text-[#FBF0B2]" : "text-[#D4AF37]"}`}
+        className={`${isLarge ? "w-7 h-7" : "w-5 h-5"} ${
+          active ? "text-[#FBF0B2]" : "text-[#D4AF37]"
+        }`}
       />
       <span
-        className={`text-[9px] font-black uppercase tracking-tighter ${
+        className={`${
+          isLarge ? "text-[10px]" : "text-[9px]"
+        } font-black uppercase tracking-tighter ${
           active ? "text-[#FBF0B2]" : "text-[#D4AF37]"
         }`}
       >
