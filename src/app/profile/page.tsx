@@ -258,7 +258,7 @@ export default function ProfilePage() {
             <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
               <Target className="w-6 h-6 mx-auto text-blue-500 mb-1" />
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {user.testsCompleted || totalTests}
+                {totalTests}
               </p>
               <p className="text-xs text-gray-500">Testlar</p>
             </div>
