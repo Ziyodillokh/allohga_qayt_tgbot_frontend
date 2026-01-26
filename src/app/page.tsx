@@ -234,7 +234,7 @@ export default function LuxuryZikrApp() {
               {/* Quick Actions */}
               <div className="grid grid-cols-2 gap-4 mb-10">
                 <button
-                  onClick={() => setShowComingSoon("AI Yordamchi")}
+                  onClick={() => router.push("/ai")}
                   className="group p-5 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-[0.98]"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/15 flex items-center justify-center mb-3">
@@ -482,7 +482,7 @@ export default function LuxuryZikrApp() {
                 icon={Sparkles}
                 label="AI tavsiya"
                 active={activeNav === "ai"}
-                onClick={() => setShowComingSoon("AI Tavsiya")}
+                onClick={() => router.push("/ai")}
                 isLarge={true}
               />
               <NavItem

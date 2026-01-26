@@ -14,15 +14,20 @@ export default function AdminLoginPage() {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
-  // Agar allaqachon login qilgan bo'lsa
   useEffect(() => {
-    if (token && user?.role === "ADMIN") {
-      router.push("/admin");
+    setMounted(true);
+  }, []);
+
+  // Agar allaqachon login qilgan bo'lsa - faqat mounted bo'lgandan keyin tekshir
+  useEffect(() => {
+    if (mounted && token && user?.role === "ADMIN") {
+      router.replace("/admin");
     }
-  }, [token, user, router]);
+  }, [mounted, token, user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

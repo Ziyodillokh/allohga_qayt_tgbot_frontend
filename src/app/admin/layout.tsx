@@ -44,20 +44,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    // Login sahifasida redirect qilmaslik
-    if (pathname === "/admin/login") {
-      return;
-    }
-    
-    if (!isLoading && !token) {
-      router.push("/admin/login");
-    } else if (!isLoading && user && user.role !== "ADMIN") {
-      router.push("/");
-    }
-  }, [user, token, isLoading, router, pathname]);
-
-  // Login sahifasi uchun oddiy render
+  // Login sahifasi uchun oddiy render - redirect qilmaslik
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
@@ -75,8 +62,50 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
+  // Agar token yo'q bo'lsa - login sahifasini ko'rsatamiz (redirect emas!)
+  if (!token) {
+    return (
+      <div className="min-h-screen bg-[#0F0E0A] flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-6">
+            <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
+              <span className="text-4xl">🔒</span>
+            </div>
+          </div>
+          <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Admin Panel</h2>
+          <p className="text-[#D4AF37]/60 mb-6">Kirish uchun tizimga kiring</p>
+          <a
+            href="/admin/login"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] rounded-xl font-semibold hover:opacity-90 transition-opacity"
+          >
+            Tizimga kirish
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Agar user ADMIN emas bo'lsa
   if (!user || user.role !== "ADMIN") {
-    return null;
+    return (
+      <div className="min-h-screen bg-[#0F0E0A] flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-6">
+            <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
+              <span className="text-4xl">⛔</span>
+            </div>
+          </div>
+          <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Ruxsat yo'q</h2>
+          <p className="text-[#D4AF37]/60 mb-6">Sizda admin huquqi mavjud emas</p>
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] rounded-xl font-semibold hover:opacity-90 transition-opacity"
+          >
+            Bosh sahifaga qaytish
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return (
