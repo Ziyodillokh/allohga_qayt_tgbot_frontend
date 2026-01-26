@@ -8,6 +8,9 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
+  Trophy,
+  RotateCcw,
+  X,
 } from "lucide-react";
 import { useAuth, useCategories } from "@/hooks";
 import { testsApi } from "@/lib/api";
@@ -34,7 +37,7 @@ interface Answer {
 // Helper function to get difficulty label from category's difficultyLevels array or default
 function getCategoryDifficultyLabel(
   question: Question,
-  category?: Category
+  category?: Category,
 ): string {
   // Agar kategoriyada difficultyLevels array bo'lsa va savolda levelIndex bo'lsa
   if (category?.difficultyLevels && question.levelIndex !== undefined) {
@@ -43,6 +46,18 @@ function getCategoryDifficultyLabel(
   }
   // Aks holda default label qaytaramiz
   return getDifficultyLabel(question.difficulty);
+}
+
+// LocalStorage key for test progress
+const getTestProgressKey = (slug: string) => `test_progress_${slug}`;
+
+interface TestProgress {
+  testAttemptId: string;
+  questions: Question[];
+  currentIndex: number;
+  answers: Answer[];
+  timeLeft: number;
+  savedAt: number;
 }
 
 export default function TestPage() {
@@ -59,15 +74,78 @@ export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [testResult, setTestResult] = useState<{
+    correctAnswers: number;
+    totalQuestions: number;
+    earnedXP: number;
+    percentage: number;
+  } | null>(null);
 
   const category = categories.find((c) => c.slug === slug);
   const currentQuestion = questions[currentIndex];
   const currentAnswer = answers.find(
-    (a) => a.questionId === currentQuestion?.id
+    (a) => a.questionId === currentQuestion?.id,
   );
   const progress =
     questions.length > 0 ? ((currentIndex + 1) / questions.length) * 100 : 0;
   const answeredCount = answers.length;
+
+  // Save test progress to localStorage
+  const saveTestProgress = useCallback(() => {
+    if (!testAttemptId || questions.length === 0) return;
+
+    const progress: TestProgress = {
+      testAttemptId,
+      questions,
+      currentIndex,
+      answers,
+      timeLeft: timeLeft || 0,
+      savedAt: Date.now(),
+    };
+
+    try {
+      localStorage.setItem(getTestProgressKey(slug), JSON.stringify(progress));
+    } catch (e) {
+      console.error("Failed to save test progress:", e);
+    }
+  }, [testAttemptId, questions, currentIndex, answers, timeLeft, slug]);
+
+  // Clear test progress from localStorage
+  const clearTestProgress = useCallback(() => {
+    try {
+      localStorage.removeItem(getTestProgressKey(slug));
+    } catch (e) {
+      console.error("Failed to clear test progress:", e);
+    }
+  }, [slug]);
+
+  // Load test progress from localStorage
+  const loadTestProgress = useCallback((): TestProgress | null => {
+    try {
+      const saved = localStorage.getItem(getTestProgressKey(slug));
+      if (!saved) return null;
+
+      const progress: TestProgress = JSON.parse(saved);
+
+      // Check if progress is too old (more than 1 hour)
+      const oneHour = 60 * 60 * 1000;
+      if (Date.now() - progress.savedAt > oneHour) {
+        localStorage.removeItem(getTestProgressKey(slug));
+        return null;
+      }
+
+      // Check if time ran out
+      if (progress.timeLeft <= 0) {
+        localStorage.removeItem(getTestProgressKey(slug));
+        return null;
+      }
+
+      return progress;
+    } catch (e) {
+      console.error("Failed to load test progress:", e);
+      return null;
+    }
+  }, [slug]);
 
   // Start test
   useEffect(() => {
@@ -76,6 +154,29 @@ export default function TestPage() {
     const startTest = async () => {
       try {
         setLoading(true);
+
+        // Check for saved progress first
+        const savedProgress = loadTestProgress();
+        if (savedProgress) {
+          // Restore from saved progress
+          setTestAttemptId(savedProgress.testAttemptId);
+          setQuestions(savedProgress.questions);
+          setCurrentIndex(savedProgress.currentIndex);
+          setAnswers(savedProgress.answers);
+          // Recalculate time left based on when it was saved
+          const elapsedSinceLastSave = Math.floor(
+            (Date.now() - savedProgress.savedAt) / 1000,
+          );
+          const remainingTime = Math.max(
+            0,
+            savedProgress.timeLeft - elapsedSinceLastSave,
+          );
+          setTimeLeft(remainingTime);
+          setLoading(false);
+          toast.success("Oldingi test davom ettirildi");
+          return;
+        }
+
         const categoryId = slug === "mixed" ? undefined : category?.id;
 
         const { data } = await testsApi.start({
@@ -95,7 +196,29 @@ export default function TestPage() {
     };
 
     startTest();
-  }, [isAuthenticated, authLoading, slug, category?.id, router]);
+  }, [
+    isAuthenticated,
+    authLoading,
+    slug,
+    category?.id,
+    router,
+    loadTestProgress,
+  ]);
+
+  // Save progress whenever answers, currentIndex, or timeLeft changes
+  useEffect(() => {
+    if (testAttemptId && questions.length > 0 && !submitting) {
+      saveTestProgress();
+    }
+  }, [
+    answers,
+    currentIndex,
+    timeLeft,
+    testAttemptId,
+    questions,
+    submitting,
+    saveTestProgress,
+  ]);
 
   // Timer
   useEffect(() => {
@@ -125,7 +248,7 @@ export default function TestPage() {
 
       setAnswers((prev) => {
         const existing = prev.findIndex(
-          (a) => a.questionId === currentQuestion.id
+          (a) => a.questionId === currentQuestion.id,
         );
         if (existing !== -1) {
           const newAnswers = [...prev];
@@ -141,7 +264,7 @@ export default function TestPage() {
         ];
       });
     },
-    [currentQuestion]
+    [currentQuestion],
   );
 
   // Navigation
@@ -170,23 +293,61 @@ export default function TestPage() {
       const confirm = window.confirm(
         `Siz hali ${
           questions.length - answers.length
-        } ta savolga javob bermadingiz. Yuborishni xohlaysizmi?`
+        } ta savolga javob bermadingiz. Yuborishni xohlaysizmi?`,
       );
       if (!confirm) return;
     }
 
     try {
       setSubmitting(true);
-      await testsApi.submit(testAttemptId, answers);
+
+      // Clear saved progress when submitting
+      clearTestProgress();
+
+      const { data } = await testsApi.submit(testAttemptId, answers);
 
       if (isTelegramWebApp()) {
         telegramHaptic("success");
       }
 
-      router.push(`/test/result/${testAttemptId}`);
+      // Show result in modal instead of redirecting
+      setTestResult({
+        correctAnswers: data.correctAnswers,
+        totalQuestions: data.totalQuestions,
+        earnedXP: data.earnedXP,
+        percentage: Math.round(
+          (data.correctAnswers / data.totalQuestions) * 100,
+        ),
+      });
+      setSubmitting(false);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Testni yuborishda xatolik");
       setSubmitting(false);
+    }
+  };
+
+  // Start new test (continue testing)
+  const handleContinue = async () => {
+    setTestResult(null);
+    setAnswers([]);
+    setCurrentIndex(0);
+    setLoading(true);
+
+    try {
+      const categoryId = slug === "mixed" ? undefined : category?.id;
+      const { data } = await testsApi.start({
+        categoryId,
+        questionsCount: 10,
+      });
+
+      setTestAttemptId(data.testAttemptId);
+      setQuestions(data.questions);
+      setTimeLeft(600);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Test boshlashda xatolik");
+      router.push("/categories");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -219,7 +380,7 @@ export default function TestPage() {
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Testdan chiqishni xohlaysizmi? Natijalar saqlanmaydi."
+                      "Testdan chiqishni xohlaysizmi? Natijalar saqlanmaydi.",
                     )
                   ) {
                     router.push("/categories");
@@ -247,7 +408,7 @@ export default function TestPage() {
                   "flex items-center gap-2 px-3 py-1.5 rounded-full font-medium",
                   timeLeft < 60
                     ? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
-                    : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                    : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
                 )}
               >
                 <Clock className="w-4 h-4" />
@@ -266,9 +427,6 @@ export default function TestPage() {
         <div className="container mx-auto px-4 py-6">
           <Card className="mb-6">
             <div className="flex items-center gap-2 mb-4">
-              <Badge className={getDifficultyColor(currentQuestion.difficulty)}>
-                {getCategoryDifficultyLabel(currentQuestion, category)}
-              </Badge>
               <Badge variant="info">+{currentQuestion.xpReward} XP</Badge>
             </div>
 
@@ -291,7 +449,7 @@ export default function TestPage() {
                     "w-full p-4 rounded-2xl text-left transition-all duration-200 border-2",
                     isSelected
                       ? "bg-indigo-50 dark:bg-indigo-900/30 border-indigo-500 shadow-lg"
-                      : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-indigo-300 dark:hover:border-indigo-700"
+                      : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-indigo-300 dark:hover:border-indigo-700",
                   )}
                 >
                   <div className="flex items-center gap-4">
@@ -300,7 +458,7 @@ export default function TestPage() {
                         "w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg",
                         isSelected
                           ? "bg-indigo-600 text-white"
-                          : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                          : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
                       )}
                     >
                       {labels[index]}
@@ -310,7 +468,7 @@ export default function TestPage() {
                         "flex-1",
                         isSelected
                           ? "text-indigo-900 dark:text-indigo-100 font-medium"
-                          : "text-gray-700 dark:text-gray-300"
+                          : "text-gray-700 dark:text-gray-300",
                       )}
                     >
                       {option}
@@ -341,8 +499,8 @@ export default function TestPage() {
                       isCurrent
                         ? "bg-indigo-600 text-white scale-110"
                         : isAnswered
-                        ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
-                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+                          : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700",
                     )}
                   >
                     {index + 1}
@@ -398,6 +556,86 @@ export default function TestPage() {
           </div>
         </div>
       </div>
+
+      {/* Test Result Modal */}
+      {testResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 max-w-sm w-full shadow-xl">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <div
+                className={cn(
+                  "w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4",
+                  testResult.percentage >= 70
+                    ? "bg-green-100 dark:bg-green-900/30"
+                    : testResult.percentage >= 40
+                      ? "bg-yellow-100 dark:bg-yellow-900/30"
+                      : "bg-red-100 dark:bg-red-900/30",
+                )}
+              >
+                <Trophy
+                  className={cn(
+                    "w-8 h-8",
+                    testResult.percentage >= 70
+                      ? "text-green-600 dark:text-green-400"
+                      : testResult.percentage >= 40
+                        ? "text-yellow-600 dark:text-yellow-400"
+                        : "text-red-600 dark:text-red-400",
+                  )}
+                />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                {testResult.percentage >= 70
+                  ? "Ajoyib natija!"
+                  : testResult.percentage >= 40
+                    ? "Yaxshi harakat!"
+                    : "Davom eting!"}
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                Test yakunlandi
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {testResult.correctAnswers}
+                </div>
+                <div className="text-xs text-gray-500">To'g'ri</div>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {testResult.percentage}%
+                </div>
+                <div className="text-xs text-gray-500">Natija</div>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+                <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                  +{testResult.earnedXP}
+                </div>
+                <div className="text-xs text-gray-500">XP</div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col gap-2">
+              <Button onClick={handleContinue} className="w-full">
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Yana test yechish
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => router.push("/categories")}
+                className="w-full"
+              >
+                <X className="w-4 h-4 mr-2" />
+                Chiqish
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

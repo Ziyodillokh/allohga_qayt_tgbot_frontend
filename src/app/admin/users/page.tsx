@@ -2,44 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks";
-import { useAdminContext } from "@/contexts/AdminContext";
 import { getUploadUrl } from "@/lib/utils";
 import toast from "react-hot-toast";
 
-// Telefon raqamni formatlash funksiyasi
 const formatPhoneNumber = (phone: string | null): string => {
   if (!phone) return "";
-
-  // Faqat raqamlarni olish
   const cleaned = phone.replace(/\D/g, "");
-
-  // O'zbekiston formati: +998 (XX) XXX-XX-XX
   if (cleaned.length === 12 && cleaned.startsWith("998")) {
-    return `+998 (${cleaned.slice(3, 5)}) ${cleaned.slice(
-      5,
-      8
-    )}-${cleaned.slice(8, 10)}-${cleaned.slice(10, 12)}`;
+    return `+998 (${cleaned.slice(3, 5)}) ${cleaned.slice(5, 8)}-${cleaned.slice(8, 10)}-${cleaned.slice(10, 12)}`;
   }
-
-  // Rossiya formati: +7 (XXX) XXX-XX-XX
   if (cleaned.length === 11 && cleaned.startsWith("7")) {
-    return `+7 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(
-      7,
-      9
-    )}-${cleaned.slice(9, 11)}`;
+    return `+7 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7, 9)}-${cleaned.slice(9, 11)}`;
   }
-
-  // Boshqa formatlar uchun oddiy formatlash
-  if (cleaned.length >= 10) {
-    const countryCode = cleaned.slice(0, cleaned.length - 10);
-    const areaCode = cleaned.slice(-10, -7);
-    const firstPart = cleaned.slice(-7, -4);
-    const secondPart = cleaned.slice(-4, -2);
-    const thirdPart = cleaned.slice(-2);
-    return `+${countryCode} (${areaCode}) ${firstPart}-${secondPart}-${thirdPart}`;
-  }
-
-  // Qisqa raqamlar uchun asl formatda qaytarish
   return phone.startsWith("+") ? phone : `+${phone}`;
 };
 
@@ -58,12 +32,13 @@ interface User {
   level: number;
   isActive: boolean;
   completedTests: number;
+  testsCompleted?: number;
+  zikrCount?: number;
   createdAt: string;
 }
 
 export default function AdminUsers() {
   const { token, user: currentUser } = useAuth();
-  const { isReadOnly } = useAdminContext();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -71,9 +46,9 @@ export default function AdminUsers() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-  const [searchQuery, setSearchQuery] = useState(""); // Actual search query
 
   useEffect(() => {
     if (token) fetchUsers();
@@ -83,15 +58,12 @@ export default function AdminUsers() {
     try {
       setLoading(true);
       const res = await fetch(
-        `${API}/admin/users?page=${page}&limit=20&search=${encodeURIComponent(
-          searchQuery
-        )}`,
+        `${API}/admin/users?page=${page}&limit=20&search=${encodeURIComponent(searchQuery)}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await res.json();
-      console.log("Users data:", data); // Debug log
       setUsers(data.users || []);
       setTotalPages(data.pagination?.totalPages || data.totalPages || 1);
     } catch (error) {
@@ -104,7 +76,7 @@ export default function AdminUsers() {
 
   const searchUsers = () => {
     setPage(1);
-    setSearchQuery(searchTerm); // Trigger search
+    setSearchQuery(searchTerm);
   };
 
   const deleteUser = async (userId: string) => {
@@ -112,7 +84,6 @@ export default function AdminUsers() {
       toast.error("O'zingizni o'chira olmaysiz");
       return;
     }
-
     if (!confirm("Bu foydalanuvchini o'chirishni xohlaysizmi?")) return;
 
     try {
@@ -120,14 +91,13 @@ export default function AdminUsers() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
-
       if (res.ok) {
         toast.success("Foydalanuvchi o'chirildi");
         fetchUsers();
       } else {
         toast.error("O'chirishda xatolik");
       }
-    } catch (error) {
+    } catch {
       toast.error("Xatolik yuz berdi");
     }
   };
@@ -137,7 +107,6 @@ export default function AdminUsers() {
       toast.error("O'zingizning rolingizni o'zgartira olmaysiz");
       return;
     }
-
     try {
       const res = await fetch(`${API}/admin/users/${userId}/role`, {
         method: "PATCH",
@@ -147,14 +116,13 @@ export default function AdminUsers() {
         },
         body: JSON.stringify({ role: newRole }),
       });
-
       if (res.ok) {
         toast.success("Rol o'zgartirildi");
         fetchUsers();
       } else {
         toast.error("Rolni o'zgartirishda xatolik");
       }
-    } catch (error) {
+    } catch {
       toast.error("Xatolik yuz berdi");
     }
   };
@@ -172,32 +140,38 @@ export default function AdminUsers() {
   const getRoleBadgeClass = (role: string) => {
     switch (role) {
       case "ADMIN":
-        return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
+        return "bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A]";
       case "MODERATOR":
-        return "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400";
+        return "bg-[#D4AF37]/30 text-[#FBF0B2]";
       default:
-        return "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300";
+        return "bg-[#D4AF37]/10 text-[#D4AF37]/80";
     }
   };
 
   if (loading && users.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="w-10 h-10 border-4 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Foydalanuvchilar
-        </h1>
-        {selectedUsers.length > 0 && !isReadOnly && (
+        <div>
+          <h1 className="text-2xl font-bold text-[#FBF0B2]">
+            Foydalanuvchilar
+          </h1>
+          <p className="text-sm text-[#D4AF37]/60">
+            {users.length > 0 ? `${users.length} ta topildi` : ""}
+          </p>
+        </div>
+        {selectedUsers.length > 0 && (
           <button
             onClick={() => setShowMessageModal(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+            className="px-5 py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] font-bold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2"
           >
             <svg
               className="w-5 h-5"
@@ -218,18 +192,18 @@ export default function AdminUsers() {
       </div>
 
       {/* Search */}
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <div className="relative flex-1">
           <input
             type="text"
-            placeholder="Username, email yoki telefon orqali qidirish..."
+            placeholder="Username, email yoki telefon..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && searchUsers()}
-            className="w-full px-4 py-3 pl-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-3 pl-11 bg-[#1A1812] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none"
           />
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#D4AF37]/40"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -244,7 +218,7 @@ export default function AdminUsers() {
         </div>
         <button
           onClick={searchUsers}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] font-bold rounded-xl hover:opacity-90 transition-opacity"
         >
           Qidirish
         </button>
@@ -255,382 +229,85 @@ export default function AdminUsers() {
               setSearchQuery("");
               setPage(1);
             }}
-            className="px-4 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-            title="Qidiruvni tozalash"
+            className="px-4 py-3 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl hover:bg-[#D4AF37]/20 transition-colors"
           >
             ✕
           </button>
         )}
       </div>
 
-      {/* Search Info */}
-      {searchQuery && (
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          "{searchQuery}" uchun qidiruv natijalari
-        </div>
-      )}
-
       {/* Selection Info */}
       {selectedUsers.length > 0 && (
-        <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-          <p className="text-blue-600 dark:text-blue-400">
+        <div className="flex items-center justify-between p-4 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-xl">
+          <p className="text-[#FBF0B2]">
             <strong>{selectedUsers.length}</strong> / 15 foydalanuvchi tanlangan
           </p>
           <button
             onClick={() => setSelectedUsers([])}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-sm text-[#D4AF37] hover:text-[#FBF0B2] transition-colors"
           >
-            Hammasini bekor qilish
+            Bekor qilish
           </button>
         </div>
       )}
 
-      {/* Users Table - Desktop */}
-      <div className="hidden md:block bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.length > 0}
-                    onChange={() =>
-                      selectedUsers.length > 0
-                        ? setSelectedUsers([])
-                        : setSelectedUsers(users.slice(0, 15).map((u) => u.id))
-                    }
-                    className="w-4 h-4 text-blue-600 rounded"
-                    title="Hammasini tanlash"
-                  />
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Foydalanuvchi
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Kontakt
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Rol
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  XP
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Testlar
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Amallar
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {users.map((user) => (
-                <tr
-                  key={user.id}
-                  className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
-                    selectedUsers.includes(user.id)
-                      ? "bg-blue-50 dark:bg-blue-900/10"
-                      : ""
-                  }`}
-                >
-                  <td className="px-4 py-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => toggleUserSelection(user.id)}
-                      className="w-4 h-4 text-blue-600 rounded"
-                      title={`${user.username} ni tanlash`}
-                    />
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="flex items-center gap-3">
-                      {user.avatar ? (
-                        <img
-                          src={getUploadUrl(user.avatar) || user.avatar}
-                          alt={user.username}
-                          className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                        />
-                      ) : (
-                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
-                          <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                            {user.username.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      )}
-                      <div className="min-w-0">
-                        <p className="font-medium text-gray-900 dark:text-white truncate">
-                          {user.username}
-                        </p>
-                        {user.fullName && (
-                          <p className="text-sm text-gray-500 truncate">
-                            {user.fullName}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="space-y-1">
-                      {/* Email - albatta ko'rsatiladi */}
-                      <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1 truncate max-w-[200px]">
-                        <span>📧</span>{" "}
-                        {user.email || (
-                          <span className="text-gray-400 italic">yo'q</span>
-                        )}
-                      </p>
-                      {/* Registratsiyada kiritilgan telefon */}
-                      {user.phone && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                          <span>📱</span> {formatPhoneNumber(user.phone)}
-                        </p>
-                      )}
-                      {/* Telegram ma'lumotlari */}
-                      {user.telegramId ||
-                      user.telegramPhone ||
-                      user.telegramUsername ? (
-                        <div className="text-sm">
-                          {(user.telegramId || user.telegramUsername) && (
-                            <p className="flex items-center gap-1.5 text-[#0088cc]">
-                              <svg
-                                className="w-4 h-4 flex-shrink-0"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                              >
-                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-                              </svg>
-                              {user.telegramUsername ? (
-                                `@${user.telegramUsername}`
-                              ) : (
-                                <span className="text-gray-400">
-                                  ID: {user.telegramId}
-                                </span>
-                              )}
-                            </p>
-                          )}
-                          {user.telegramPhone && (
-                            <p className="text-gray-500 dark:text-gray-400 text-xs pl-5 flex items-center gap-1">
-                              <span className="text-red-500">📞</span>{" "}
-                              {formatPhoneNumber(user.telegramPhone)}
-                            </p>
-                          )}
-                        </div>
-                      ) : null}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <select
-                      value={user.role}
-                      onChange={(e) => changeRole(user.id, e.target.value)}
-                      disabled={user.id === currentUser?.id || isReadOnly}
-                      className={`px-2 py-1 rounded-lg text-sm font-medium ${getRoleBadgeClass(
-                        user.role
-                      )} border-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50`}
-                      title={
-                        isReadOnly
-                          ? "Faqat ko'rish rejimi"
-                          : "Rolni o'zgartirish"
-                      }
-                    >
-                      <option value="USER">User</option>
-                      <option value="MODERATOR">Moderator</option>
-                      <option value="ADMIN">Admin</option>
-                    </select>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {user.totalXP || 0}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      {user.completedTests || 0}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedUsers([user.id]);
-                          setShowMessageModal(true);
-                        }}
-                        className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition"
-                        title="Xabar yuborish"
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => deleteUser(user.id)}
-                        disabled={user.id === currentUser?.id}
-                        className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="O'chirish"
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Users Cards - Mobile */}
-      <div className="md:hidden space-y-3">
+      {/* Users List */}
+      <div className="space-y-3">
         {users.map((user) => (
           <div
             key={user.id}
-            className={`bg-white dark:bg-gray-800 rounded-xl p-4 shadow ${
-              selectedUsers.includes(user.id) ? "ring-2 ring-blue-500" : ""
+            className={`bg-[#1A1812] border rounded-2xl p-4 transition-all ${
+              selectedUsers.includes(user.id)
+                ? "border-[#D4AF37] ring-1 ring-[#D4AF37]/30"
+                : "border-[#D4AF37]/20 hover:border-[#D4AF37]/40"
             }`}
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-4">
               <input
                 type="checkbox"
                 checked={selectedUsers.includes(user.id)}
                 onChange={() => toggleUserSelection(user.id)}
-                className="w-5 h-5 text-blue-600 rounded mt-1"
-                title="Tanlash"
+                className="w-5 h-5 accent-[#D4AF37] rounded mt-2"
               />
 
               {user.avatar ? (
                 <img
                   src={getUploadUrl(user.avatar) || user.avatar}
                   alt={user.username}
-                  className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                  className="w-14 h-14 rounded-xl object-cover border-2 border-[#D4AF37]/30"
                 />
               ) : (
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-xl font-bold">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#AA8232] flex items-center justify-center">
+                  <span className="text-[#0F0E0A] text-xl font-bold">
                     {user.username.charAt(0).toUpperCase()}
                   </span>
                 </div>
               )}
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-bold text-gray-900 dark:text-white truncate">
-                    {user.username}
-                  </h3>
-                  <select
-                    value={user.role}
-                    onChange={(e) => changeRole(user.id, e.target.value)}
-                    disabled={user.id === currentUser?.id || isReadOnly}
-                    className={`px-2 py-1 rounded-lg text-xs font-medium ${getRoleBadgeClass(
-                      user.role
-                    )} border-0 disabled:opacity-50`}
-                    title={isReadOnly ? "Faqat ko'rish rejimi" : "Rol"}
-                  >
-                    <option value="USER">User</option>
-                    <option value="MODERATOR">Mod</option>
-                    <option value="ADMIN">Admin</option>
-                  </select>
-                </div>
-
-                {user.fullName && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                    {user.fullName}
-                  </p>
-                )}
-
-                <div className="mt-2 space-y-1">
-                  {/* Email - albatta ko'rsatiladi */}
-                  <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 truncate">
-                    <span className="text-base">📧</span>
-                    <span className="truncate">
-                      {user.email || (
-                        <span className="italic text-gray-400">yo'q</span>
-                      )}
-                    </span>
-                  </p>
-                  {/* Registratsiyada kiritilgan telefon */}
-                  {user.phone && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                      <span className="text-base">📱</span>{" "}
-                      {formatPhoneNumber(user.phone)}
-                    </p>
-                  )}
-                  {/* Telegram ma'lumotlari */}
-                  {user.telegramId ||
-                  user.telegramPhone ||
-                  user.telegramUsername ? (
-                    <div className="text-xs space-y-0.5">
-                      {(user.telegramId || user.telegramUsername) && (
-                        <p className="flex items-center gap-1.5 text-[#0088cc]">
-                          <svg
-                            className="w-4 h-4 flex-shrink-0"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-                          </svg>
-                          {user.telegramUsername ? (
-                            `@${user.telegramUsername}`
-                          ) : (
-                            <span className="text-gray-400">
-                              ID: {user.telegramId}
-                            </span>
-                          )}
-                        </p>
-                      )}
-                      {user.telegramPhone && (
-                        <p className="text-gray-500 dark:text-gray-400 pl-5 flex items-center gap-1">
-                          <span className="text-red-500">📞</span>{" "}
-                          {formatPhoneNumber(user.telegramPhone)}
-                        </p>
-                      )}
-                    </div>
-                  ) : null}
-                </div>
-
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
-                  <div className="flex gap-4 text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {user.totalXP || 0}
-                      </span>{" "}
-                      XP
-                    </span>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {user.completedTests || 0}
-                      </span>{" "}
-                      test
-                    </span>
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#FBF0B2]">
+                      {user.username}
+                    </h3>
+                    <select
+                      value={user.role}
+                      onChange={(e) => changeRole(user.id, e.target.value)}
+                      disabled={user.id === currentUser?.id}
+                      className={`px-2 py-1 rounded-lg text-xs font-bold ${getRoleBadgeClass(user.role)} border-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50`}
+                    >
+                      <option value="USER">User</option>
+                      <option value="MODERATOR">Mod</option>
+                      <option value="ADMIN">Admin</option>
+                    </select>
                   </div>
-
-                  <div className="flex gap-1">
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => {
                         setSelectedUsers([user.id]);
                         setShowMessageModal(true);
                       }}
-                      className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg"
+                      className="p-2 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-lg transition-colors"
                       title="Xabar yuborish"
                     >
                       <svg
@@ -642,7 +319,7 @@ export default function AdminUsers() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
+                          strokeWidth={1.5}
                           d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
                         />
                       </svg>
@@ -650,7 +327,7 @@ export default function AdminUsers() {
                     <button
                       onClick={() => deleteUser(user.id)}
                       disabled={user.id === currentUser?.id}
-                      className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg disabled:opacity-50"
+                      className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
                       title="O'chirish"
                     >
                       <svg
@@ -662,12 +339,70 @@ export default function AdminUsers() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
+                          strokeWidth={1.5}
                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                         />
                       </svg>
                     </button>
                   </div>
+                </div>
+
+                {user.fullName && (
+                  <p className="text-sm text-[#D4AF37]/60">{user.fullName}</p>
+                )}
+
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#D4AF37]/50">
+                  {user.email && (
+                    <span className="flex items-center gap-1">
+                      📧 {user.email}
+                    </span>
+                  )}
+                  {user.phone && (
+                    <span className="flex items-center gap-1">
+                      📱 {formatPhoneNumber(user.phone)}
+                    </span>
+                  )}
+                  {user.telegramUsername && (
+                    <span className="flex items-center gap-1 text-[#0088cc]">
+                      <svg
+                        className="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                      </svg>
+                      @{user.telegramUsername}
+                    </span>
+                  )}
+                  {user.telegramPhone && (
+                    <span className="flex items-center gap-1 text-[#0088cc]">
+                      📞 {formatPhoneNumber(user.telegramPhone)}
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-3 pt-3 border-t border-[#D4AF37]/10 flex items-center gap-4 text-sm">
+                  <span className="text-[#D4AF37]/60">
+                    <span className="font-bold text-[#FBF0B2]">
+                      {user.totalXP || 0}
+                    </span>{" "}
+                    XP
+                  </span>
+                  <span className="text-[#D4AF37]/60">
+                    <span className="font-bold text-[#FBF0B2]">
+                      {user.completedTests || user.testsCompleted || 0}
+                    </span>{" "}
+                    test
+                  </span>
+                  <span className="text-[#D4AF37]/60">
+                    <span className="font-bold text-[#FBF0B2]">
+                      {user.zikrCount || 0}
+                    </span>{" "}
+                    zikr
+                  </span>
+                  <span className="text-[#D4AF37]/40 ml-auto text-xs">
+                    {new Date(user.createdAt).toLocaleDateString("uz-UZ")}
+                  </span>
                 </div>
               </div>
             </div>
@@ -676,28 +411,28 @@ export default function AdminUsers() {
       </div>
 
       {users.length === 0 && (
-        <div className="text-center py-12 text-gray-500 bg-white dark:bg-gray-800 rounded-xl">
+        <div className="text-center py-12 text-[#D4AF37]/40 bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl">
           Foydalanuvchi topilmadi
         </div>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 p-4 bg-white dark:bg-gray-800 rounded-xl">
+        <div className="flex items-center justify-center gap-3 p-4 bg-[#1A1812] border border-[#D4AF37]/20 rounded-xl">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50"
+            className="px-4 py-2 bg-[#D4AF37]/10 text-[#D4AF37] rounded-lg hover:bg-[#D4AF37]/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             Oldingi
           </button>
-          <span className="px-4 py-2 text-gray-600 dark:text-gray-400">
+          <span className="px-4 py-2 text-[#FBF0B2]">
             {page} / {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50"
+            className="px-4 py-2 bg-[#D4AF37]/10 text-[#D4AF37] rounded-lg hover:bg-[#D4AF37]/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             Keyingi
           </button>
@@ -742,8 +477,6 @@ function MessageModal({
     "email" | "telegram" | "notification" | "all"
   >("notification");
   const [sending, setSending] = useState(false);
-
-  // Tanlangan userlardan kamida bittasi telegramId ga ega bo'lsa telegram ko'rsatiladi
   const hasTelegramUsers = users.some((u) => u.telegramId);
 
   const sendMessage = async () => {
@@ -754,10 +487,8 @@ function MessageModal({
 
     setSending(true);
     try {
-      // "all" tanlansa barcha kanallar yuboriladi
       const channels =
         channel === "all" ? ["notification", "email", "telegram"] : [channel];
-
       const res = await fetch(`${API}/admin/messages/bulk`, {
         method: "POST",
         headers: {
@@ -774,7 +505,6 @@ function MessageModal({
       });
 
       const data = await res.json();
-
       if (res.ok) {
         const sentCount =
           data.notifSent ||
@@ -796,19 +526,18 @@ function MessageModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-md">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
+      <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl w-full max-w-md">
+        <div className="p-6 border-b border-[#D4AF37]/20 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-[#FBF0B2]">
             Xabar yuborish ({userIds.length} ta)
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-            title="Yopish"
+            className="p-2 hover:bg-[#D4AF37]/10 rounded-xl text-[#D4AF37]"
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -823,16 +552,15 @@ function MessageModal({
           </button>
         </div>
 
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-[#D4AF37]/60 mb-1.5 uppercase tracking-wider">
               Kanal
             </label>
             <select
               value={channel}
               onChange={(e) => setChannel(e.target.value as any)}
-              className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg"
-              title="Yuborish kanalini tanlang"
+              className="w-full px-4 py-3 bg-[#0F0E0A] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] focus:border-[#D4AF37] focus:outline-none"
             >
               <option value="notification">Sayt bildirishnomasi</option>
               <option value="email">Email</option>
@@ -842,7 +570,7 @@ function MessageModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-[#D4AF37]/60 mb-1.5 uppercase tracking-wider">
               Xabar
             </label>
             <textarea
@@ -850,25 +578,28 @@ function MessageModal({
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Xabaringizni yozing..."
               rows={4}
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg"
+              className="w-full px-4 py-3 bg-[#0F0E0A] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none resize-none"
             />
           </div>
+        </div>
 
-          <div className="flex gap-3 pt-4">
-            <button
-              onClick={onClose}
-              className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
-            >
-              Bekor qilish
-            </button>
-            <button
-              onClick={sendMessage}
-              disabled={sending}
-              className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-            >
-              {sending ? "Yuborilmoqda..." : "Yuborish"}
-            </button>
-          </div>
+        <div className="p-6 border-t border-[#D4AF37]/20 flex gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 px-4 py-3 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-xl transition-colors"
+          >
+            Bekor qilish
+          </button>
+          <button
+            onClick={sendMessage}
+            disabled={sending}
+            className="flex-1 px-4 py-3 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {sending && (
+              <div className="w-4 h-4 border-2 border-[#0F0E0A] border-t-transparent rounded-full animate-spin" />
+            )}
+            {sending ? "Yuborilmoqda..." : "Yuborish"}
+          </button>
         </div>
       </div>
     </div>

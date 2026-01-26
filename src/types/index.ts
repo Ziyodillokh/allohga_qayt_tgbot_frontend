@@ -26,7 +26,9 @@ export interface User {
   bio: string | null;
   totalXP: number;
   level: number;
-  role: 'USER' | 'MODERATOR' | 'ADMIN';
+  testsCompleted: number;
+  zikrCount: number;
+  role: "USER" | "MODERATOR" | "ADMIN";
   telegramId: string | null;
   createdAt: string;
   updatedAt?: string;
@@ -78,7 +80,7 @@ export interface Question {
   options: string[];
   correctAnswer?: number;
   explanation?: string;
-  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  difficulty: "EASY" | "MEDIUM" | "HARD";
   xpReward: number;
   tags: string[];
   isActive: boolean;
@@ -113,7 +115,7 @@ export interface TestQuestion {
   id: string;
   question: string;
   options: string[];
-  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  difficulty: "EASY" | "MEDIUM" | "HARD";
   xpReward: number;
 }
 
@@ -207,7 +209,7 @@ export interface Notification {
   userId: string;
   title: string;
   message: string;
-  type: 'SYSTEM' | 'ACHIEVEMENT' | 'LEVEL_UP' | 'RANKING' | 'MESSAGE';
+  type: "SYSTEM" | "ACHIEVEMENT" | "LEVEL_UP" | "RANKING" | "MESSAGE";
   isRead: boolean;
   createdAt: string;
 }

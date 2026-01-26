@@ -136,6 +136,7 @@ export function useAuth() {
     token,
     isAuthenticated,
     isLoading,
+    login,
     logout: handleLogout,
     updateUser,
   };
@@ -199,19 +200,31 @@ export function useNotifications() {
 
     fetchNotifications();
 
-    // Setup WebSocket
+    // Setup WebSocket - API_URL dan /api ni olib tashlaymiz
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-    const socketInstance = io(`${API_URL}/notifications`, {
+    const WS_URL = API_URL.replace("/api", "");
+    console.log("🔌 WebSocket ulanmoqda:", `${WS_URL}/notifications`);
+
+    const socketInstance = io(`${WS_URL}/notifications`, {
       auth: { token },
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
     });
 
     socketInstance.on("connect", () => {
+      console.log("✅ WebSocket ulandi! Socket ID:", socketInstance.id);
       setSocketConnected(true);
     });
 
-    socketInstance.on("disconnect", () => {
+    socketInstance.on("disconnect", (reason) => {
+      console.log("❌ WebSocket uzildi. Sabab:", reason);
       setSocketConnected(false);
+    });
+
+    socketInstance.on("connect_error", (error) => {
+      console.error("🚫 WebSocket ulanish xatosi:", error.message);
     });
 
     socketInstance.on("notification", (notification) => {
@@ -238,7 +251,7 @@ export function useNotifications() {
         console.error("Error marking notification as read:", error);
       }
     },
-    [markAsRead]
+    [markAsRead],
   );
 
   return {
@@ -337,7 +350,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         console.error(error);
       }
     },
-    [key, storedValue]
+    [key, storedValue],
   );
 
   return [storedValue, setValue] as const;

@@ -6,7 +6,7 @@ import axios, {
 import { useAuthStore } from "../store";
 // import { useAuthStore } from "@/store/auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+const API_URL = "http://localhost:3001/api";
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
@@ -26,7 +26,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor - handle errors
@@ -48,7 +48,7 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // ==================== AUTH ====================
@@ -108,7 +108,7 @@ export const testsApi = {
 
   submit: (
     testId: string,
-    answers: Array<{ questionId: string; selectedAnswer: number }>
+    answers: Array<{ questionId: string; selectedAnswer: number }>,
   ) => api.post(`/tests/${testId}/submit`, { answers }),
 
   getResult: (testId: string) => api.get(`/tests/${testId}/result`),
@@ -203,6 +203,36 @@ export const statsApi = {
     const response = await api.get("/stats/public");
     return response;
   },
+};
+
+// ==================== ZIKR ====================
+export const zikrApi = {
+  // Bugungi kunning zikrlarini olish
+  getToday: (ramadan = false) =>
+    api.get(`/zikr/today${ramadan ? "?ramadan=true" : ""}`),
+
+  // Ma'lum kunning zikrlarini olish (0=Yakshanba, 1=Dushanba, ...)
+  getByDay: (dayOfWeek: number, ramadan = false) =>
+    api.get(`/zikr/day/${dayOfWeek}${ramadan ? "?ramadan=true" : ""}`),
+
+  // Haftalik barcha zikrlarni olish
+  getWeekly: (ramadan = false) =>
+    api.get(`/zikr/weekly${ramadan ? "?ramadan=true" : ""}`),
+
+  // Statistika
+  getStats: () => api.get("/zikr/stats"),
+
+  // ID bo'yicha zikrni olish
+  getById: (id: string) => api.get(`/zikr/${id}`),
+
+  // Zikrni bajarish va XP olish
+  complete: (id: string) => api.post(`/zikr/${id}/complete`),
+
+  // Foydalanuvchining bugungi zikrlari (completion status bilan)
+  getUserToday: () => api.get("/zikr/user/today"),
+
+  // Foydalanuvchining zikr statistikasi
+  getUserStats: () => api.get("/zikr/user/stats"),
 };
 
 export default api;

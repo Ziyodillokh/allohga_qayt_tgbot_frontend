@@ -254,11 +254,11 @@ export default function ProfilePage() {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
             <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
               <Target className="w-6 h-6 mx-auto text-blue-500 mb-1" />
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {totalTests}
+                {user.testsCompleted || totalTests}
               </p>
               <p className="text-xs text-gray-500">Testlar</p>
             </div>
@@ -275,6 +275,13 @@ export default function ProfilePage() {
                 {formatXP(user.totalXP)}
               </p>
               <p className="text-xs text-gray-500">Jami XP</p>
+            </div>
+            <div className="text-center p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
+              <span className="text-2xl mb-1 block">📿</span>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {user.zikrCount || 0}
+              </p>
+              <p className="text-xs text-gray-500">Zikrlar</p>
             </div>
             <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
               <Trophy className="w-6 h-6 mx-auto text-purple-500 mb-1" />
@@ -317,7 +324,7 @@ export default function ProfilePage() {
               "flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium whitespace-nowrap text-xs sm:text-sm transition-all",
               activeTab === tab.id
                 ? "bg-indigo-600 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700",
             )}
           >
             <tab.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -375,7 +382,7 @@ export default function ProfilePage() {
                     <p
                       className={cn(
                         "text-2xl font-bold",
-                        getScoreColor(stat.averageScore)
+                        getScoreColor(stat.averageScore),
                       )}
                     >
                       {Math.round(stat.averageScore)}%
@@ -442,7 +449,7 @@ export default function ProfilePage() {
                       <p
                         className={cn(
                           "text-xl font-bold",
-                          getScoreColor(test.score)
+                          getScoreColor(test.score),
                         )}
                       >
                         {test.score}%

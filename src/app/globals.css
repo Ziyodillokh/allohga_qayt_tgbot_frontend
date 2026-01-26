@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Google Fonts - Professional readable font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 /* Hide browser's default password reveal button */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear,
@@ -14,6 +17,8 @@ input[type="password"]::-webkit-textfield-decoration-container {
   :root {
     --background: 255 255 255;
     --foreground: 15 23 42;
+    --tg-viewport-height: 100vh;
+    --tg-viewport-stable-height: 100vh;
   }
 
   .dark {
@@ -23,24 +28,34 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
   * {
     @apply border-gray-200 dark:border-gray-800;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
   }
 
   html {
     @apply scroll-smooth antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100;
+    @apply bg-[#0A0908] text-gray-100;
     @apply min-h-screen;
+    min-height: var(--tg-viewport-stable-height, 100vh);
+    overscroll-behavior: none;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Safe area for iOS */
+  /* Safe area for iOS & Telegram */
   .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: max(env(safe-area-inset-bottom), 16px);
   }
 
   .pt-safe {
-    padding-top: env(safe-area-inset-top);
+    padding-top: max(env(safe-area-inset-top), 12px);
   }
 }
 
@@ -95,7 +110,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -161,7 +176,7 @@ code {
   html {
     font-size: 14px;
   }
-  
+
   .container {
     @apply px-3;
   }
@@ -172,12 +187,16 @@ code {
   .btn-press {
     @apply active:scale-95;
   }
-  
+
   /* Larger touch targets */
-  button, a, input, select, textarea {
+  button,
+  a,
+  input,
+  select,
+  textarea {
     min-height: 44px;
   }
-  
+
   /* Disable hover effects on touch */
   .card-hover:hover {
     transform: none;
@@ -186,7 +205,8 @@ code {
 }
 
 /* Prevent text selection on interactive elements */
-button, a {
+button,
+a {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -199,7 +219,7 @@ button, a {
     /* Prevent bounce scrolling */
     overscroll-behavior: none;
   }
-  
+
   /* Fix for iOS bottom bar */
   .pb-safe {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
@@ -208,7 +228,318 @@ button, a {
 
 /* Android specific fixes */
 @supports not (-webkit-touch-callout: none) {
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     font-size: 16px; /* Prevent zoom on focus */
   }
+}
+
+/* ===== Admin Panel Theme ===== */
+
+/* Admin Dark Mode Custom Class */
+.admin-dark {
+  color-scheme: dark;
+}
+
+/* Admin dark mode utility classes */
+.admin-dark\:from-\[\#0c0c0b\] {
+  --tw-gradient-from: #0c0c0b var(--tw-gradient-from-position);
+}
+.admin-dark\:via-\[\#111110\] {
+  --tw-gradient-via: #111110 var(--tw-gradient-via-position);
+}
+.admin-dark\:to-emerald-950\/20 {
+  --tw-gradient-to: rgb(6 78 59 / 0.2) var(--tw-gradient-to-position);
+}
+.admin-dark\:bg-\[\#161615\]\/90 {
+  background-color: rgb(22 22 21 / 0.9);
+}
+.admin-dark\:bg-stone-900\/50 {
+  background-color: rgb(28 25 23 / 0.5);
+}
+.admin-dark\:bg-stone-800\/50 {
+  background-color: rgb(41 37 36 / 0.5);
+}
+.admin-dark\:bg-stone-800 {
+  background-color: rgb(41 37 36);
+}
+.admin-dark\:bg-stone-700 {
+  background-color: rgb(68 64 60);
+}
+.admin-dark\:border-stone-800\/60 {
+  border-color: rgb(41 37 36 / 0.6);
+}
+.admin-dark\:border-stone-700 {
+  border-color: rgb(68 64 60);
+}
+.admin-dark\:border-stone-600 {
+  border-color: rgb(87 83 78);
+}
+.admin-dark\:border-emerald-800 {
+  border-color: rgb(6 95 70);
+}
+.admin-dark\:border-amber-800 {
+  border-color: rgb(146 64 14);
+}
+.admin-dark\:border-rose-900\/50 {
+  border-color: rgb(136 19 55 / 0.5);
+}
+.admin-dark\:text-stone-100 {
+  color: rgb(245 245 244);
+}
+.admin-dark\:text-stone-200 {
+  color: rgb(231 229 228);
+}
+.admin-dark\:text-stone-300 {
+  color: rgb(214 211 209);
+}
+.admin-dark\:text-stone-400 {
+  color: rgb(168 162 158);
+}
+.admin-dark\:text-stone-500 {
+  color: rgb(120 113 108);
+}
+.admin-dark\:text-emerald-400 {
+  color: rgb(52 211 153);
+}
+.admin-dark\:text-emerald-500 {
+  color: rgb(16 185 129);
+}
+.admin-dark\:text-blue-400 {
+  color: rgb(96 165 250);
+}
+.admin-dark\:text-amber-400 {
+  color: rgb(251 191 36);
+}
+.admin-dark\:text-rose-400 {
+  color: rgb(251 113 133);
+}
+.admin-dark\:bg-emerald-500\/15 {
+  background-color: rgb(16 185 129 / 0.15);
+}
+.admin-dark\:bg-emerald-900\/30 {
+  background-color: rgb(6 78 59 / 0.3);
+}
+.admin-dark\:bg-rose-950\/30 {
+  background-color: rgb(76 5 25 / 0.3);
+}
+.admin-dark\:bg-rose-950\/50 {
+  background-color: rgb(76 5 25 / 0.5);
+}
+.admin-dark\:bg-amber-950\/30 {
+  background-color: rgb(69 26 3 / 0.3);
+}
+.admin-dark\:bg-orange-950\/30 {
+  background-color: rgb(67 20 7 / 0.3);
+}
+.admin-dark\:from-amber-950\/30 {
+  --tw-gradient-from: rgb(69 26 3 / 0.3) var(--tw-gradient-from-position);
+}
+.admin-dark\:to-orange-950\/30 {
+  --tw-gradient-to: rgb(67 20 7 / 0.3) var(--tw-gradient-to-position);
+}
+.admin-dark\:hover\:bg-stone-800\/50:hover {
+  background-color: rgb(41 37 36 / 0.5);
+}
+.admin-dark\:hover\:bg-stone-800:hover {
+  background-color: rgb(41 37 36);
+}
+.admin-dark\:hover\:bg-stone-700:hover {
+  background-color: rgb(68 64 60);
+}
+.admin-dark\:hover\:text-stone-200:hover {
+  color: rgb(231 229 228);
+}
+.admin-dark\:hover\:text-stone-300:hover {
+  color: rgb(214 211 209);
+}
+.admin-dark\:group-hover\:text-stone-300:hover {
+  color: rgb(214 211 209);
+}
+.admin-dark\:hover\:border-emerald-800:hover {
+  border-color: rgb(6 95 70);
+}
+.admin-dark\:shadow-stone-900\/50 {
+  --tw-shadow-color: rgb(28 25 23 / 0.5);
+}
+.admin-dark\:hover\:shadow-stone-900\/50:hover {
+  --tw-shadow-color: rgb(28 25 23 / 0.5);
+}
+.admin-dark\:ring-offset-stone-900 {
+  --tw-ring-offset-color: rgb(28 25 23);
+}
+
+/* Apply admin-dark styles when parent has .admin-dark class */
+.admin-dark .admin-dark\:from-\[\#0c0c0b\],
+html.admin-dark .admin-dark\:from-\[\#0c0c0b\] {
+  --tw-gradient-from: #0c0c0b var(--tw-gradient-from-position);
+}
+.admin-dark .admin-dark\:via-\[\#111110\],
+html.admin-dark .admin-dark\:via-\[\#111110\] {
+  --tw-gradient-via: #111110 var(--tw-gradient-via-position);
+}
+.admin-dark .admin-dark\:to-emerald-950\/20,
+html.admin-dark .admin-dark\:to-emerald-950\/20 {
+  --tw-gradient-to: rgb(6 78 59 / 0.2) var(--tw-gradient-to-position);
+}
+.admin-dark .admin-dark\:bg-\[\#161615\]\/90,
+html.admin-dark .admin-dark\:bg-\[\#161615\]\/90 {
+  background-color: rgb(22 22 21 / 0.9);
+}
+.admin-dark .admin-dark\:bg-\[\#0c0c0b\],
+html.admin-dark .admin-dark\:bg-\[\#0c0c0b\] {
+  background-color: #0c0c0b;
+}
+.admin-dark .admin-dark\:bg-stone-900\/50,
+html.admin-dark .admin-dark\:bg-stone-900\/50 {
+  background-color: rgb(28 25 23 / 0.5);
+}
+.admin-dark .admin-dark\:bg-stone-800\/50,
+html.admin-dark .admin-dark\:bg-stone-800\/50 {
+  background-color: rgb(41 37 36 / 0.5);
+}
+.admin-dark .admin-dark\:bg-stone-800,
+html.admin-dark .admin-dark\:bg-stone-800 {
+  background-color: rgb(41 37 36);
+}
+.admin-dark .admin-dark\:bg-stone-700,
+html.admin-dark .admin-dark\:bg-stone-700 {
+  background-color: rgb(68 64 60);
+}
+.admin-dark .admin-dark\:border-stone-800\/60,
+html.admin-dark .admin-dark\:border-stone-800\/60 {
+  border-color: rgb(41 37 36 / 0.6);
+}
+.admin-dark .admin-dark\:border-stone-700,
+html.admin-dark .admin-dark\:border-stone-700 {
+  border-color: rgb(68 64 60);
+}
+.admin-dark .admin-dark\:border-stone-600,
+html.admin-dark .admin-dark\:border-stone-600 {
+  border-color: rgb(87 83 78);
+}
+.admin-dark .admin-dark\:border-emerald-800,
+html.admin-dark .admin-dark\:border-emerald-800 {
+  border-color: rgb(6 95 70);
+}
+.admin-dark .admin-dark\:border-amber-800,
+html.admin-dark .admin-dark\:border-amber-800 {
+  border-color: rgb(146 64 14);
+}
+.admin-dark .admin-dark\:border-rose-900\/50,
+html.admin-dark .admin-dark\:border-rose-900\/50 {
+  border-color: rgb(136 19 55 / 0.5);
+}
+.admin-dark .admin-dark\:text-stone-100,
+html.admin-dark .admin-dark\:text-stone-100 {
+  color: rgb(245 245 244);
+}
+.admin-dark .admin-dark\:text-stone-200,
+html.admin-dark .admin-dark\:text-stone-200 {
+  color: rgb(231 229 228);
+}
+.admin-dark .admin-dark\:text-stone-300,
+html.admin-dark .admin-dark\:text-stone-300 {
+  color: rgb(214 211 209);
+}
+.admin-dark .admin-dark\:text-stone-400,
+html.admin-dark .admin-dark\:text-stone-400 {
+  color: rgb(168 162 158);
+}
+.admin-dark .admin-dark\:text-stone-500,
+html.admin-dark .admin-dark\:text-stone-500 {
+  color: rgb(120 113 108);
+}
+.admin-dark .admin-dark\:text-emerald-400,
+html.admin-dark .admin-dark\:text-emerald-400 {
+  color: rgb(52 211 153);
+}
+.admin-dark .admin-dark\:text-emerald-500,
+html.admin-dark .admin-dark\:text-emerald-500 {
+  color: rgb(16 185 129);
+}
+.admin-dark .admin-dark\:text-blue-400,
+html.admin-dark .admin-dark\:text-blue-400 {
+  color: rgb(96 165 250);
+}
+.admin-dark .admin-dark\:text-amber-400,
+html.admin-dark .admin-dark\:text-amber-400 {
+  color: rgb(251 191 36);
+}
+.admin-dark .admin-dark\:text-rose-400,
+html.admin-dark .admin-dark\:text-rose-400 {
+  color: rgb(251 113 133);
+}
+.admin-dark .admin-dark\:bg-emerald-500\/15,
+html.admin-dark .admin-dark\:bg-emerald-500\/15 {
+  background-color: rgb(16 185 129 / 0.15);
+}
+.admin-dark .admin-dark\:bg-emerald-900\/30,
+html.admin-dark .admin-dark\:bg-emerald-900\/30 {
+  background-color: rgb(6 78 59 / 0.3);
+}
+.admin-dark .admin-dark\:bg-rose-950\/30,
+html.admin-dark .admin-dark\:bg-rose-950\/30 {
+  background-color: rgb(76 5 25 / 0.3);
+}
+.admin-dark .admin-dark\:bg-rose-950\/50,
+html.admin-dark .admin-dark\:bg-rose-950\/50 {
+  background-color: rgb(76 5 25 / 0.5);
+}
+.admin-dark .admin-dark\:bg-amber-950\/30,
+html.admin-dark .admin-dark\:bg-amber-950\/30 {
+  background-color: rgb(69 26 3 / 0.3);
+}
+.admin-dark .admin-dark\:bg-orange-950\/30,
+html.admin-dark .admin-dark\:bg-orange-950\/30 {
+  background-color: rgb(67 20 7 / 0.3);
+}
+.admin-dark .admin-dark\:from-amber-950\/30,
+html.admin-dark .admin-dark\:from-amber-950\/30 {
+  --tw-gradient-from: rgb(69 26 3 / 0.3) var(--tw-gradient-from-position);
+}
+.admin-dark .admin-dark\:to-orange-950\/30,
+html.admin-dark .admin-dark\:to-orange-950\/30 {
+  --tw-gradient-to: rgb(67 20 7 / 0.3) var(--tw-gradient-to-position);
+}
+.admin-dark .admin-dark\:hover\:bg-stone-800\/50:hover,
+html.admin-dark .admin-dark\:hover\:bg-stone-800\/50:hover {
+  background-color: rgb(41 37 36 / 0.5);
+}
+.admin-dark .admin-dark\:hover\:bg-stone-800:hover,
+html.admin-dark .admin-dark\:hover\:bg-stone-800:hover {
+  background-color: rgb(41 37 36);
+}
+.admin-dark .admin-dark\:hover\:bg-stone-700:hover,
+html.admin-dark .admin-dark\:hover\:bg-stone-700:hover {
+  background-color: rgb(68 64 60);
+}
+.admin-dark .admin-dark\:hover\:text-stone-200:hover,
+html.admin-dark .admin-dark\:hover\:text-stone-200:hover {
+  color: rgb(231 229 228);
+}
+.admin-dark .admin-dark\:hover\:text-stone-300:hover,
+html.admin-dark .admin-dark\:hover\:text-stone-300:hover {
+  color: rgb(214 211 209);
+}
+.admin-dark .admin-dark\:group-hover\:text-stone-300:hover,
+html.admin-dark .admin-dark\:group-hover\:text-stone-300:hover {
+  color: rgb(214 211 209);
+}
+.admin-dark .admin-dark\:hover\:border-emerald-800:hover,
+html.admin-dark .admin-dark\:hover\:border-emerald-800:hover {
+  border-color: rgb(6 95 70);
+}
+.admin-dark .admin-dark\:shadow-stone-900\/50,
+html.admin-dark .admin-dark\:shadow-stone-900\/50 {
+  --tw-shadow-color: rgb(28 25 23 / 0.5);
+}
+.admin-dark .admin-dark\:hover\:shadow-stone-900\/50:hover,
+html.admin-dark .admin-dark\:hover\:shadow-stone-900\/50:hover {
+  --tw-shadow-color: rgb(28 25 23 / 0.5);
+}
+.admin-dark .admin-dark\:ring-offset-stone-900,
+html.admin-dark .admin-dark\:ring-offset-stone-900 {
+  --tw-ring-offset-color: rgb(28 25 23);
 }
