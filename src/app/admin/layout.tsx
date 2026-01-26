@@ -45,6 +45,11 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Login sahifasida redirect qilmaslik
+    if (pathname === "/admin/login") {
+      return;
+    }
+    
     if (!isLoading && !token) {
       router.push("/admin/login");
     } else if (!isLoading && user && user.role !== "ADMIN") {
@@ -52,6 +57,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     }
   }, [user, token, isLoading, router, pathname]);
 
+  // Login sahifasi uchun oddiy render
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
