@@ -60,7 +60,7 @@ export default function TelegramRegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(
-    null
+    null,
   );
   const [checkingUsername, setCheckingUsername] = useState(false);
 
@@ -103,14 +103,14 @@ export default function TelegramRegisterPage() {
             setCurrentToken(res.data.token);
             console.log(
               "[Init] Token set:",
-              res.data.token?.substring(0, 20) + "..."
+              res.data.token?.substring(0, 20) + "...",
             );
 
             // If already has phone, go to step 2
             if (res.data.user.telegramPhone) {
               console.log(
                 "[Init] User already has phone:",
-                res.data.user.telegramPhone
+                res.data.user.telegramPhone,
               );
               setPhone(res.data.user.telegramPhone);
               setPhoneShared(true);
@@ -360,7 +360,7 @@ export default function TelegramRegisterPage() {
       const res = await axios.post(
         `${API_URL}/telegram/webapp/complete-registration`,
         { username, password, phone },
-        { headers: { Authorization: `Bearer ${currentToken}` } }
+        { headers: { Authorization: `Bearer ${currentToken}` } },
       );
 
       if (res.data.success) {
@@ -387,7 +387,7 @@ export default function TelegramRegisterPage() {
     if (cleaned.length === 12 && cleaned.startsWith("998")) {
       return `+998 (${cleaned.slice(3, 5)}) ${cleaned.slice(
         5,
-        8
+        8,
       )}-${cleaned.slice(8, 10)}-${cleaned.slice(10, 12)}`;
     }
     return phone;
@@ -402,9 +402,9 @@ export default function TelegramRegisterPage() {
               currentStep === step
                 ? "bg-blue-600 text-white scale-110"
                 : index <
-                  ["phone", "credentials", "completed"].indexOf(currentStep)
-                ? "bg-green-500 text-white"
-                : "bg-gray-200 dark:bg-gray-700 text-gray-500"
+                    ["phone", "credentials", "completed"].indexOf(currentStep)
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-500"
             }`}
           >
             {index <
@@ -568,7 +568,7 @@ export default function TelegramRegisterPage() {
                         setUsername(
                           e.target.value
                             .toLowerCase()
-                            .replace(/[^a-z0-9_]/g, "")
+                            .replace(/[^a-z0-9_]/g, ""),
                         )
                       }
                       placeholder="username"

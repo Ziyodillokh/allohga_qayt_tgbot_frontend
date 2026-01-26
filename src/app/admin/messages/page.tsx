@@ -29,7 +29,7 @@ export default function AdminMessages() {
     "notification",
   ]);
   const [mediaType, setMediaType] = useState<"none" | "image" | "video">(
-    "none"
+    "none",
   );
   const [mediaUrl, setMediaUrl] = useState("");
   const [mediaFile, setMediaFile] = useState<File | null>(null);
@@ -61,7 +61,7 @@ export default function AdminMessages() {
 
   const toggleUser = (id: string) => {
     setSelectedUsers((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
     setSelectAll(false);
   };
@@ -81,7 +81,7 @@ export default function AdminMessages() {
           (u) =>
             u.username?.toLowerCase().includes(search) ||
             u.fullName?.toLowerCase().includes(search) ||
-            u.email?.toLowerCase().includes(search)
+            u.email?.toLowerCase().includes(search),
         );
       }
       if (
@@ -103,7 +103,7 @@ export default function AdminMessages() {
       setSelectedChannels(
         selectedChannels.length === 3
           ? ["notification"]
-          : ["notification", "email", "telegram"]
+          : ["notification", "email", "telegram"],
       );
       return;
     }
@@ -148,7 +148,7 @@ export default function AdminMessages() {
           "Size:",
           mediaFile.size,
           "Type:",
-          mediaFile.type
+          mediaFile.type,
         );
         try {
           const uploadRes = await fetch(`${API}/upload/attachment`, {

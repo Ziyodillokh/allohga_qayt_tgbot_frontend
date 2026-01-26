@@ -489,7 +489,7 @@ export default function ProfilePage() {
                     <p className="text-xs text-gray-400 uppercase tracking-wider">
                       Developer ID
                     </p>
-                    <p className="text-white font-bold">BILIMDON</p>
+                    <p className="text-white font-bold">TAVBA</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -622,7 +622,7 @@ export default function ProfilePage() {
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                   <span className="text-xs text-gray-400">Faol dasturchi</span>
                 </div>
-                <p className="text-xs text-gray-500">© 2025 Bilimdon</p>
+                <p className="text-xs text-gray-500">© 2025 Allohga Qayting</p>
               </div>
             </div>
           </div>

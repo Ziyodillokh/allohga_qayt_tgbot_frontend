@@ -254,7 +254,7 @@ export default function ForgotPasswordPage() {
                 <span className="text-red-300 font-medium">{email}</span>
               </div>
               <p className="text-gray-400 text-sm mb-4">
-                Agar siz Bilimdon platformasida ro'yxatdan o'tgan bo'lsangiz,{" "}
+                Agar siz Tavba platformasida ro'yxatdan o'tgan bo'lsangiz,{" "}
                 <strong className="text-white">
                   o'zingizning emailingizni
                 </strong>{" "}

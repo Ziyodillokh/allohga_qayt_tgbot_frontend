@@ -103,10 +103,10 @@ export default function ChatbotQA({
   const saveTestResult = async () => {
     setSaving(true);
     try {
-      // Get token from Zustand store (stored in localStorage under 'bilimdon-auth')
+      // Get token from Zustand store (stored in localStorage under 'tavba-auth')
       let token: string | null = null;
       if (typeof window !== "undefined") {
-        const authData = localStorage.getItem("bilimdon-auth");
+        const authData = localStorage.getItem("tavba-auth");
         if (authData) {
           try {
             const parsed = JSON.parse(authData);

@@ -67,7 +67,7 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (isLoading) => set({ isLoading }),
     }),
     {
-      name: 'bilimdon-auth',
+      name: 'tavba-auth',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ 
         user: state.user, 

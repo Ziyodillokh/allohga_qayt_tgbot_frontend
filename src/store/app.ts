@@ -99,7 +99,7 @@ export const useAppStore = create<AppState>()(
       setSocketConnected: (isSocketConnected) => set({ isSocketConnected }),
     }),
     {
-      name: 'bilimdon-app',
+      name: 'tavba-app',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ 
         theme: state.theme,

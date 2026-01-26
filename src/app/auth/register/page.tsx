@@ -41,7 +41,7 @@ const registerSchema = z
       .min(3, "Username kamida 3 ta belgidan iborat bo'lishi kerak")
       .regex(
         /^[a-zA-Z0-9_]+$/,
-        "Username faqat harf, raqam va _ dan iborat bo'lishi kerak"
+        "Username faqat harf, raqam va _ dan iborat bo'lishi kerak",
       ),
     email: z.string().email("Noto'g'ri email formati"),
     password: z
@@ -250,7 +250,7 @@ export default function RegisterPage() {
       }, 2000);
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message || "Ro'yxatdan o'tishda xatolik"
+        error.response?.data?.message || "Ro'yxatdan o'tishda xatolik",
       );
     } finally {
       setIsLoading(false);
@@ -284,13 +284,13 @@ export default function RegisterPage() {
                 key={step}
                 className={`h-1.5 sm:h-2 w-12 sm:w-16 rounded-full transition-all duration-300 ${
                   ["form", "email-verification", "telegram-phone"].indexOf(
-                    currentStep
+                    currentStep,
                   ) >= index
                     ? "bg-gradient-to-r from-indigo-600 to-purple-600"
                     : "bg-gray-300 dark:bg-gray-600"
                 }`}
               />
-            )
+            ),
           )}
         </div>
 
@@ -318,7 +318,7 @@ export default function RegisterPage() {
                     Ro'yxatdan o'tish
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Bilimdon platformasiga qo'shiling
+                    Tavba platformasiga qo'shiling
                   </p>
                 </div>
 
@@ -611,7 +611,7 @@ export default function RegisterPage() {
                           onChange={(e) =>
                             handleCodeInput(
                               index,
-                              e.target.value.replace(/\D/g, "")
+                              e.target.value.replace(/\D/g, ""),
                             )
                           }
                           onKeyDown={(e) => handleKeyDown(index, e)}
@@ -787,8 +787,8 @@ export default function RegisterPage() {
                         telegramPhone.startsWith("+")
                           ? telegramPhone
                           : telegramPhone
-                          ? `+${telegramPhone}`
-                          : ""
+                            ? `+${telegramPhone}`
+                            : ""
                       }
                       onChange={(e) => {
                         const val = e.target.value.replace(/[^\d+]/g, "");
@@ -877,7 +877,7 @@ export default function RegisterPage() {
         </div>
 
         <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-          © 2025 Bilimdon. Barcha huquqlar himoyalangan.
+          © 2025 Allohga Qayting. Barcha huquqlar himoyalangan.
         </p>
       </motion.div>
 

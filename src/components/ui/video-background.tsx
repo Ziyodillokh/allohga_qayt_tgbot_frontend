@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface DesignSettings {
   lightVideoUrl: string | null;
@@ -14,12 +14,12 @@ export function VideoBackground() {
   const [isDark, setIsDark] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const API = process.env.NEXT_PUBLIC_API_URL || '/api';
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
   // Theme tekshirish
   useEffect(() => {
     const checkTheme = () => {
-      const isDarkMode = document.documentElement.classList.contains('dark');
+      const isDarkMode = document.documentElement.classList.contains("dark");
       setIsDark(isDarkMode);
     };
 
@@ -29,7 +29,7 @@ export function VideoBackground() {
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class'],
+      attributeFilter: ["class"],
     });
 
     return () => observer.disconnect();
@@ -42,16 +42,16 @@ export function VideoBackground() {
         // Public endpoint - autentifikatsiya talab qilmaydi
         const res = await fetch(`${API}/stats/design`, {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
-        
+
         if (res.ok) {
           const data = await res.json();
           setSettings(data);
         }
       } catch (error) {
-        console.error('Design settings fetch error:', error);
+        console.error("Design settings fetch error:", error);
       } finally {
         setIsLoaded(true);
       }
@@ -77,10 +77,10 @@ export function VideoBackground() {
         muted={settings?.videoMuted ?? true}
         playsInline
         className="w-full h-full object-cover"
-        style={{ 
-          filter: 'brightness(0.85) contrast(1.1)',
+        style={{
+          filter: "brightness(0.85) contrast(1.1)",
         }}
-        onError={(e) => console.error('Video load error:', e)}
+        onError={(e) => console.error("Video load error:", e)}
       >
         <source src={videoUrl} type="video/mp4" />
       </video>

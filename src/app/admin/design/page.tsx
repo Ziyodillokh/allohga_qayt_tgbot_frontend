@@ -153,7 +153,7 @@ export default function AdminDesign() {
   };
 
   const handleLightVideoFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
     if (file) uploadVideo(file, "light");
@@ -161,7 +161,7 @@ export default function AdminDesign() {
   };
 
   const handleDarkVideoFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
     if (file) uploadVideo(file, "dark");
@@ -201,7 +201,7 @@ export default function AdminDesign() {
   const resetToDefault = async () => {
     if (
       !confirm(
-        "Barcha dizayn sozlamalarini asl holatiga qaytarishni xohlaysizmi?"
+        "Barcha dizayn sozlamalarini asl holatiga qaytarishni xohlaysizmi?",
       )
     )
       return;
@@ -685,7 +685,7 @@ export default function AdminDesign() {
                     : "bg-white/80 text-gray-900"
                 }`}
               >
-                <h4 className="text-lg font-bold mb-2">Bilimdon</h4>
+                <h4 className="text-lg font-bold mb-2">Tavba</h4>
                 <p className="text-sm opacity-75">Preview content</p>
               </div>
             </div>

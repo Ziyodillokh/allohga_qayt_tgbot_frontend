@@ -117,7 +117,7 @@ export default function LoginPage() {
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
                 <Sparkles className="w-7 h-7 text-yellow-300" />
               </div>
-              <h1 className="text-4xl font-bold">Bilimdon</h1>
+              <h1 className="text-4xl font-bold">Allohga Qayting</h1>
             </div>
 
             <h2 className="text-3xl font-semibold mb-4 leading-tight">
@@ -189,7 +189,7 @@ export default function LoginPage() {
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Bilimdon
+                Tavba
               </h1>
             </div>
           </div>

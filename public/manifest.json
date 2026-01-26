@@ -1,7 +1,7 @@
 {
-  "name": "Bilimdon",
-  "short_name": "Bilimdon",
-  "description": "Test topshiring, bilimingizni sinang, reytingda raqobatlashing",
+  "name": "Allohga Qayting",
+  "short_name": "Tavba",
+  "description": "Islomiy bilimlar, Tavba AI yordamchisi va ruhiy o'sish",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

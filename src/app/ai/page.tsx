@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks";
 import { aiApi } from "@/lib/api";
+import { isTelegramWebApp } from "@/lib/telegram";
 import toast from "react-hot-toast";
 
 interface Message {
@@ -163,8 +164,9 @@ export default function AIPage() {
     );
   }
 
-  // Agar autentifikatsiya bo'lmasa, login qilishni so'rash
-  if (!isAuthenticated) {
+  // Telegram WebApp ichida bo'lsa login so'ramaslik - avtomatik auth kutish
+  // Faqat web saytda (Telegram tashqarisida) login so'rash
+  if (!isAuthenticated && !isTelegramWebApp()) {
     return (
       <div className="min-h-screen bg-[#0A0908] flex flex-col items-center justify-center p-6">
         <div className="w-20 h-20 bg-gradient-to-br from-[#D4AF37] to-[#AA8232] rounded-full flex items-center justify-center mb-6 shadow-lg shadow-[#D4AF37]/30">
@@ -186,6 +188,18 @@ export default function AIPage() {
         >
           Bosh sahifaga qaytish
         </button>
+      </div>
+    );
+  }
+
+  // Telegram ichida auth kutilmoqda
+  if (!isAuthenticated && isTelegramWebApp()) {
+    return (
+      <div className="min-h-screen bg-[#0A0908] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-[#D4AF37]/60 text-sm">Telegram orqali kirilmoqda...</p>
+        </div>
       </div>
     );
   }

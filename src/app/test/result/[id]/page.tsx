@@ -92,8 +92,8 @@ export default function TestResultPage() {
     setShowShareModal(true);
   };
 
-  const shareText = result ? `🎓 Bilimdon platformasida ${result.score}% natija oldim! ${result.correctAnswers}/${result.totalQuestions} to'g'ri javob, ${result.xpEarned} XP qo'lga kiritdim. Sen ham sinab ko'r!` : '';
-  const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://bilimdon.uz';
+  const shareText = result ? `🕌 Tavba platformasida ${result.score}% natija oldim! ${result.correctAnswers}/${result.totalQuestions} to'g'ri javob, ${result.xpEarned} XP qo'lga kiritdim. Sen ham sinab ko'r!` : '';
+  const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://allohgaqayt.uz';
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
@@ -117,7 +117,7 @@ export default function TestResultPage() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Bilimdon - Test natijasi',
+          title: 'Tavba - Test natijasi',
           text: shareText,
           url: shareUrl,
         });
