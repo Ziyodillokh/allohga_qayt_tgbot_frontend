@@ -279,7 +279,7 @@ export default function ProfilePage() {
             <div className="text-center p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
               <span className="text-2xl mb-1 block">📿</span>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {user.zikrCount || 0}
+                {(user as any).zikrCount || 0}
               </p>
               <p className="text-xs text-gray-500">Zikrlar</p>
             </div>
