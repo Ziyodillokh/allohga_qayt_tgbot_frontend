@@ -4,9 +4,9 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { useAuthStore } from "../store";
-// import { useAuthStore } from "@/store/auth";
 
-const API_URL = "http://localhost:3001/api";
+// API URL - production da /api, development da localhost
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 // Create axios instance
 const api: AxiosInstance = axios.create({

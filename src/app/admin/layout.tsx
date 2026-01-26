@@ -96,7 +96,9 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Ruxsat yo'q</h2>
-          <p className="text-[#D4AF37]/60 mb-6">Sizda admin huquqi mavjud emas</p>
+          <p className="text-[#D4AF37]/60 mb-6">
+            Sizda admin huquqi mavjud emas
+          </p>
           <a
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] rounded-xl font-semibold hover:opacity-90 transition-opacity"

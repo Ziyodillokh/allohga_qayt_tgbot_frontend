@@ -105,7 +105,10 @@ export default function RootLayout({
         {/* Telegram WebApp Script */}
         <script src="https://telegram.org/js/telegram-web-app.js" />
       </head>
-      <body className="font-sans overflow-x-hidden" style={{ backgroundColor: "#0A0908" }}>
+      <body
+        className="font-sans overflow-x-hidden"
+        style={{ backgroundColor: "#0A0908" }}
+      >
         <Providers>
           <div className="min-h-screen flex flex-col bg-[#0A0908]">
             <main className="flex-1">{children}</main>

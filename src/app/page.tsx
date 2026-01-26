@@ -216,9 +216,7 @@ export default function LuxuryZikrApp() {
                   <p className="text-[#9A8866] text-[10px] font-semibold uppercase tracking-[0.2em]">
                     Assalomu alaykum
                   </p>
-                  <h1 className="text-lg font-bold text-white">
-                    {userName}
-                  </h1>
+                  <h1 className="text-lg font-bold text-white">{userName}</h1>
                 </div>
                 {/* Sozlamalar tugmasi */}
                 <button
@@ -240,7 +238,9 @@ export default function LuxuryZikrApp() {
                   <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/15 flex items-center justify-center mb-3">
                     <Sparkles className="w-6 h-6 text-[#D4AF37]" />
                   </div>
-                  <p className="text-[10px] text-[#9A8866] uppercase tracking-wider mb-1">AI Yordamchi</p>
+                  <p className="text-[10px] text-[#9A8866] uppercase tracking-wider mb-1">
+                    AI Yordamchi
+                  </p>
                   <p className="text-base font-bold text-white">Savol bering</p>
                 </button>
 
@@ -251,7 +251,9 @@ export default function LuxuryZikrApp() {
                   <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/15 flex items-center justify-center mb-3">
                     <BookOpen className="w-6 h-6 text-[#D4AF37]" />
                   </div>
-                  <p className="text-[10px] text-[#9A8866] uppercase tracking-wider mb-1">Test</p>
+                  <p className="text-[10px] text-[#9A8866] uppercase tracking-wider mb-1">
+                    Test
+                  </p>
                   <p className="text-base font-bold text-white">Bilim sinovi</p>
                 </button>
               </div>
@@ -336,10 +338,12 @@ export default function LuxuryZikrApp() {
                               {zikr.titleLatin}
                             </h3>
                             <div className="flex items-center gap-3">
-                              <span className="text-sm text-[#9A8866]">{zikr.count} marta</span>
+                              <span className="text-sm text-[#9A8866]">
+                                {zikr.count} marta
+                              </span>
                               <span className="text-xs text-[#D4AF37]/70 flex items-center gap-1 bg-[#D4AF37]/10 px-2 py-0.5 rounded-full">
-                                <Zap className="w-3 h-3" />
-                                +{zikr.xpReward || 1} XP
+                                <Zap className="w-3 h-3" />+{zikr.xpReward || 1}{" "}
+                                XP
                               </span>
                             </div>
                           </div>
@@ -503,19 +507,23 @@ export default function LuxuryZikrApp() {
 
         {/* Coming Soon Modal */}
         {showComingSoon && (
-          <div 
+          <div
             className="fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200"
             onClick={() => setShowComingSoon(null)}
           >
-            <div 
+            <div
               className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl p-8 max-w-sm w-full text-center animate-in zoom-in-95 duration-300"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="w-20 h-20 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center mx-auto mb-5">
                 <Sparkles className="w-10 h-10 text-[#D4AF37]" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">{showComingSoon}</h3>
-              <p className="text-[#9A8866] mb-6">Bu bo'lim tez orada ishga tushadi. Bizni kuzatib boring!</p>
+              <h3 className="text-xl font-bold text-white mb-2">
+                {showComingSoon}
+              </h3>
+              <p className="text-[#9A8866] mb-6">
+                Bu bo'lim tez orada ishga tushadi. Bizni kuzatib boring!
+              </p>
               <button
                 onClick={() => setShowComingSoon(null)}
                 className="w-full py-4 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-black font-bold rounded-2xl active:scale-[0.98] transition-transform"

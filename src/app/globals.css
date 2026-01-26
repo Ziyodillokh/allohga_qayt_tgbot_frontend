@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Google Fonts - Professional readable font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
 /* Hide browser's default password reveal button */
 input[type="password"]::-ms-reveal,
@@ -34,7 +34,13 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
   html {
     @apply scroll-smooth antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { 
-  Send, 
-  Bot, 
-  User, 
-  Trash2, 
-  ArrowLeft, 
+import {
+  Send,
+  Bot,
+  User,
+  Trash2,
+  ArrowLeft,
   Sparkles,
-  MessageCircle
+  MessageCircle,
 } from "lucide-react";
 import { useAuth } from "@/hooks";
 import { aiApi } from "@/lib/api";
@@ -204,7 +204,7 @@ export default function AIPage() {
       <div className="sticky top-0 z-50 bg-[#0F0E0A]/95 backdrop-blur-md border-b border-[#D4AF37]/20 px-4 py-3">
         <div className="flex items-center justify-between max-w-3xl mx-auto">
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={() => router.push("/")}
               className="p-2 rounded-full bg-[#1A1812] text-[#FBF0B2] hover:bg-[#D4AF37]/20 transition-colors"
             >
@@ -253,17 +253,21 @@ export default function AIPage() {
                 Assalomu alaykum!
               </h2>
               <p className="text-[#D4AF37]/60 text-center max-w-md mb-6">
-                Men Tavba AI - islomiy savollarga javob beruvchi sun'iy intellekt yordamchisiman. Menga Qur'on, hadis, fiqh, namoz va boshqa mavzularda savollar berishingiz mumkin.
+                Men Tavba AI - islomiy savollarga javob beruvchi sun'iy
+                intellekt yordamchisiman. Menga Qur'on, hadis, fiqh, namoz va
+                boshqa mavzularda savollar berishingiz mumkin.
               </p>
-              
+
               {/* Example questions */}
               <div className="grid gap-2 w-full max-w-md">
-                <p className="text-xs text-[#D4AF37]/40 text-center mb-2">Misol savollar:</p>
+                <p className="text-xs text-[#D4AF37]/40 text-center mb-2">
+                  Misol savollar:
+                </p>
                 {[
                   "Namozning farzi nechta?",
                   "Subhanalloh zikrining fazilati qanday?",
                   "Tavba qilish shartlari nima?",
-                  "Qur'on o'qishning odoblari"
+                  "Qur'on o'qishning odoblari",
                 ].map((q, i) => (
                   <button
                     key={i}
@@ -289,7 +293,7 @@ export default function AIPage() {
                     <Bot className="w-4 h-4 text-[#0A0908]" />
                   </div>
                 )}
-                
+
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                     message.role === "user"
@@ -301,7 +305,7 @@ export default function AIPage() {
                     {message.content}
                   </p>
                 </div>
-                
+
                 {message.role === "user" && (
                   <div className="w-8 h-8 flex-shrink-0 bg-[#1A1812] border border-[#D4AF37]/30 rounded-full flex items-center justify-center">
                     <User className="w-4 h-4 text-[#D4AF37]" />
@@ -319,9 +323,18 @@ export default function AIPage() {
               </div>
               <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl px-4 py-3">
                 <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <div
+                    className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce"
+                    style={{ animationDelay: "0ms" }}
+                  />
+                  <div
+                    className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce"
+                    style={{ animationDelay: "150ms" }}
+                  />
+                  <div
+                    className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce"
+                    style={{ animationDelay: "300ms" }}
+                  />
                 </div>
               </div>
             </div>
@@ -359,7 +372,7 @@ export default function AIPage() {
               <Send className="w-5 h-5" />
             </button>
           </div>
-          
+
           <p className="text-xs text-center text-[#D4AF37]/30 mt-3">
             Tavba AI islomiy savollarga javob beradi
           </p>
