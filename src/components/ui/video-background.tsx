@@ -14,7 +14,7 @@ export function VideoBackground() {
   const [isDark, setIsDark] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+  const API = process.env.NEXT_PUBLIC_API_URL || '/api';
 
   // Theme tekshirish
   useEffect(() => {

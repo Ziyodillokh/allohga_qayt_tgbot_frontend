@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
   useEffect(() => {
     setMounted(true);

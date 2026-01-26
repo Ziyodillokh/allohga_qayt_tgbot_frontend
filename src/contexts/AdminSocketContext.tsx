@@ -112,8 +112,10 @@ export function AdminSocketProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-  const WS_URL = API_URL.replace("/api", "");
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+  const WS_URL = typeof window !== "undefined" 
+    ? (API_URL.startsWith("http") ? API_URL.replace("/api", "") : window.location.origin)
+    : "";
 
   useEffect(() => {
     if (!token) return;

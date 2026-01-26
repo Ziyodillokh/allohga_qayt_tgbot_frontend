@@ -36,7 +36,7 @@ export default function AdminMessages() {
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
   useEffect(() => {
     if (token) fetchUsers();

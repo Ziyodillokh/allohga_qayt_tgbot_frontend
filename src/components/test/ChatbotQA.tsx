@@ -53,7 +53,7 @@ export default function ChatbotQA({
   const [saving, setSaving] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
   const QUESTION_COUNT = 10;
 
   const scrollToBottom = () => {

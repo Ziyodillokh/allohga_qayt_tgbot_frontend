@@ -48,7 +48,7 @@ export default function AdminUsers() {
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
   useEffect(() => {
     if (token) fetchUsers();

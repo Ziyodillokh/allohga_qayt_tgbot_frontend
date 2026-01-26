@@ -59,8 +59,10 @@ export function NotificationSocketProvider({
     fetchNotifications();
 
     // Setup WebSocket - API_URL dan /api ni olib tashlaymiz
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-    const WS_URL = API_URL.replace("/api", "");
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+    const WS_URL = typeof window !== "undefined" 
+      ? (API_URL.startsWith("http") ? API_URL.replace("/api", "") : window.location.origin)
+      : "";
     console.log("🔌 WebSocket ulanmoqda:", `${WS_URL}/notifications`);
 
     const socketInstance = io(`${WS_URL}/notifications`, {

@@ -93,7 +93,7 @@ export default function AdminCategories() {
   const [addTestsParsed, setAddTestsParsed] = useState(false);
   const [addingTests, setAddingTests] = useState(false);
 
-  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
   // Parse TXT file to questions - supports multiple formats
   const parseTxtFile = (content: string): any[] => {

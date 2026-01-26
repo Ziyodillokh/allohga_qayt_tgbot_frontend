@@ -71,7 +71,7 @@ export default function AdminZikr() {
     isActive: true,
   });
 
-  const API = "http://localhost:3001/api";
+  const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
   const fetchZikrs = async () => {
     try {
