@@ -201,7 +201,7 @@ export default function ChatbotQA({
       {
         type: "system",
         content: isCorrect
-          ? "To'g'ri! Barakalloh! вњ“"
+          ? "To'g'ri! Barakalloh! ✓"
           : `Noto'g'ri. Javob: ${currentQ.correctAnswer}) ${correctOpt?.text}`,
         isCorrect,
       },
@@ -254,7 +254,7 @@ export default function ChatbotQA({
 
         <div className="relative">
           <div className="w-24 h-24 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center">
-            <span className="text-5xl">рџ“љ</span>
+            <span className="text-5xl">📚</span>
           </div>
         </div>
 

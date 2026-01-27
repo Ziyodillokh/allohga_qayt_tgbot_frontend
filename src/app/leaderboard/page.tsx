@@ -137,7 +137,7 @@ export default function LeaderboardPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          рџЏ† Reyting
+          🏆 Reyting
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Eng yaxshi o'quvchilar reytingi
@@ -168,7 +168,7 @@ export default function LeaderboardPage() {
                   if (userEntry?.rank) return userEntry.rank;
 
                   const userIndex = leaderboard.findIndex(
-                    (e) => e.id === user.id
+                    (e) => e.id === user.id,
                   );
                   if (userIndex >= 0) return userIndex + 1;
 
@@ -200,7 +200,7 @@ export default function LeaderboardPage() {
               "flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium whitespace-nowrap transition-colors",
               activeTab === tab.id && !selectedCategory
                 ? "bg-indigo-600 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700",
             )}
           >
             <tab.icon className="w-4 h-4" />
@@ -219,7 +219,7 @@ export default function LeaderboardPage() {
               "px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap",
               !selectedCategory
                 ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
             )}
           >
             Barchasi
@@ -234,7 +234,7 @@ export default function LeaderboardPage() {
                   "flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap",
                   selectedCategory === cat.id
                     ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
                 )}
               >
                 {logoPath ? (
@@ -247,7 +247,7 @@ export default function LeaderboardPage() {
                     className="object-contain w-5 h-5"
                   />
                 ) : (
-                  <span>рџ“љ</span>
+                  <span>📚</span>
                 )}
                 {cat.name}
               </button>
@@ -281,7 +281,7 @@ export default function LeaderboardPage() {
                     key={`empty-${actualIndex}`}
                     className={cn(
                       "text-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl opacity-50",
-                      actualIndex === 0 && "md:col-start-2"
+                      actualIndex === 0 && "md:col-start-2",
                     )}
                   >
                     <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
@@ -308,7 +308,7 @@ export default function LeaderboardPage() {
                     actualIndex === 1 && "border-gray-300 dark:border-gray-600",
                     actualIndex === 2 &&
                       "border-orange-300 dark:border-orange-600",
-                    actualIndex === 0 && "-mt-4"
+                    actualIndex === 0 && "-mt-4",
                   )}
                 >
                   <div className="relative inline-block mb-2">
@@ -322,7 +322,7 @@ export default function LeaderboardPage() {
                         "absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm",
                         actualIndex === 0 && "bg-yellow-500",
                         actualIndex === 1 && "bg-gray-400",
-                        actualIndex === 2 && "bg-orange-400"
+                        actualIndex === 2 && "bg-orange-400",
                       )}
                     >
                       {actualIndex + 1}
@@ -362,7 +362,7 @@ export default function LeaderboardPage() {
                       isCurrentUser
                         ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20"
                         : "border-transparent",
-                      getRankBg(entry.rank)
+                      getRankBg(entry.rank),
                     )}
                   >
                     <div className="w-10 flex justify-center">

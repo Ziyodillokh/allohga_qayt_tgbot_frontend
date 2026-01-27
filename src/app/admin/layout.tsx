@@ -69,7 +69,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         <div className="text-center">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-6">
             <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-              <span className="text-4xl">рџ”’</span>
+              <span className="text-4xl">🔒</span>
             </div>
           </div>
           <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Admin Panel</h2>
@@ -129,7 +129,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[2px]">
               <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-                <span className="text-xl">рџ•Њ</span>
+                <span className="text-xl">🕌</span>
               </div>
             </div>
             <div>
@@ -240,7 +240,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="text-xl">рџ•Њ</span>
+          <span className="text-xl">🕌</span>
           <span className="text-sm font-bold text-[#FBF0B2]">Admin</span>
         </div>
 

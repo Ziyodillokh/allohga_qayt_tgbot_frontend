@@ -155,7 +155,7 @@ export default function ForgotPasswordPage() {
           },
         );
         toast.success(
-          "рџ“Ё Taklif havolasi emailga yuborildi. Ro'yxatdan o'ting!",
+          "📨 Taklif havolasi emailga yuborildi. Ro'yxatdan o'ting!",
           {
             duration: 5000,
           },
@@ -175,7 +175,7 @@ export default function ForgotPasswordPage() {
         // Registered user - reset code sent
         setStep("code");
         startCountdown();
-        toast.success("рџ”ђ Tiklash kodi emailga yuborildi!");
+        toast.success("🔐 Tiklash kodi emailga yuborildi!");
       }
     } catch (error: any) {
       const message = error?.response?.data?.message || "Xatolik yuz berdi";
@@ -238,7 +238,7 @@ export default function ForgotPasswordPage() {
               transition={{ delay: 0.2 }}
               className="text-2xl font-bold text-white mb-3"
             >
-              вљ пёЏ Email topilmadi!
+              ⚠️ Email topilmadi!
             </motion.h1>
 
             <motion.div
@@ -275,7 +275,7 @@ export default function ForgotPasswordPage() {
               className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl mb-6"
             >
               <p className="text-yellow-300 text-sm">
-                рџ’Ў <strong>Eslatma:</strong> Parolni tiklash faqat ro'yxatdan
+                💡 <strong>Eslatma:</strong> Parolni tiklash faqat ro'yxatdan
                 o'tgan email uchun ishlaydi
               </p>
             </motion.div>
@@ -290,7 +290,7 @@ export default function ForgotPasswordPage() {
                 href="/auth/register"
                 className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-cyan-500/25"
               >
-                рџљЂ Ro'yxatdan o'tish
+                🚀 Ro'yxatdan o'tish
               </Link>
 
               <button
@@ -384,7 +384,7 @@ export default function ForgotPasswordPage() {
                 transition={{ delay: 0.2 }}
                 className="text-2xl font-bold text-white mb-2"
               >
-                рџ”ђ Parolni tiklash
+                🔐 Parolni tiklash
               </motion.h1>
 
               <motion.div

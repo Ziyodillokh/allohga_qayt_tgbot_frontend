@@ -83,7 +83,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-4">
             <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-              <span className="text-4xl">рџ•Њ</span>
+              <span className="text-4xl">🕌</span>
             </div>
           </div>
           <h1 className="text-2xl font-bold text-[#FBF0B2] mb-1">

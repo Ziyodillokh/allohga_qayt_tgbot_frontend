@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, AlertCircle } from 'lucide-react';
-import Image from 'next/image';
-import { useAuth } from '@/hooks';
-import { testsApi } from '@/lib/api';
-import { Button, Card } from '@/components/ui';
-import { getUploadUrl } from '@/lib/utils';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { ArrowLeft, AlertCircle } from "lucide-react";
+import Image from "next/image";
+import { useAuth } from "@/hooks";
+import { testsApi } from "@/lib/api";
+import { Button, Card } from "@/components/ui";
+import { getUploadUrl } from "@/lib/utils";
+import toast from "react-hot-toast";
 
 export default function CategoryRetryPage() {
   const router = useRouter();
   const params = useParams();
   const categoryId = params.categoryId as string;
   const { isAuthenticated, isLoading } = useAuth();
-  
+
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {
     if (isLoading) return;
-    
+
     if (!isAuthenticated) {
-      router.push('/auth/register');
+      router.push("/auth/register");
       return;
     }
 
@@ -32,7 +32,7 @@ export default function CategoryRetryPage() {
         const { data } = await testsApi.getStats();
         setStats(data);
       } catch (error) {
-        toast.error('Statistika yuklashda xatolik');
+        toast.error("Statistika yuklashda xatolik");
       } finally {
         setLoading(false);
       }
@@ -47,7 +47,9 @@ export default function CategoryRetryPage() {
       const { data } = await testsApi.createRetryTest(categoryId);
       router.push(`/test/retry?attemptId=${data.testAttemptId}`);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Qayta test yaratishda xatolik');
+      toast.error(
+        error.response?.data?.message || "Qayta test yaratishda xatolik",
+      );
       setLoading(false);
     }
   };
@@ -61,7 +63,7 @@ export default function CategoryRetryPage() {
   }
 
   const categoryRetry = stats?.categoriesForRetry?.find(
-    (c: any) => c.category.id === categoryId
+    (c: any) => c.category.id === categoryId,
   );
 
   if (!categoryRetry) {
@@ -75,7 +77,7 @@ export default function CategoryRetryPage() {
           <p className="text-gray-500 mb-6">
             Bu kategoriyada qayta test olish uchun 100 ta test topshiring
           </p>
-          <Button onClick={() => router.push('/categories')} className="w-full">
+          <Button onClick={() => router.push("/categories")} className="w-full">
             Kategoriyalarga qaytish
           </Button>
         </Card>
@@ -87,7 +89,7 @@ export default function CategoryRetryPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4">
       <div className="container mx-auto max-w-2xl py-8">
         <button
-          onClick={() => router.push('/profile')}
+          onClick={() => router.push("/profile")}
           className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-6 hover:text-gray-900 dark:hover:text-white"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -97,16 +99,21 @@ export default function CategoryRetryPage() {
         <Card className="p-8">
           <div className="text-center mb-8">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center mx-auto mb-4 overflow-hidden">
-              {categoryRetry.category.icon?.startsWith('/') ? (
-                <Image 
-                  src={getUploadUrl(categoryRetry.category.icon) || categoryRetry.category.icon}
+              {categoryRetry.category.icon?.startsWith("/") ? (
+                <Image
+                  src={
+                    getUploadUrl(categoryRetry.category.icon) ||
+                    categoryRetry.category.icon
+                  }
                   alt={categoryRetry.category.name}
                   width={48}
                   height={48}
                   className="w-12 h-12 object-contain"
                 />
               ) : (
-                <span className="text-4xl">{categoryRetry.category.icon || 'рџ“љ'}</span>
+                <span className="text-4xl">
+                  {categoryRetry.category.icon || "📚"}
+                </span>
               )}
             </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -122,20 +129,25 @@ export default function CategoryRetryPage() {
               <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
                 {categoryRetry.totalTests}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Jami test</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Jami test
+              </p>
             </div>
             <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl text-center">
               <p className="text-3xl font-bold text-red-600 dark:text-red-400">
                 {categoryRetry.wrongAnswers}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Xato javob</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Xato javob
+              </p>
             </div>
           </div>
 
           <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl mb-6">
             <p className="text-sm text-yellow-800 dark:text-yellow-300">
-              вљЎ Siz {categoryRetry.category.name} kategoriyasida {categoryRetry.totalTests} ta test topshirdingiz. 
-              Endi xato qilgan savollaringizdan 10 talik qayta test topshirishingiz mumkin!
+              ⚡ Siz {categoryRetry.category.name} kategoriyasida{" "}
+              {categoryRetry.totalTests} ta test topshirdingiz. Endi xato qilgan
+              savollaringizdan 10 talik qayta test topshirishingiz mumkin!
             </p>
           </div>
 
@@ -145,7 +157,7 @@ export default function CategoryRetryPage() {
             className="w-full"
             size="lg"
           >
-            {loading ? 'Yuklanmoqda...' : 'Qayta testni boshlash'}
+            {loading ? "Yuklanmoqda..." : "Qayta testni boshlash"}
           </Button>
         </Card>
       </div>

@@ -231,7 +231,7 @@ export default function AdminUsers() {
             }}
             className="px-4 py-3 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl hover:bg-[#D4AF37]/20 transition-colors"
           >
-            вњ•
+            ✕
           </button>
         )}
       </div>
@@ -354,12 +354,12 @@ export default function AdminUsers() {
                 <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#D4AF37]/50">
                   {user.email && (
                     <span className="flex items-center gap-1">
-                      рџ“§ {user.email}
+                      📧 {user.email}
                     </span>
                   )}
                   {user.phone && (
                     <span className="flex items-center gap-1">
-                      рџ“± {formatPhoneNumber(user.phone)}
+                      📱 {formatPhoneNumber(user.phone)}
                     </span>
                   )}
                   {user.telegramUsername && (
@@ -376,7 +376,7 @@ export default function AdminUsers() {
                   )}
                   {user.telegramPhone && (
                     <span className="flex items-center gap-1 text-[#0088cc]">
-                      рџ“ћ {formatPhoneNumber(user.telegramPhone)}
+                      📞 {formatPhoneNumber(user.telegramPhone)}
                     </span>
                   )}
                 </div>

@@ -39,7 +39,7 @@ export function NotificationSocketProvider({
 
   useEffect(() => {
     if (!token || !isAuthenticated) {
-      console.log("рџ”Њ Token yoki autentifikatsiya yo'q, socket ulanmaydi");
+      console.log("📌 Token yoki autentifikatsiya yo'q, socket ulanmaydi");
       return;
     }
 
@@ -66,7 +66,7 @@ export function NotificationSocketProvider({
           ? API_URL.replace("/api", "")
           : window.location.origin
         : "";
-    console.log("рџ”Њ WebSocket ulanmoqda:", `${WS_URL}/notifications`);
+    console.log("📌 WebSocket ulanmoqda:", `${WS_URL}/notifications`);
 
     const socketInstance = io(`${WS_URL}/notifications`, {
       auth: { token },
@@ -77,26 +77,26 @@ export function NotificationSocketProvider({
     });
 
     socketInstance.on("connect", () => {
-      console.log("вњ… WebSocket ulandi! Socket ID:", socketInstance.id);
+      console.log("✅ WebSocket ulandi! Socket ID:", socketInstance.id);
       setConnected(true);
       setSocketConnected(true);
     });
 
     socketInstance.on("disconnect", (reason) => {
-      console.log("вќЊ WebSocket uzildi. Sabab:", reason);
+      console.log("❌ WebSocket uzildi. Sabab:", reason);
       setConnected(false);
       setSocketConnected(false);
     });
 
     socketInstance.on("connect_error", (error) => {
-      console.error("рџљ« WebSocket ulanish xatosi:", error.message);
+      console.error("🚫 WebSocket ulanish xatosi:", error.message);
     });
 
     socketInstance.on("notification", (notification) => {
-      console.log("рџ”” Yangi notification keldi:", notification);
+      console.log("🔔 Yangi notification keldi:", notification);
       addNotification(notification);
       toast(notification.title || "Yangi bildirishnoma", {
-        icon: "рџ””",
+        icon: "🔔",
         duration: 5000,
       });
     });
@@ -104,7 +104,7 @@ export function NotificationSocketProvider({
     setSocket(socketInstance);
 
     return () => {
-      console.log("рџ”Њ WebSocket uzilyapti...");
+      console.log("📌 WebSocket uzilyapti...");
       socketInstance.disconnect();
     };
   }, [token, isAuthenticated]);

@@ -70,7 +70,7 @@ export default function AchievementsPage() {
 
   const totalXPEarned = achievements.unlocked.reduce(
     (sum, a) => sum + a.xpReward,
-    0
+    0,
   );
 
   return (
@@ -85,7 +85,7 @@ export default function AchievementsPage() {
         </button>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            рџЏ† Yutuqlar
+            🏆 Yutuqlar
           </h1>
           <p className="text-gray-500">
             {achievements.unlocked.length}/
@@ -152,7 +152,7 @@ export default function AchievementsPage() {
                       <span className="text-xs text-gray-400">
                         {achievement.unlockedAt &&
                           new Date(achievement.unlockedAt).toLocaleDateString(
-                            "uz-UZ"
+                            "uz-UZ",
                           )}
                       </span>
                     </div>

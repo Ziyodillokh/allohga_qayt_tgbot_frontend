@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                       >
                         {cat.unusedQuestions < 300
                           ? `${300 - cat.unusedQuestions} kerak`
-                          : "вњ“"}
+                          : "✓"}
                       </span>
                     </div>
                   </div>

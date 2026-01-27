@@ -65,12 +65,12 @@ export default function LuxuryZikrApp() {
   const [showComingSoon, setShowComingSoon] = useState<string | null>(null);
 
   const categories = [
-    { name: "quron", label: "Qur'on", emoji: "рџ“–" },
-    { name: "hadis", label: "Hadis", emoji: "рџ“њ" },
-    { name: "aqida", label: "Aqida", emoji: "вњЁ" },
-    { name: "fiqh", label: "Fiqh", emoji: "вљ–пёЏ" },
-    { name: "seerat", label: "Seerat", emoji: "рџ‘¤" },
-    { name: "zikr", label: "Zikr & Duolar", emoji: "рџ¤І" },
+    { name: "quron", label: "Qur'on", emoji: "📖" },
+    { name: "hadis", label: "Hadis", emoji: "📜" },
+    { name: "aqida", label: "Aqida", emoji: "✨" },
+    { name: "fiqh", label: "Fiqh", emoji: "⚖️" },
+    { name: "seerat", label: "Seerat", emoji: "👤" },
+    { name: "zikr", label: "Zikr & Duolar", emoji: "🤲" },
   ];
 
   // Hafta kunlari nomlari
@@ -86,7 +86,7 @@ export default function LuxuryZikrApp() {
 
   // Bugungi zikrlarni olish
   useEffect(() => {
-    const fetchTodayZikrs = async () => {
+    const fetchTodayZikrs = async (retryCount = 0) => {
       setIsLoadingZikrs(true);
       try {
         const today = new Date();
@@ -100,7 +100,13 @@ export default function LuxuryZikrApp() {
           // Backend'da zikrlar yo'q
           setDailyZikrs([]);
         }
-      } catch (error) {
+      } catch (error: any) {
+        // Timeout bo'lsa, 1 marta qayta urinib ko'rish
+        if (error?.code === "ECONNABORTED" && retryCount < 1) {
+          console.log("Zikr API timeout, qayta urinilmoqda...");
+          setTimeout(() => fetchTodayZikrs(retryCount + 1), 2000);
+          return;
+        }
         console.error("Zikrlarni olishda xatolik:", error);
         // Xatolik bo'lsa bo'sh array
         setDailyZikrs([]);
@@ -266,7 +272,7 @@ export default function LuxuryZikrApp() {
                       Bugungi zikrlar
                     </h2>
                     <p className="text-xs text-[#9A8866]">
-                      {todayDayName} вЂў {dailyZikrs.length} ta
+                      {todayDayName} 💡 {dailyZikrs.length} ta
                     </p>
                   </div>
                 </div>
@@ -284,7 +290,7 @@ export default function LuxuryZikrApp() {
                 ) : dailyZikrs.length === 0 ? (
                   <div className="text-center py-16 px-6">
                     <div className="w-20 h-20 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
-                      <span className="text-4xl">рџ¤І</span>
+                      <span className="text-4xl">🤲</span>
                     </div>
                     <p className="text-[#9A8866]">
                       Bugun uchun zikrlar topilmadi

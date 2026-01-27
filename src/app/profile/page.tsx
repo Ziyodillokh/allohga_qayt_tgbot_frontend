@@ -362,7 +362,7 @@ export default function ProfilePage() {
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#22c55e]/5 rounded-full blur-xl group-hover:bg-[#22c55e]/10 transition-colors"></div>
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-[#22c55e]/10 flex items-center justify-center mb-3">
-                  <span className="text-xl">рџ“ї</span>
+                  <span className="text-xl">📿</span>
                 </div>
                 <p className="text-2xl font-black text-white mb-0.5">
                   {stats.totalZikr.toLocaleString()}
@@ -606,7 +606,7 @@ export default function ProfilePage() {
                           className="w-8 h-8 object-contain"
                         />
                       ) : (
-                        <span>{stat.category.icon || "рџ“ќ"}</span>
+                        <span>{stat.category.icon || "📝"}</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -614,7 +614,7 @@ export default function ProfilePage() {
                         {stat.category.name}
                       </h3>
                       <p className="text-xs text-[#9A8866]">
-                        {stat.totalTests} ta test вЂў {formatXP(stat.totalXP)} XP
+                        {stat.totalTests} ta test • {formatXP(stat.totalXP)} XP
                       </p>
                     </div>
                     <div className="text-right">
@@ -680,7 +680,7 @@ export default function ProfilePage() {
                           className="w-full h-full object-contain p-1"
                         />
                       ) : (
-                        <span>{test.category?.icon || "рџ“ќ"}</span>
+                        <span>{test.category?.icon || "📝"}</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -762,7 +762,7 @@ export default function ProfilePage() {
                 <div className="text-center py-8 px-6 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10">
                   <Trophy className="w-10 h-10 mx-auto text-[#D4AF37] mb-2" />
                   <p className="text-[#9A8866]">
-                    Barcha yutuqlarni oldingiz! рџЋ‰
+                    Barcha yutuqlarni oldingiz! 🎉
                   </p>
                 </div>
               ) : (
@@ -835,7 +835,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] text-[#9A8866]">ID: #001</p>
-                    <p className="text-[10px] text-[#22c55e]">вњ“ Verified</p>
+                    <p className="text-[10px] text-[#22c55e]">✓ Verified</p>
                   </div>
                 </div>
 

@@ -628,7 +628,7 @@ export default function AIPage() {
                   <Sparkles className="w-12 h-12 text-[#0F0D0A]" />
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#22c55e] rounded-full flex items-center justify-center border-4 border-[#0F0D0A]">
-                  <span className="text-white text-xs">вњ“</span>
+                  <span className="text-white text-xs">✓</span>
                 </div>
               </div>
 
@@ -646,10 +646,10 @@ export default function AIPage() {
                   Misol savollar
                 </p>
                 {[
-                  { icon: "рџ•Њ", text: "Namozning farzi nechta?" },
-                  { icon: "рџ“ї", text: "Subhanalloh zikrining fazilati" },
-                  { icon: "рџ’љ", text: "Tavba qilish shartlari nima?" },
-                  { icon: "рџ“–", text: "Qur'on o'qishning odoblari" },
+                  { icon: "🕌", text: "Namozning farzi nechta?" },
+                  { icon: "📿", text: "Subhanalloh zikrining fazilati" },
+                  { icon: "💚", text: "Tavba qilish shartlari nima?" },
+                  { icon: "📖", text: "Qur'on o'qishning odoblari" },
                 ].map((q, i) => (
                   <button
                     key={i}

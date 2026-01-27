@@ -266,7 +266,7 @@ export default function CategoriesPage() {
     (cat: any) =>
       cat.group &&
       cat.group !== "other" &&
-      !staticGroups.some((g) => g.id === cat.group)
+      !staticGroups.some((g) => g.id === cat.group),
   );
 
   // Unique custom gruplar
@@ -276,7 +276,7 @@ export default function CategoriesPage() {
 
   customGroupIds.forEach((groupId: string) => {
     const groupCategories = customGroupCategories.filter(
-      (cat: any) => cat.group === groupId
+      (cat: any) => cat.group === groupId,
     );
     if (groupCategories.length > 0) {
       const groupName = groupId
@@ -345,7 +345,7 @@ export default function CategoriesPage() {
               "px-4 py-2 rounded-xl text-sm font-medium transition-colors",
               !selectedGroup
                 ? "bg-indigo-600 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700",
             )}
           >
             Barchasi
@@ -358,7 +358,7 @@ export default function CategoriesPage() {
                 "px-4 py-2 rounded-xl text-sm font-medium transition-colors",
                 selectedGroup === group.id
                   ? "bg-indigo-600 text-white"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700",
               )}
             >
               {group.name}
@@ -409,7 +409,7 @@ export default function CategoriesPage() {
                           }
                         />
                       ) : (
-                        <span className="text-3xl">рџ“љ</span>
+                        <span className="text-3xl">📚</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -444,7 +444,7 @@ export default function CategoriesPage() {
           <Card className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-6 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold mb-2">рџЋІ Aralash test</h3>
+                <h3 className="text-xl font-bold mb-2">🎲 Aralash test</h3>
                 <p className="text-white/80">
                   Barcha kategoriyalardan random savollar bilan test topshiring
                 </p>

@@ -32,18 +32,18 @@ const WEEK_DAYS = [
 ];
 
 const EMOJIS = [
-  "рџ¤І",
-  "вЄпёЏ",
-  "вњЁ",
-  "рџ™Џ",
-  "вќпёЏ",
-  "рџ“ї",
-  "рџ•Њ",
-  "рџЊ™",
-  "в­ђ",
-  "рџ’«",
-  "рџЊџ",
-  "вќ¤пёЏ",
+  "🤲",
+  "☪️",
+  "✨",
+  "🙏",
+  "❤️",
+  "📿",
+  "🕌",
+  "🌙",
+  "⭐",
+  "💫",
+  "🌟",
+  "❤️",
 ];
 
 export default function AdminZikr() {
@@ -64,7 +64,7 @@ export default function AdminZikr() {
     textLatin: "",
     description: "",
     count: 33,
-    emoji: "рџ¤І",
+    emoji: "🤲",
     dayOfWeek: 1,
     isRamadan: false,
     order: 0,
@@ -116,7 +116,7 @@ export default function AdminZikr() {
       textLatin: "",
       description: "",
       count: 33,
-      emoji: "рџ¤І",
+      emoji: "🤲",
       dayOfWeek: 1,
       isRamadan: showRamadan,
       order: 0,
@@ -658,7 +658,7 @@ function ZikrCard({
             )}
             {zikr.isRamadan && (
               <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full">
-                рџЊ™ Ramazon
+                🌙 Ramazon
               </span>
             )}
           </div>
