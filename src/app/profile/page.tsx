@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import {
+  ArrowLeft,
   Edit2,
   Trophy,
   Target,
@@ -19,11 +20,21 @@ import {
   Instagram,
   Globe,
   Send,
+  CheckCircle2,
+  XCircle,
+  Sparkles,
+  Star,
+  Calendar,
+  BookOpen,
+  Settings,
+  User,
+  Crown,
+  Flame,
 } from "lucide-react";
 import { useAuth } from "@/hooks";
 import { useAuthStore } from "@/store/auth";
 import { usersApi, achievementsApi } from "@/lib/api";
-import { Button, Card, Avatar, Badge, Progress } from "@/components/ui";
+import { Button, Card, Badge, Progress } from "@/components/ui";
 import {
   formatXP,
   calculateLevelProgress,
@@ -68,6 +79,24 @@ interface Achievement {
   condition?: { type: string; value: number };
 }
 
+interface MyStats {
+  totalXP: number;
+  level: number;
+  levelProgress: number;
+  xpToNextLevel: number;
+  totalZikr: number;
+  totalTests: number;
+  totalCorrect: number;
+  totalWrong: number;
+  totalQuestions: number;
+  averageScore: number;
+  bestScore: number;
+  weeklyXP: number;
+  monthlyXP: number;
+  testsCompleted: number;
+  memberSince: string;
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const {
@@ -78,6 +107,7 @@ export default function ProfilePage() {
   } = useAuth();
   const { setUser } = useAuthStore();
 
+  const [myStats, setMyStats] = useState<MyStats | null>(null);
   const [categoryStats, setCategoryStats] = useState<CategoryStat[]>([]);
   const [testHistory, setTestHistory] = useState<TestHistory[]>([]);
   const [achievements, setAchievements] = useState<{
@@ -110,26 +140,21 @@ export default function ProfilePage() {
           console.log("Achievements check failed, continuing...");
         }
 
-        // User profilini eng so'nggi ma'lumotlar bilan yangilash
-        const [profileRes, statsRes, historyRes, achievementsRes] =
+        // Barcha ma'lumotlarni parallel olish
+        const [profileRes, statsRes, historyRes, achievementsRes, myStatsRes] =
           await Promise.all([
             usersApi.getProfile(),
             usersApi.getCategoryStats(),
             usersApi.getTestHistory(1, 10),
-            achievementsApi.getAll(), // Barcha yutuqlarni olish (progress bilan)
+            achievementsApi.getAll(),
+            usersApi.getMyStats().catch(() => ({ data: null })),
           ]);
 
-        // To'liq user ma'lumotlarini yangilash (totalXP, level, avatar, etc.)
+        // User ma'lumotlarini yangilash
         const profileData = profileRes.data;
         if (profileData) {
-          console.log("[Profile] Setting user data:", profileData);
-          console.log("[Profile] Avatar from backend:", profileData.avatar);
-
-          // Agar backend avatar null qaytarsa, store'dagi mavjud avatar'ni saqlab qolish
           const currentUser = useAuthStore.getState().user;
           const avatarToUse = profileData.avatar || currentUser?.avatar || null;
-          console.log("[Profile] Avatar to use:", avatarToUse);
-
           setUser({
             ...profileData,
             avatar: avatarToUse,
@@ -137,9 +162,15 @@ export default function ProfilePage() {
             level: profileData.level ?? 1,
           });
         }
+
+        // My Stats
+        if (myStatsRes.data) {
+          setMyStats(myStatsRes.data);
+        }
+
         setCategoryStats(statsRes.data || []);
 
-        // testHistory array ekanligini tekshirish - backend 'tests' arrayni qaytaradi
+        // testHistory array
         const historyData =
           historyRes.data?.tests ||
           historyRes.data?.history ||
@@ -147,7 +178,7 @@ export default function ProfilePage() {
           historyRes.data;
         setTestHistory(Array.isArray(historyData) ? historyData : []);
 
-        // Yutuqlarni olish - getAll() barcha yutuqlarni progress bilan qaytaradi
+        // Yutuqlar
         const achData = achievementsRes.data;
         const achArray = Array.isArray(achData) ? achData : [];
 
@@ -167,8 +198,8 @@ export default function ProfilePage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#0A0908] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -176,252 +207,467 @@ export default function ProfilePage() {
   if (!user) return null;
 
   const levelProgress = calculateLevelProgress(user.totalXP);
-  const totalTests = categoryStats.reduce((sum, s) => sum + s.totalTests, 0);
-  const avgScore =
-    categoryStats.length > 0
-      ? categoryStats.reduce((sum, s) => sum + s.averageScore, 0) /
-        categoryStats.length
+  const stats = myStats || {
+    totalXP: user.totalXP || 0,
+    level: user.level || 1,
+    levelProgress: levelProgress.percentage,
+    xpToNextLevel: levelProgress.required - levelProgress.current,
+    totalZikr: (user as any).zikrCount || 0,
+    totalTests: categoryStats.reduce((sum, s) => sum + s.totalTests, 0),
+    totalCorrect: categoryStats.reduce((sum, s) => sum + s.correctAnswers, 0),
+    totalWrong: categoryStats.reduce(
+      (sum, s) => sum + (s.totalQuestions - s.correctAnswers),
+      0,
+    ),
+    totalQuestions: categoryStats.reduce((sum, s) => sum + s.totalQuestions, 0),
+    averageScore:
+      categoryStats.length > 0
+        ? categoryStats.reduce((sum, s) => sum + s.averageScore, 0) /
+          categoryStats.length
+        : 0,
+    bestScore:
+      categoryStats.length > 0
+        ? Math.max(...categoryStats.map((s) => s.bestScore))
+        : 0,
+    weeklyXP: 0,
+    monthlyXP: 0,
+    testsCompleted: (user as any).testsCompleted || 0,
+    memberSince: (user as any).createdAt || new Date().toISOString(),
+  };
+
+  const accuracy =
+    stats.totalQuestions > 0
+      ? Math.round((stats.totalCorrect / stats.totalQuestions) * 100)
       : 0;
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24 md:pb-8">
-      {/* Profile Header */}
-      <Card className="mb-6 overflow-hidden">
-        {/* Profile image as background with overlay text */}
-        <div className="relative overflow-hidden">
-          {/* Background image or gradient */}
-          {user.avatar ? (
-            <img
-              src={getUploadUrl(user.avatar) || undefined}
-              alt={user.fullName}
-              className="w-full h-auto min-h-48 max-h-96 object-cover"
-            />
-          ) : (
-            <div className="w-full h-48 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500" />
-          )}
+    <div className="min-h-screen bg-[#0A0908] relative overflow-x-hidden">
+      {/* Premium Background Effects */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-20%] right-[-15%] w-[500px] h-[500px] bg-gradient-radial from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-[-10%] left-[-15%] w-[400px] h-[400px] bg-gradient-radial from-[#AA8232]/15 via-[#AA8232]/5 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
+      </div>
 
-          {/* Dark overlay for better text visibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+      {/* Content */}
+      <div className="relative z-10 max-w-lg mx-auto px-4 py-6 pb-32">
+        {/* Header */}
+        <header className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => router.back()}
+            className="p-3 rounded-2xl bg-[#1A1812]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1A1812] hover:border-[#D4AF37]/30 transition-all group"
+          >
+            <ArrowLeft className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" />
+          </button>
 
-          {/* Text overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-end pb-6">
-            <h1 className="text-2xl font-bold text-white drop-shadow-lg">
+          <h1 className="text-lg font-bold text-white">Profil</h1>
+
+          <Link
+            href="/profile/settings"
+            className="p-3 rounded-2xl bg-[#1A1812]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1A1812] hover:border-[#D4AF37]/30 transition-all group"
+          >
+            <Settings className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" />
+          </Link>
+        </header>
+
+        {/* Profile Card */}
+        <div className="mb-6 p-6 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
+          {/* Background glow */}
+          <div className="absolute top-0 right-0 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl"></div>
+
+          <div className="relative flex flex-col items-center text-center">
+            {/* Avatar */}
+            <div className="relative mb-4">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-3 border-[#D4AF37]/40 shadow-lg shadow-[#D4AF37]/20">
+                {user.avatar ? (
+                  <img
+                    src={getUploadUrl(user.avatar) || undefined}
+                    alt={user.fullName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#D4AF37]/30 to-[#AA8232]/30 flex items-center justify-center">
+                    <User className="w-10 h-10 text-[#D4AF37]" />
+                  </div>
+                )}
+              </div>
+              {/* Level badge */}
+              <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#AA8232] flex items-center justify-center border-2 border-[#0A0908] shadow-lg">
+                <span className="text-xs font-black text-[#0A0908]">
+                  {stats.level}
+                </span>
+              </div>
+            </div>
+
+            {/* Name & username */}
+            <h2 className="text-xl font-bold text-white mb-1">
               {user.fullName}
-            </h1>
-            <p className="text-white/80">@{user.username}</p>
-            {user.bio && (
-              <p className="text-white/70 mt-1 text-center px-4 text-sm">
-                {user.bio}
-              </p>
-            )}
+            </h2>
+            <p className="text-sm text-[#9A8866] mb-3">@{user.username}</p>
 
-            <Link href="/profile/edit" className="mt-3">
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-white/20 border-white/40 text-white hover:bg-white/30"
-              >
-                <Edit2 className="w-4 h-4 mr-2" />
+            {/* Level progress */}
+            <div className="w-full max-w-[200px] mb-4">
+              <div className="flex items-center justify-between text-xs mb-1.5">
+                <span className="text-[#9A8866]">Level {stats.level}</span>
+                <span className="text-[#D4AF37]">Level {stats.level + 1}</span>
+              </div>
+              <div className="h-2 bg-[#1A1812] rounded-full overflow-hidden border border-[#D4AF37]/10">
+                <div
+                  className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FBF0B2] rounded-full transition-all duration-500"
+                  style={{ width: `${stats.levelProgress}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-center text-[#9A8866] mt-1.5">
+                {formatXP(stats.xpToNextLevel)} XP keyingi levelgacha
+              </p>
+            </div>
+
+            {/* Edit button */}
+            <Link href="/profile/edit">
+              <button className="px-5 py-2.5 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-sm font-medium hover:bg-[#D4AF37]/20 transition-all flex items-center gap-2">
+                <Edit2 className="w-4 h-4" />
                 Tahrirlash
-              </Button>
+              </button>
             </Link>
           </div>
         </div>
 
-        <div className="px-6 pb-6 pt-4">
-          {/* Level Progress */}
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">
-                  {user.level}
+        {/* Main Stats Grid */}
+        <div className="mb-6">
+          <h3 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+            Umumiy Statistika
+          </h3>
+
+          <div className="grid grid-cols-2 gap-3">
+            {/* Total XP */}
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-[#D4AF37]/5 rounded-full blur-xl group-hover:bg-[#D4AF37]/10 transition-colors"></div>
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center mb-3">
+                  <Zap className="w-5 h-5 text-[#D4AF37]" />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-500">Level {user.level}</p>
-                  <p className="font-bold text-indigo-600">
-                    {formatXP(user.totalXP)} XP
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-sm text-gray-500">Keyingi levelgacha</p>
-                <p className="font-medium">
-                  {formatXP(levelProgress.required - levelProgress.current)} XP
+                <p className="text-2xl font-black text-white mb-0.5">
+                  {formatXP(stats.totalXP)}
+                </p>
+                <p className="text-[10px] text-[#9A8866] uppercase tracking-wider">
+                  Jami XP
                 </p>
               </div>
             </div>
-            <Progress value={levelProgress.percentage} />
-          </div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
-            <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
-              <Target className="w-6 h-6 mx-auto text-blue-500 mb-1" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {totalTests}
-              </p>
-              <p className="text-xs text-gray-500">Testlar</p>
+            {/* Zikr Count */}
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-[#22c55e]/5 rounded-full blur-xl group-hover:bg-[#22c55e]/10 transition-colors"></div>
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-[#22c55e]/10 flex items-center justify-center mb-3">
+                  <span className="text-xl">📿</span>
+                </div>
+                <p className="text-2xl font-black text-white mb-0.5">
+                  {stats.totalZikr.toLocaleString()}
+                </p>
+                <p className="text-[10px] text-[#9A8866] uppercase tracking-wider">
+                  Jami Zikr
+                </p>
+              </div>
             </div>
-            <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-xl">
-              <TrendingUp className="w-6 h-6 mx-auto text-green-500 mb-1" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {Math.round(avgScore)}%
-              </p>
-              <p className="text-xs text-gray-500">O'rtacha ball</p>
+
+            {/* Tests Completed */}
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-[#3b82f6]/5 rounded-full blur-xl group-hover:bg-[#3b82f6]/10 transition-colors"></div>
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center mb-3">
+                  <Target className="w-5 h-5 text-[#3b82f6]" />
+                </div>
+                <p className="text-2xl font-black text-white mb-0.5">
+                  {stats.totalTests}
+                </p>
+                <p className="text-[10px] text-[#9A8866] uppercase tracking-wider">
+                  Jami Test
+                </p>
+              </div>
             </div>
-            <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl">
-              <Zap className="w-6 h-6 mx-auto text-yellow-500 mb-1" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {formatXP(user.totalXP)}
-              </p>
-              <p className="text-xs text-gray-500">Jami XP</p>
-            </div>
-            <div className="text-center p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
-              <span className="text-2xl mb-1 block">📿</span>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {(user as any).zikrCount || 0}
-              </p>
-              <p className="text-xs text-gray-500">Zikrlar</p>
-            </div>
-            <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
-              <Trophy className="w-6 h-6 mx-auto text-purple-500 mb-1" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {achievements.unlocked.length}
-              </p>
-              <p className="text-xs text-gray-500">Yutuqlar</p>
+
+            {/* Achievements */}
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-[#a855f7]/5 rounded-full blur-xl group-hover:bg-[#a855f7]/10 transition-colors"></div>
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-[#a855f7]/10 flex items-center justify-center mb-3">
+                  <Trophy className="w-5 h-5 text-[#a855f7]" />
+                </div>
+                <p className="text-2xl font-black text-white mb-0.5">
+                  {achievements.unlocked.length}
+                </p>
+                <p className="text-[10px] text-[#9A8866] uppercase tracking-wider">
+                  Yutuqlar
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </Card>
 
-      {/* Tabs - Compact for mobile */}
-      <div className="flex gap-1.5 sm:gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-        {[
-          {
-            id: "stats",
-            label: "Statistika",
-            shortLabel: "Stat",
-            icon: BarChart3,
-          },
-          { id: "history", label: "Tarix", shortLabel: "Tarix", icon: Clock },
-          {
-            id: "developer",
-            label: "Dasturchi",
-            shortLabel: "Dev",
-            icon: Code,
-          },
-          {
-            id: "achievements",
-            label: "Yutuqlar",
-            shortLabel: "Yutuq",
-            icon: Award,
-          },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={cn(
-              "flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium whitespace-nowrap text-xs sm:text-sm transition-all",
-              activeTab === tab.id
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700",
-            )}
-          >
-            <tab.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">{tab.label}</span>
-            <span className="sm:hidden">{tab.shortLabel}</span>
-          </button>
-        ))}
-      </div>
+        {/* Test Accuracy Card */}
+        <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl"></div>
 
-      {/* Tab Content */}
-      {activeTab === "stats" && (
-        <div className="space-y-4">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-            Kategoriya statistikasi
-          </h2>
-          {categoryStats.length === 0 ? (
-            <Card className="text-center py-12">
-              <BarChart3 className="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-              <p className="text-gray-500">Hali test topshirmadingiz</p>
-              <Link href="/categories" className="mt-4 inline-block">
-                <Button>Test boshlash</Button>
-              </Link>
-            </Card>
-          ) : (
-            categoryStats.map((stat) => (
-              <Card key={stat.id} className="p-4">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl overflow-hidden"
-                    style={{ backgroundColor: `${stat.category.color}20` }}
-                  >
-                    {stat.category.icon?.startsWith("/") ? (
-                      <Image
-                        src={
-                          getUploadUrl(stat.category.icon) || stat.category.icon
-                        }
-                        alt={stat.category.name}
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 object-contain"
-                      />
-                    ) : (
-                      <span>{stat.category.icon || "📝"}</span>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 dark:text-white">
-                      {stat.category.name}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {stat.totalTests} ta test • {stat.totalXP} XP
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p
-                      className={cn(
-                        "text-2xl font-bold",
-                        getScoreColor(stat.averageScore),
-                      )}
-                    >
-                      {Math.round(stat.averageScore)}%
-                    </p>
-                    <p className="text-xs text-gray-500">o'rtacha</p>
-                  </div>
+          <h3 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-[#D4AF37]" />
+            Test Natijalari
+          </h3>
+
+          <div className="relative flex items-center gap-6">
+            {/* Circular Progress */}
+            <div className="relative w-28 h-28 flex-shrink-0">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                {/* Background circle */}
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="none"
+                  stroke="#1A1812"
+                  strokeWidth="10"
+                />
+                {/* Progress circle */}
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="none"
+                  stroke={
+                    accuracy >= 70
+                      ? "#22c55e"
+                      : accuracy >= 50
+                        ? "#D4AF37"
+                        : "#ef4444"
+                  }
+                  strokeWidth="10"
+                  strokeLinecap="round"
+                  strokeDasharray={`${accuracy * 2.64} 264`}
+                  className="transition-all duration-1000 ease-out"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-2xl font-black text-white">
+                  {accuracy}%
+                </span>
+                <span className="text-[9px] text-[#9A8866] uppercase">
+                  Aniqlik
+                </span>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="flex-1 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#22c55e]/10 flex items-center justify-center">
+                  <CheckCircle2 className="w-4 h-4 text-[#22c55e]" />
                 </div>
-                <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">
-                      Eng yaxshi: {Math.round(stat.bestScore)}%
-                    </span>
-                    <span className="text-gray-500">
-                      {stat.correctAnswers}/{stat.totalQuestions} to'g'ri
-                    </span>
-                  </div>
+                <div className="flex-1">
+                  <p className="text-xs text-[#9A8866]">To'g'ri javoblar</p>
+                  <p className="text-lg font-bold text-[#22c55e]">
+                    {stats.totalCorrect}
+                  </p>
                 </div>
-              </Card>
-            ))
-          )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#ef4444]/10 flex items-center justify-center">
+                  <XCircle className="w-4 h-4 text-[#ef4444]" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs text-[#9A8866]">Noto'g'ri javoblar</p>
+                  <p className="text-lg font-bold text-[#ef4444]">
+                    {stats.totalWrong}
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-[#D4AF37]/10">
+                <div className="flex justify-between text-xs">
+                  <span className="text-[#9A8866]">Jami savollar:</span>
+                  <span className="text-white font-medium">
+                    {stats.totalQuestions}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Best & Average Score */}
+          <div className="mt-4 pt-4 border-t border-[#D4AF37]/10 grid grid-cols-2 gap-4">
+            <div className="text-center p-3 rounded-xl bg-[#D4AF37]/5 border border-[#D4AF37]/10">
+              <Star className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
+              <p className="text-xl font-bold text-white">
+                {Math.round(stats.bestScore)}%
+              </p>
+              <p className="text-[10px] text-[#9A8866]">Eng yaxshi ball</p>
+            </div>
+            <div className="text-center p-3 rounded-xl bg-[#3b82f6]/5 border border-[#3b82f6]/10">
+              <TrendingUp className="w-5 h-5 text-[#3b82f6] mx-auto mb-1" />
+              <p className="text-xl font-bold text-white">
+                {Math.round(stats.averageScore)}%
+              </p>
+              <p className="text-[10px] text-[#9A8866]">O'rtacha ball</p>
+            </div>
+          </div>
         </div>
-      )}
 
-      {activeTab === "history" && (
-        <div className="space-y-4">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-            Test tarixi
-          </h2>
-          {testHistory.length === 0 ? (
-            <Card className="text-center py-12">
-              <Clock className="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-              <p className="text-gray-500">Hali test topshirmadingiz</p>
-            </Card>
-          ) : (
-            testHistory.map((test) => (
-              <Link key={test.id} href={`/test/result/${test.id}`}>
-                <Card className="p-4 hover:shadow-md transition-shadow">
+        {/* XP Progress Card */}
+        {(stats.weeklyXP > 0 || stats.monthlyXP > 0) && (
+          <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20">
+            <h3 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+              <Flame className="w-4 h-4 text-[#f97316]" />
+              XP Jarayoni
+            </h3>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center p-4 rounded-xl bg-[#f97316]/5 border border-[#f97316]/10">
+                <p className="text-2xl font-black text-white">
+                  +{formatXP(stats.weeklyXP)}
+                </p>
+                <p className="text-[10px] text-[#9A8866]">Bu hafta</p>
+              </div>
+              <div className="text-center p-4 rounded-xl bg-[#8b5cf6]/5 border border-[#8b5cf6]/10">
+                <p className="text-2xl font-black text-white">
+                  +{formatXP(stats.monthlyXP)}
+                </p>
+                <p className="text-[10px] text-[#9A8866]">Bu oy</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+          {[
+            { id: "stats", label: "Statistika", icon: BarChart3 },
+            { id: "history", label: "Tarix", icon: Clock },
+            { id: "achievements", label: "Yutuqlar", icon: Award },
+            { id: "developer", label: "Dev", icon: Code },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium whitespace-nowrap text-sm transition-all",
+                activeTab === tab.id
+                  ? "bg-[#D4AF37] text-[#0A0908]"
+                  : "bg-[#1A1812] text-[#9A8866] border border-[#D4AF37]/10 hover:border-[#D4AF37]/30",
+              )}
+            >
+              <tab.icon className="w-4 h-4" />
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === "stats" && (
+          <div className="space-y-4">
+            <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-[#D4AF37]" />
+              Kategoriya Statistikasi
+            </h2>
+
+            {categoryStats.length === 0 ? (
+              <div className="text-center py-12 px-6">
+                <div className="w-16 h-16 rounded-2xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
+                  <BarChart3 className="w-7 h-7 text-[#D4AF37]/50" />
+                </div>
+                <p className="text-[#9A8866] mb-2">Hali test topshirmadingiz</p>
+                <Link href="/test">
+                  <button className="px-5 py-2.5 rounded-xl bg-[#D4AF37] text-[#0A0908] font-medium text-sm hover:bg-[#FBF0B2] transition-colors">
+                    Test boshlash
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              categoryStats.map((stat) => (
+                <div
+                  key={stat.id}
+                  className="p-4 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all"
+                >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-2xl overflow-hidden">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
+                      style={{ backgroundColor: `${stat.category.color}20` }}
+                    >
+                      {stat.category.icon?.startsWith("/") ? (
+                        <Image
+                          src={
+                            getUploadUrl(stat.category.icon) ||
+                            stat.category.icon
+                          }
+                          alt={stat.category.name}
+                          width={32}
+                          height={32}
+                          className="w-8 h-8 object-contain"
+                        />
+                      ) : (
+                        <span>{stat.category.icon || "📝"}</span>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-white">
+                        {stat.category.name}
+                      </h3>
+                      <p className="text-xs text-[#9A8866]">
+                        {stat.totalTests} ta test • {formatXP(stat.totalXP)} XP
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p
+                        className={cn(
+                          "text-xl font-bold",
+                          stat.averageScore >= 70
+                            ? "text-[#22c55e]"
+                            : stat.averageScore >= 50
+                              ? "text-[#D4AF37]"
+                              : "text-[#ef4444]",
+                        )}
+                      >
+                        {Math.round(stat.averageScore)}%
+                      </p>
+                      <p className="text-[10px] text-[#9A8866]">o'rtacha</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-[#D4AF37]/10">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-[#9A8866]">
+                        Eng yaxshi: {Math.round(stat.bestScore)}%
+                      </span>
+                      <span className="text-[#9A8866]">
+                        {stat.correctAnswers}/{stat.totalQuestions} to'g'ri
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {activeTab === "history" && (
+          <div className="space-y-4">
+            <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-[#D4AF37]" />
+              Test Tarixi
+            </h2>
+
+            {testHistory.length === 0 ? (
+              <div className="text-center py-12 px-6">
+                <div className="w-16 h-16 rounded-2xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-7 h-7 text-[#D4AF37]/50" />
+                </div>
+                <p className="text-[#9A8866]">Hali test topshirmadingiz</p>
+              </div>
+            ) : (
+              testHistory.map((test) => (
+                <Link key={test.id} href={`/test/result/${test.id}`}>
+                  <div className="p-4 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#1A1812] rounded-xl flex items-center justify-center text-2xl overflow-hidden border border-[#D4AF37]/10">
                       {test.category?.icon?.startsWith("/") ? (
                         <Image
                           src={
@@ -438,277 +684,297 @@ export default function ProfilePage() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-gray-900 dark:text-white">
+                      <h3 className="font-medium text-white">
                         {test.category?.name || "Aralash test"}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs text-[#9A8866]">
                         {formatDate(test.completedAt)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p
                         className={cn(
-                          "text-xl font-bold",
-                          getScoreColor(test.score),
+                          "text-lg font-bold",
+                          test.score >= 70
+                            ? "text-[#22c55e]"
+                            : test.score >= 50
+                              ? "text-[#D4AF37]"
+                              : "text-[#ef4444]",
                         )}
                       >
                         {test.score}%
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-[10px] text-[#D4AF37]">
                         +{test.xpEarned} XP
                       </p>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className="w-5 h-5 text-[#D4AF37]/40" />
                   </div>
-                </Card>
-              </Link>
-            ))
-          )}
-        </div>
-      )}
+                </Link>
+              ))
+            )}
+          </div>
+        )}
 
-      {/* Developer ID Passport */}
-      {activeTab === "developer" && (
-        <div className="space-y-4">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Code className="w-5 h-5" />
-            Dasturchi ID Passporti
-          </h2>
+        {activeTab === "achievements" && (
+          <div className="space-y-6">
+            {/* Unlocked */}
+            <div>
+              <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 mb-4 flex items-center gap-2">
+                <Crown className="w-4 h-4 text-[#D4AF37]" />
+                Olingan yutuqlar ({achievements.unlocked.length})
+              </h2>
 
-          {/* ID Card */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-1">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
-            <div className="relative bg-slate-900/90 rounded-xl p-6">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <Code className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider">
-                      Developer ID
-                    </p>
-                    <p className="text-white font-bold">TAVBA</p>
-                  </div>
+              {achievements.unlocked.length === 0 ? (
+                <div className="text-center py-8 px-6 rounded-2xl bg-[#1A1812]/50 border border-[#D4AF37]/10">
+                  <p className="text-[#9A8866]">Hali yutuq olmadingiz</p>
                 </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-400">ID: #001</p>
-                  <p className="text-xs text-indigo-400">✓ Verified</p>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  {achievements.unlocked.map((ach) => (
+                    <div
+                      key={ach.id}
+                      className="p-4 rounded-2xl bg-gradient-to-br from-[#D4AF37]/10 to-[#D4AF37]/5 border border-[#D4AF37]/30 text-center"
+                    >
+                      <span className="text-3xl">{ach.icon}</span>
+                      <h3 className="font-bold text-white mt-2 text-sm">
+                        {ach.name}
+                      </h3>
+                      <p className="text-[10px] text-[#9A8866] mt-1 line-clamp-2">
+                        {ach.description}
+                      </p>
+                      <span className="inline-block mt-2 px-2 py-0.5 rounded-full bg-[#D4AF37]/20 text-[10px] font-medium text-[#D4AF37]">
+                        +{ach.xpReward} XP
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
+            </div>
 
-              {/* Main Content */}
-              <div className="flex gap-6">
-                {/* Photo */}
-                <div className="flex-shrink-0">
-                  <div className="w-28 h-36 rounded-lg overflow-hidden border-2 border-indigo-500/50 shadow-lg shadow-indigo-500/20">
-                    <Image
-                      src="/img/dev-profile.jpg"
-                      alt="Developer"
-                      width={112}
-                      height={144}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+            {/* Locked */}
+            <div>
+              <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 mb-4">
+                Olinmagan yutuqlar ({achievements.locked.length})
+              </h2>
+
+              {achievements.locked.length === 0 ? (
+                <div className="text-center py-8 px-6 rounded-2xl bg-[#1A1812]/50 border border-[#D4AF37]/10">
+                  <Trophy className="w-10 h-10 mx-auto text-[#D4AF37] mb-2" />
+                  <p className="text-[#9A8866]">
+                    Barcha yutuqlarni oldingiz! 🎉
+                  </p>
                 </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  {achievements.locked.map((ach) => {
+                    const target = ach.target || 0;
+                    const progress = ach.progress || 0;
+                    const percentage =
+                      target > 0 ? Math.min(100, (progress / target) * 100) : 0;
 
-                {/* Info */}
-                <div className="flex-1 space-y-3">
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase">
-                      To'liq ism
-                    </p>
-                    <p className="text-xl font-bold text-white">
-                      Shokirjonov Bekmuhammad
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase">
-                      Mutaxassislik
-                    </p>
-                    <p className="text-sm text-indigo-400 font-medium">
-                      Full Stack Developer (Backend Engineer)
-                    </p>
-                  </div>
-                  <div className="flex gap-4">
+                    return (
+                      <div
+                        key={ach.id}
+                        className="p-4 rounded-2xl bg-[#1A1812]/50 border border-[#D4AF37]/10 text-center opacity-60 hover:opacity-100 transition-opacity"
+                      >
+                        <span className="text-3xl grayscale">{ach.icon}</span>
+                        <h3 className="font-bold text-white mt-2 text-sm">
+                          {ach.name}
+                        </h3>
+                        <p className="text-[10px] text-[#9A8866] mt-1 line-clamp-2">
+                          {ach.description}
+                        </p>
+                        {target > 0 && (
+                          <div className="mt-2">
+                            <div className="h-1.5 bg-[#0A0908] rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-[#D4AF37]/50 rounded-full"
+                                style={{ width: `${percentage}%` }}
+                              />
+                            </div>
+                            <p className="text-[10px] text-[#9A8866] mt-1">
+                              {progress}/{target}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Developer ID Passport */}
+        {activeTab === "developer" && (
+          <div className="space-y-4">
+            <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 flex items-center gap-2">
+              <Code className="w-4 h-4 text-[#D4AF37]" />
+              Dasturchi ID Passporti
+            </h2>
+
+            {/* ID Card */}
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1A1812] via-[#0F0E0A] to-[#1A1812] p-1 border border-[#D4AF37]/20">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/5 via-transparent to-[#D4AF37]/5" />
+
+              <div className="relative p-5">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 bg-gradient-to-br from-[#D4AF37] to-[#AA8232] rounded-lg flex items-center justify-center">
+                      <Code className="w-5 h-5 text-[#0A0908]" />
+                    </div>
                     <div>
-                      <p className="text-xs text-gray-400">Stack</p>
-                      <p className="text-xs text-gray-300">
-                        React, Next.js, NestJS, NodeJS, ExpressJS
+                      <p className="text-[10px] text-[#9A8866] uppercase tracking-wider">
+                        Developer ID
+                      </p>
+                      <p className="text-white font-bold text-sm">TAVBA</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] text-[#9A8866]">ID: #001</p>
+                    <p className="text-[10px] text-[#22c55e]">✓ Verified</p>
+                  </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="flex gap-4 mb-5">
+                  <div className="flex-shrink-0">
+                    <div className="w-24 h-32 rounded-lg overflow-hidden border-2 border-[#D4AF37]/30 shadow-lg shadow-[#D4AF37]/10">
+                      <Image
+                        src="/img/dev-profile.jpg"
+                        alt="Developer"
+                        width={96}
+                        height={128}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex-1 space-y-2">
+                    <div>
+                      <p className="text-[10px] text-[#9A8866] uppercase">
+                        To'liq ism
+                      </p>
+                      <p className="text-base font-bold text-white">
+                        Shokirjonov Bekmuhammad
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[#9A8866] uppercase">
+                        Mutaxassislik
+                      </p>
+                      <p className="text-xs text-[#D4AF37] font-medium">
+                        Full Stack Developer
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[#9A8866]">Stack</p>
+                      <p className="text-[10px] text-white/70">
+                        React, Next.js, NestJS, NodeJS
                       </p>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Divider */}
-              <div className="my-6 border-t border-dashed border-gray-700" />
+                {/* Social Links */}
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href="https://t.me/Khamidov_online"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                  >
+                    <div className="w-8 h-8 bg-[#3b82f6]/10 rounded-lg flex items-center justify-center">
+                      <Send className="w-4 h-4 text-[#3b82f6]" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[#9A8866]">Telegram</p>
+                      <p className="text-xs text-white group-hover:text-[#3b82f6] transition-colors">
+                        @Khamidov_online
+                      </p>
+                    </div>
+                  </a>
 
-              {/* Social Links */}
-              <div className="grid grid-cols-2 gap-3">
-                <a
-                  href="https://t.me/Khamidov_online"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors group"
-                >
-                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <Send className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400">Telegram</p>
-                    <p className="text-sm text-white group-hover:text-blue-400 transition-colors">
-                      @Khamidov_online
-                    </p>
-                  </div>
-                </a>
+                  <a
+                    href="https://www.instagram.com/khamidov__online"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                  >
+                    <div className="w-8 h-8 bg-[#ec4899]/10 rounded-lg flex items-center justify-center">
+                      <Instagram className="w-4 h-4 text-[#ec4899]" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[#9A8866]">Instagram</p>
+                      <p className="text-xs text-white group-hover:text-[#ec4899] transition-colors">
+                        @khamidov__online
+                      </p>
+                    </div>
+                  </a>
 
-                <a
-                  href="https://www.instagram.com/khamidov__online"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors group"
-                >
-                  <div className="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center">
-                    <Instagram className="w-5 h-5 text-pink-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400">Instagram</p>
-                    <p className="text-sm text-white group-hover:text-pink-400 transition-colors">
-                      @khamidov__online
-                    </p>
-                  </div>
-                </a>
+                  <a
+                    href="https://github.com/Bekmuhammad-Devoloper"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                  >
+                    <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
+                      <Github className="w-4 h-4 text-white/80" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[#9A8866]">GitHub</p>
+                      <p className="text-xs text-white group-hover:text-white/80 transition-colors">
+                        Bekmuhammad
+                      </p>
+                    </div>
+                  </a>
 
-                <a
-                  href="https://github.com/Bekmuhammad-Devoloper"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors group"
-                >
-                  <div className="w-10 h-10 bg-gray-500/20 rounded-lg flex items-center justify-center">
-                    <Github className="w-5 h-5 text-gray-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400">GitHub</p>
-                    <p className="text-sm text-white group-hover:text-gray-300 transition-colors">
-                      Bekmuhammad-Devoloper
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="https://bekmuhammad.uz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors group"
-                >
-                  <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <Globe className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400">Portfolio</p>
-                    <p className="text-sm text-white group-hover:text-green-400 transition-colors">
-                      bekmuhammad.uz
-                    </p>
-                  </div>
-                </a>
-              </div>
-
-              {/* Footer */}
-              <div className="mt-6 pt-4 border-t border-gray-800 flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-xs text-gray-400">Faol dasturchi</span>
+                  <a
+                    href="https://bekmuhammad.uz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                  >
+                    <div className="w-8 h-8 bg-[#22c55e]/10 rounded-lg flex items-center justify-center">
+                      <Globe className="w-4 h-4 text-[#22c55e]" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[#9A8866]">Portfolio</p>
+                      <p className="text-xs text-white group-hover:text-[#22c55e] transition-colors">
+                        bekmuhammad.uz
+                      </p>
+                    </div>
+                  </a>
                 </div>
-                <p className="text-xs text-gray-500">© 2025 Allohga Qayting</p>
+
+                {/* Footer */}
+                <div className="mt-4 pt-3 border-t border-[#D4AF37]/10 flex justify-between items-center">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-pulse" />
+                    <span className="text-[10px] text-[#9A8866]">
+                      Faol dasturchi
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-[#9A8866]">
+                    © 2025 Allohga Qayting
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+        )}
+
+        {/* Member Since */}
+        <div className="mt-8 text-center">
+          <p className="text-xs text-[#9A8866] flex items-center justify-center gap-2">
+            <Calendar className="w-3.5 h-3.5" />
+            A'zo bo'lgan: {formatDate(stats.memberSince)}
+          </p>
         </div>
-      )}
-
-      {activeTab === "achievements" && (
-        <div className="space-y-6">
-          {/* Unlocked */}
-          <div>
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-              Olingan yutuqlar ({achievements.unlocked.length})
-            </h2>
-            {achievements.unlocked.length === 0 ? (
-              <Card className="text-center py-8">
-                <p className="text-gray-500">Hali yutuq olmadingiz</p>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {achievements.unlocked.map((ach) => (
-                  <Card
-                    key={ach.id}
-                    className="p-4 text-center border-2 border-yellow-200 dark:border-yellow-700 bg-yellow-50 dark:bg-yellow-900/20"
-                  >
-                    <span className="text-4xl">{ach.icon}</span>
-                    <h3 className="font-bold text-gray-900 dark:text-white mt-2">
-                      {ach.name}
-                    </h3>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {ach.description}
-                    </p>
-                    <Badge variant="success" className="mt-2">
-                      +{ach.xpReward} XP
-                    </Badge>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Locked */}
-          <div>
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-              Olinmagan yutuqlar ({achievements.locked.length})
-            </h2>
-            {achievements.locked.length === 0 ? (
-              <Card className="text-center py-8">
-                <Trophy className="w-12 h-12 mx-auto text-yellow-400 mb-2" />
-                <p className="text-gray-500">Barcha yutuqlarni oldingiz! 🎉</p>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {achievements.locked.map((ach) => {
-                  const target = ach.target || 0;
-                  const progress = ach.progress || 0;
-                  const percentage =
-                    target > 0 ? Math.min(100, (progress / target) * 100) : 0;
-
-                  return (
-                    <Card
-                      key={ach.id}
-                      className="p-4 text-center opacity-70 hover:opacity-100 transition-opacity"
-                    >
-                      <span className="text-4xl grayscale">{ach.icon}</span>
-                      <h3 className="font-bold text-gray-900 dark:text-white mt-2">
-                        {ach.name}
-                      </h3>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {ach.description}
-                      </p>
-                      {target > 0 && (
-                        <div className="mt-2">
-                          <Progress value={percentage} size="sm" />
-                          <p className="text-xs text-gray-500 mt-1">
-                            {progress}/{target}
-                          </p>
-                        </div>
-                      )}
-                    </Card>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

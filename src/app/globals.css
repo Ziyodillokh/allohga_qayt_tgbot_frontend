@@ -63,6 +63,24 @@ input[type="password"]::-webkit-textfield-decoration-container {
   .pt-safe {
     padding-top: max(env(safe-area-inset-top), 12px);
   }
+
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top, 0px), 12px);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
+  }
+
+  /* Telegram WebApp specific adjustments */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    .tg-safe-header {
+      padding-top: calc(env(safe-area-inset-top) + 12px);
+    }
+    .tg-safe-footer {
+      padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+    }
+  }
 }
 
 @layer components {
@@ -140,6 +158,95 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
   .animation-delay-500 {
     animation-delay: 500ms;
+  }
+
+  /* Animate in classes (for AI page and others) */
+  .animate-in {
+    animation: animateIn 0.3s ease-out forwards;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .slide-in-from-bottom-2 {
+    animation: slideInFromBottom 0.3s ease-out forwards;
+  }
+
+  .zoom-in-95 {
+    animation: zoomIn95 0.3s ease-out forwards;
+  }
+
+  @keyframes animateIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromBottom {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes zoomIn95 {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Pulse animation for recording */
+  .pulse-ring {
+    animation: pulseRing 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulseRing {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.1;
+      transform: scale(1.1);
+    }
+  }
+
+  /* Audio bar animation */
+  .audio-bar {
+    animation: audioBar 0.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes audioBar {
+    from {
+      transform: scaleY(0.3);
+    }
+    to {
+      transform: scaleY(1);
+    }
   }
 }
 

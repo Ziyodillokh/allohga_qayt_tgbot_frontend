@@ -152,19 +152,19 @@ export default function ForgotPasswordPage() {
           "❌ Bu email ro'yxatdan o'tmagan! O'zingiz ro'yxatdan o'tgan emailni kiriting.",
           {
             duration: 5000,
-          }
+          },
         );
         toast.success(
           "📨 Taklif havolasi emailga yuborildi. Ro'yxatdan o'ting!",
           {
             duration: 5000,
-          }
+          },
         );
         setStep("invite-sent");
       } else if (result.type === "wrong-email") {
         // Other registered user - wrong email error
         toast.error(
-          "❌ Siz noto'g'ri email kiritdingiz. Iltimos, o'zingizning emailingizni kiriting."
+          "❌ Siz noto'g'ri email kiritdingiz. Iltimos, o'zingizning emailingizni kiriting.",
         );
         emailForm.setError("email", {
           type: "manual",
@@ -440,7 +440,7 @@ export default function ForgotPasswordPage() {
                         onChange={(e) =>
                           handleCodeInput(
                             index,
-                            e.target.value.replace(/\D/g, "")
+                            e.target.value.replace(/\D/g, ""),
                           )
                         }
                         onKeyDown={(e) => handleKeyDown(index, e)}

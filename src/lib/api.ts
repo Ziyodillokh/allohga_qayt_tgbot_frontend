@@ -90,6 +90,9 @@ export const usersApi = {
 
   getTestHistory: (page = 1, limit = 10) =>
     api.get(`/users/history/tests?page=${page}&limit=${limit}`),
+
+  // Foydalanuvchi statistikasi (profil sahifasi uchun)
+  getMyStats: () => api.get("/users/my-stats"),
 };
 
 // ==================== CATEGORIES ====================

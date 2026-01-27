@@ -296,7 +296,7 @@ export default function ChatbotQA({
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-5 pt-14 pb-4 bg-[#0A0908]/95 backdrop-blur-xl border-b border-[#D4AF37]/10">
+      <header className="fixed top-0 left-0 right-0 z-50 px-5 pt-4 pb-4 bg-[#0A0908]/95 backdrop-blur-xl border-b border-[#D4AF37]/10 safe-area-top">
         <div className="max-w-lg mx-auto flex justify-between items-center">
           <button
             onClick={() => {
@@ -338,7 +338,7 @@ export default function ChatbotQA({
       </header>
 
       {/* Chat Messages */}
-      <div className="pt-28 pb-96 px-5 max-w-lg mx-auto">
+      <div className="pt-24 pb-80 px-5 max-w-lg mx-auto">
         <div className="space-y-4 min-h-[50vh]">
           {messages.map((msg, idx) => (
             <div
@@ -378,7 +378,7 @@ export default function ChatbotQA({
       </div>
 
       {/* Footer / Options */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 px-5 pb-8 pt-4 bg-gradient-to-t from-[#0A0908] via-[#0A0908]/98 to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 z-50 px-5 pb-6 pt-4 bg-gradient-to-t from-[#0A0908] via-[#0A0908]/98 to-transparent safe-area-bottom">
         <div className="max-w-lg mx-auto">
           {!testComplete ? (
             <div className="space-y-3">

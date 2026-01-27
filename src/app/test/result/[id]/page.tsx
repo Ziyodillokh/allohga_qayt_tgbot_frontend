@@ -1,15 +1,34 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import Link from 'next/link';
-import { CheckCircle, XCircle, ArrowLeft, Share2, RotateCcw, Trophy, Zap, Star, X, Copy, MessageCircle, Send } from 'lucide-react';
-import { testsApi } from '@/lib/api';
-import { Button, Card, Badge, Progress } from '@/components/ui';
-import { cn, getScoreColor, getDifficultyColor, getDifficultyLabel, formatXP } from '@/lib/utils';
-import { telegramHaptic, isTelegramWebApp } from '@/lib/telegram';
-import confetti from 'canvas-confetti';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import Link from "next/link";
+import {
+  CheckCircle,
+  XCircle,
+  ArrowLeft,
+  Share2,
+  RotateCcw,
+  Trophy,
+  Zap,
+  Star,
+  X,
+  Copy,
+  MessageCircle,
+  Send,
+} from "lucide-react";
+import { testsApi } from "@/lib/api";
+import { Button, Card, Badge, Progress } from "@/components/ui";
+import {
+  cn,
+  getScoreColor,
+  getDifficultyColor,
+  getDifficultyLabel,
+  formatXP,
+} from "@/lib/utils";
+import { telegramHaptic, isTelegramWebApp } from "@/lib/telegram";
+import confetti from "canvas-confetti";
+import toast from "react-hot-toast";
 
 interface TestResult {
   id: string;
@@ -20,7 +39,12 @@ interface TestResult {
   timeSpent: number | null;
   leveledUp: boolean;
   newLevel: number | null;
-  newAchievements: Array<{ id: string; name: string; icon: string; xpReward: number }>;
+  newAchievements: Array<{
+    id: string;
+    name: string;
+    icon: string;
+    xpReward: number;
+  }>;
   answers: Array<{
     questionId: string;
     question: string;
@@ -37,7 +61,7 @@ export default function TestResultPage() {
   const router = useRouter();
   const params = useParams();
   const testId = params.id as string;
-  
+
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<TestResult | null>(null);
   const [showAnswers, setShowAnswers] = useState(false);
@@ -47,19 +71,20 @@ export default function TestResultPage() {
     const fetchResult = async () => {
       try {
         const { data } = await testsApi.getResult(testId);
-        
+
         // Backend'dan kelgan testAnswers'ni answers formatiga o'tkazish
-        const answers = data.testAnswers?.map((ta: any) => ({
-          questionId: ta.question.id,
-          question: ta.question.question,
-          options: ta.question.options,
-          selectedAnswer: ta.selectedAnswer,
-          correctAnswer: ta.question.correctAnswer,
-          isCorrect: ta.isCorrect,
-          explanation: ta.question.explanation,
-          xpReward: ta.xpEarned || 0,
-        })) || [];
-        
+        const answers =
+          data.testAnswers?.map((ta: any) => ({
+            questionId: ta.question.id,
+            question: ta.question.question,
+            options: ta.question.options,
+            selectedAnswer: ta.selectedAnswer,
+            correctAnswer: ta.question.correctAnswer,
+            isCorrect: ta.isCorrect,
+            explanation: ta.question.explanation,
+            xpReward: ta.xpEarned || 0,
+          })) || [];
+
         setResult({
           ...data,
           answers,
@@ -68,17 +93,17 @@ export default function TestResultPage() {
         // Celebration for good scores
         if (data.score >= 80) {
           if (isTelegramWebApp()) {
-            telegramHaptic('success');
+            telegramHaptic("success");
           }
           confetti({
             particleCount: 100,
             spread: 70,
-            origin: { y: 0.6 }
+            origin: { y: 0.6 },
           });
         }
       } catch (error: any) {
-        toast.error('Natijani yuklashda xatolik');
-        router.push('/categories');
+        toast.error("Natijani yuklashda xatolik");
+        router.push("/categories");
       } finally {
         setLoading(false);
       }
@@ -92,24 +117,29 @@ export default function TestResultPage() {
     setShowShareModal(true);
   };
 
-  const shareText = result ? `🕌 Tavba platformasida ${result.score}% natija oldim! ${result.correctAnswers}/${result.totalQuestions} to'g'ri javob, ${result.xpEarned} XP qo'lga kiritdim. Sen ham sinab ko'r!` : '';
-  const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://allohgaqayt.uz';
+  const shareText = result
+    ? `🕌 Tavba platformasida ${result.score}% natija oldim! ${result.correctAnswers}/${result.totalQuestions} to'g'ri javob, ${result.xpEarned} XP qo'lga kiritdim. Sen ham sinab ko'r!`
+    : "";
+  const shareUrl =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://allohgaqayt.uz";
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
-    toast.success('Matn nusxalandi!');
+    toast.success("Matn nusxalandi!");
     setShowShareModal(false);
   };
 
   const handleTelegramShare = () => {
     const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
-    window.open(url, '_blank');
+    window.open(url, "_blank");
     setShowShareModal(false);
   };
 
   const handleWhatsAppShare = () => {
-    const url = `https://wa.me/?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`;
-    window.open(url, '_blank');
+    const url = `https://wa.me/?text=${encodeURIComponent(shareText + "\n" + shareUrl)}`;
+    window.open(url, "_blank");
     setShowShareModal(false);
   };
 
@@ -117,13 +147,13 @@ export default function TestResultPage() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Tavba - Test natijasi',
+          title: "Tavba - Test natijasi",
           text: shareText,
           url: shareUrl,
         });
         setShowShareModal(false);
       } catch (err) {
-        console.log('Share cancelled');
+        console.log("Share cancelled");
       }
     }
   };
@@ -153,8 +183,8 @@ export default function TestResultPage() {
       {/* Share Modal */}
       {showShareModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div 
-            className="absolute inset-0 bg-black/50" 
+          <div
+            className="absolute inset-0 bg-black/50"
             onClick={() => setShowShareModal(false)}
           />
           <div className="relative bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-sm shadow-xl">
@@ -166,11 +196,11 @@ export default function TestResultPage() {
             >
               <X className="w-5 h-5" />
             </button>
-            
+
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
               Natijani ulashish
             </h3>
-            
+
             <div className="space-y-3">
               <button
                 onClick={handleTelegramShare}
@@ -179,7 +209,7 @@ export default function TestResultPage() {
                 <Send className="w-6 h-6" />
                 <span className="font-medium">Telegram</span>
               </button>
-              
+
               <button
                 onClick={handleWhatsAppShare}
                 className="w-full flex items-center gap-4 p-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white transition-colors"
@@ -187,7 +217,7 @@ export default function TestResultPage() {
                 <MessageCircle className="w-6 h-6" />
                 <span className="font-medium">WhatsApp</span>
               </button>
-              
+
               <button
                 onClick={handleCopyText}
                 className="w-full flex items-center gap-4 p-4 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white transition-colors"
@@ -195,16 +225,17 @@ export default function TestResultPage() {
                 <Copy className="w-6 h-6" />
                 <span className="font-medium">Matnni nusxalash</span>
               </button>
-              
-              {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
-                <button
-                  onClick={handleNativeShare}
-                  className="w-full flex items-center gap-4 p-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
-                >
-                  <Share2 className="w-6 h-6" />
-                  <span className="font-medium">Boshqa ilovalar</span>
-                </button>
-              )}
+
+              {typeof navigator !== "undefined" &&
+                typeof navigator.share === "function" && (
+                  <button
+                    onClick={handleNativeShare}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+                  >
+                    <Share2 className="w-6 h-6" />
+                    <span className="font-medium">Boshqa ilovalar</span>
+                  </button>
+                )}
             </div>
           </div>
         </div>
@@ -215,7 +246,10 @@ export default function TestResultPage() {
         <div className="container mx-auto text-center">
           {/* Score Circle */}
           <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-4 sm:mb-6">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+            <svg
+              className="w-full h-full transform -rotate-90"
+              viewBox="0 0 160 160"
+            >
               <circle
                 cx="80"
                 cy="80"
@@ -238,13 +272,19 @@ export default function TestResultPage() {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl sm:text-5xl font-bold">{result.score}%</span>
+              <span className="text-4xl sm:text-5xl font-bold">
+                {result.score}%
+              </span>
               <span className="text-white/80 text-xs sm:text-sm">natija</span>
             </div>
           </div>
 
           <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2">
-            {isPerfect ? '🎉 Mukammal!' : isGood ? '👏 Yaxshi natija!' : '💪 Davom eting!'}
+            {isPerfect
+              ? "🎉 Mukammal!"
+              : isGood
+                ? "👏 Yaxshi natija!"
+                : "💪 Davom eting!"}
           </h1>
           <p className="text-white/80 text-sm sm:text-base">
             {result.correctAnswers} / {result.totalQuestions} to'g'ri javob
@@ -282,7 +322,13 @@ export default function TestResultPage() {
           <Card className="text-center p-3 sm:p-4">
             <Trophy className="w-6 h-6 sm:w-8 sm:h-8 mx-auto text-purple-500 mb-1 sm:mb-2" />
             <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-              {result.score >= 90 ? 'A' : result.score >= 70 ? 'B' : result.score >= 50 ? 'C' : 'D'}
+              {result.score >= 90
+                ? "A"
+                : result.score >= 70
+                  ? "B"
+                  : result.score >= 50
+                    ? "C"
+                    : "D"}
             </p>
             <p className="text-xs sm:text-sm text-gray-500">Baho</p>
           </Card>
@@ -298,27 +344,32 @@ export default function TestResultPage() {
         )}
 
         {/* New Achievements */}
-        {(Array.isArray(result.newAchievements) && result.newAchievements.length > 0) && (
-          <Card className="mt-6">
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">
-              🏆 Yangi yutuqlar
-            </h3>
-            <div className="space-y-3">
-              {result.newAchievements.map((ach) => (
-                <div
-                  key={ach.id}
-                  className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl"
-                >
-                  <span className="text-3xl">{ach.icon}</span>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white">{ach.name}</p>
-                    <p className="text-sm text-yellow-600">+{ach.xpReward} XP</p>
+        {Array.isArray(result.newAchievements) &&
+          result.newAchievements.length > 0 && (
+            <Card className="mt-6">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-4">
+                🏆 Yangi yutuqlar
+              </h3>
+              <div className="space-y-3">
+                {result.newAchievements.map((ach) => (
+                  <div
+                    key={ach.id}
+                    className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl"
+                  >
+                    <span className="text-3xl">{ach.icon}</span>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {ach.name}
+                      </p>
+                      <p className="text-sm text-yellow-600">
+                        +{ach.xpReward} XP
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        )}
+                ))}
+              </div>
+            </Card>
+          )}
 
         {/* Actions */}
         <div className="grid grid-cols-2 gap-3 mt-6">
@@ -328,21 +379,28 @@ export default function TestResultPage() {
               Kategoriyalar
             </Button>
           </Link>
-          <Button onClick={handleShare} variant="secondary" className="w-full text-sm sm:text-base">
+          <Button
+            onClick={handleShare}
+            variant="secondary"
+            className="w-full text-sm sm:text-base"
+          >
             <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
             Ulashish
           </Button>
         </div>
 
         {/* Show/Hide Answers */}
-        {Array.isArray(result.answers) && result.answers.filter(a => !a.isCorrect).length > 0 && (
-          <button
-            onClick={() => setShowAnswers(!showAnswers)}
-            className="w-full mt-6 py-3 text-indigo-600 dark:text-indigo-400 font-medium"
-          >
-            {showAnswers ? 'Xatolarni yashirish' : `Xatolarni ko'rish (${result.answers.filter(a => !a.isCorrect).length} ta)`}
-          </button>
-        )}
+        {Array.isArray(result.answers) &&
+          result.answers.filter((a) => !a.isCorrect).length > 0 && (
+            <button
+              onClick={() => setShowAnswers(!showAnswers)}
+              className="w-full mt-6 py-3 text-indigo-600 dark:text-indigo-400 font-medium"
+            >
+              {showAnswers
+                ? "Xatolarni yashirish"
+                : `Xatolarni ko'rish (${result.answers.filter((a) => !a.isCorrect).length} ta)`}
+            </button>
+          )}
 
         {/* Wrong Answers Review - faqat noto'g'ri javoblar */}
         {showAnswers && Array.isArray(result.answers) && (
@@ -351,58 +409,70 @@ export default function TestResultPage() {
               ❌ Noto'g'ri javoblar
             </h3>
             {result.answers
-              .map((answer, originalIndex) => ({ ...answer, originalIndex: originalIndex + 1 }))
-              .filter(answer => !answer.isCorrect)
+              .map((answer, originalIndex) => ({
+                ...answer,
+                originalIndex: originalIndex + 1,
+              }))
+              .filter((answer) => !answer.isCorrect)
               .map((answer) => (
-              <Card key={answer.questionId} className="border-l-4 border-l-red-500">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-red-100 text-red-600">
-                    <XCircle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Savol {answer.originalIndex}</p>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {answer.question}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Faqat tanlangan noto'g'ri javob va to'g'ri javobni ko'rsatish */}
-                <div className="space-y-2 mb-4">
-                  {/* Sizning javobingiz - noto'g'ri */}
-                  <div className="p-3 rounded-xl flex items-center gap-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                    <span className="w-8 h-8 rounded-lg flex items-center justify-center font-medium text-sm bg-red-500 text-white">
-                      {['A', 'B', 'C', 'D'][answer.selectedAnswer]}
-                    </span>
-                    <span className="flex-1 text-red-700 dark:text-red-400">
-                      {answer.options[answer.selectedAnswer]}
-                    </span>
-                    <span className="text-xs text-red-500 font-medium">Sizning javobingiz</span>
-                    <XCircle className="w-5 h-5 text-red-500" />
+                <Card
+                  key={answer.questionId}
+                  className="border-l-4 border-l-red-500"
+                >
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-red-100 text-red-600">
+                      <XCircle className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">
+                        Savol {answer.originalIndex}
+                      </p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {answer.question}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* To'g'ri javob */}
-                  <div className="p-3 rounded-xl flex items-center gap-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                    <span className="w-8 h-8 rounded-lg flex items-center justify-center font-medium text-sm bg-green-500 text-white">
-                      {['A', 'B', 'C', 'D'][answer.correctAnswer]}
-                    </span>
-                    <span className="flex-1 text-green-700 dark:text-green-400 font-medium">
-                      {answer.options[answer.correctAnswer]}
-                    </span>
-                    <span className="text-xs text-green-500 font-medium">To'g'ri javob</span>
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                  </div>
-                </div>
+                  {/* Faqat tanlangan noto'g'ri javob va to'g'ri javobni ko'rsatish */}
+                  <div className="space-y-2 mb-4">
+                    {/* Sizning javobingiz - noto'g'ri */}
+                    <div className="p-3 rounded-xl flex items-center gap-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                      <span className="w-8 h-8 rounded-lg flex items-center justify-center font-medium text-sm bg-red-500 text-white">
+                        {["A", "B", "C", "D"][answer.selectedAnswer]}
+                      </span>
+                      <span className="flex-1 text-red-700 dark:text-red-400">
+                        {answer.options[answer.selectedAnswer]}
+                      </span>
+                      <span className="text-xs text-red-500 font-medium">
+                        Sizning javobingiz
+                      </span>
+                      <XCircle className="w-5 h-5 text-red-500" />
+                    </div>
 
-                {answer.explanation && (
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl">
-                    <p className="text-sm text-blue-800 dark:text-blue-300">
-                      <strong>Tushuntirish:</strong> {answer.explanation}
-                    </p>
+                    {/* To'g'ri javob */}
+                    <div className="p-3 rounded-xl flex items-center gap-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                      <span className="w-8 h-8 rounded-lg flex items-center justify-center font-medium text-sm bg-green-500 text-white">
+                        {["A", "B", "C", "D"][answer.correctAnswer]}
+                      </span>
+                      <span className="flex-1 text-green-700 dark:text-green-400 font-medium">
+                        {answer.options[answer.correctAnswer]}
+                      </span>
+                      <span className="text-xs text-green-500 font-medium">
+                        To'g'ri javob
+                      </span>
+                      <CheckCircle className="w-5 h-5 text-green-500" />
+                    </div>
                   </div>
-                )}
-              </Card>
-            ))}
+
+                  {answer.explanation && (
+                    <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl">
+                      <p className="text-sm text-blue-800 dark:text-blue-300">
+                        <strong>Tushuntirish:</strong> {answer.explanation}
+                      </p>
+                    </div>
+                  )}
+                </Card>
+              ))}
           </div>
         )}
       </div>
