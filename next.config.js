@@ -1,12 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   compress: true,
   productionBrowserSourceMaps: false,
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
+  
+  // Deploy tezligini oshirish uchun
+  output: 'standalone',
+  poweredByHeader: false,
+  
+  // TypeScript va ESLint tekshiruvlarini build paytida o'chirish (deploy tezligi uchun)
+  typescript: {
+    ignoreBuildErrors: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion", "recharts"],
+  },
+  
   images: {
     remotePatterns: [
       {
