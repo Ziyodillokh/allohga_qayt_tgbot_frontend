@@ -146,8 +146,8 @@ export const leaderboardApi = {
 
 // ==================== AI ====================
 export const aiApi = {
-  chat: (message: string, categorySlug?: string, audioBase64?: string) =>
-    api.post("/ai/chat", { message, categorySlug, audioBase64 }),
+  chat: (message: string, audioBase64?: string, categorySlug?: string) =>
+    api.post("/ai/chat", { message, audioBase64, categorySlug }),
 
   getHistory: (page = 1, limit = 50) =>
     api.get(`/ai/history?page=${page}&limit=${limit}`),
