@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/hooks";
@@ -687,10 +687,10 @@ export default function AdminCategories() {
           placeholder="Qidirish..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-3 pl-10 rounded-xl border border-[#D4AF37]/30 bg-[#1A1812] text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none"
+          className="w-full px-4 py-3 pl-10 rounded-xl border border-[#D4AF37]/30 bg-[#1E1C18] text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none"
         />
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40">
-          🔍
+          ??
         </span>
       </div>
 
@@ -711,7 +711,7 @@ export default function AdminCategories() {
           return (
             <div
               key={category.id}
-              className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-4 flex items-center justify-between hover:border-[#D4AF37]/40 transition-colors"
+              className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-4 flex items-center justify-between hover:border-[#D4AF37]/40 transition-colors"
             >
               <div className="flex items-center gap-4">
                 {isImageIcon && iconPath ? (
@@ -829,7 +829,7 @@ export default function AdminCategories() {
 
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-6 w-full max-w-2xl my-8 max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6 w-full max-w-2xl my-8 max-h-[90vh] overflow-y-auto">
             {/* Steps indicator */}
             <div className="flex items-center gap-4 mb-6">
               <div
@@ -844,7 +844,7 @@ export default function AdminCategories() {
                       : "bg-green-500 text-white"
                   }`}
                 >
-                  {createStep === "questions" ? "✓" : "1"}
+                  {createStep === "questions" ? "?" : "1"}
                 </div>
                 <span className="font-medium">Ma'lumotlar</span>
               </div>
@@ -959,7 +959,7 @@ export default function AdminCategories() {
                           : "border-[#D4AF37]/20 text-[#D4AF37]/70 hover:border-[#D4AF37]/40"
                       }`}
                     >
-                      😀 Emoji
+                      ?? Emoji
                     </button>
                     <button
                       type="button"
@@ -974,7 +974,7 @@ export default function AdminCategories() {
                           : "border-[#D4AF37]/20 text-[#D4AF37]/70 hover:border-[#D4AF37]/40"
                       }`}
                     >
-                      🖼️ Rasm
+                      ??? Rasm
                     </button>
                   </div>
                 </div>
@@ -992,7 +992,7 @@ export default function AdminCategories() {
                         setNewCategory({ ...newCategory, icon: e.target.value })
                       }
                       className="w-full px-4 py-2 rounded-xl border border-[#D4AF37]/30 bg-[#0F0E0A] text-[#FBF0B2] text-2xl placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none"
-                      placeholder="📖"
+                      placeholder="??"
                     />
                   </div>
                 ) : (
@@ -1074,7 +1074,7 @@ export default function AdminCategories() {
                 {/* Sample format */}
                 <div className="p-4 bg-[#D4AF37]/10 rounded-xl border border-[#D4AF37]/20">
                   <p className="font-medium text-[#FBF0B2] mb-2">
-                    📝 Qo'llab-quvvatlanadigan TXT formatlar:
+                    ?? Qo'llab-quvvatlanadigan TXT formatlar:
                   </p>
 
                   <div className="space-y-3">
@@ -1097,7 +1097,7 @@ export default function AdminCategories() {
 A) 36  B) 30  C) 42  D) 24
 Javob: A
 
-2. Kvadratning yuzi 64 sm² bo'lsa, perimetrini toping.
+2. Kvadratning yuzi 64 sm? bo'lsa, perimetrini toping.
 A) 32 sm  B) 16 sm  C) 64 sm  D) 24 sm
 Javob: A`}
                       </pre>
@@ -1195,7 +1195,7 @@ Javob: B`}
                               }`}
                             >
                               {level.count} ta savol{" "}
-                              {level.count >= 100 ? "✓" : "(min 100)"}
+                              {level.count >= 100 ? "?" : "(min 100)"}
                             </span>
                           )}
                         </label>
@@ -1224,7 +1224,7 @@ Javob: B`}
                     >
                       {questionLevels.reduce((sum, l) => sum + l.count, 0) >=
                       100
-                        ? "Tayyor ✓"
+                        ? "Tayyor ?"
                         : "Minimum 100 ta savol kerak"}
                     </span>
                   </div>
@@ -1260,7 +1260,7 @@ Javob: B`}
                     Yaratilmoqda...
                   </>
                 ) : createStep === "info" ? (
-                  "Keyingi →"
+                  "Keyingi >"
                 ) : (
                   "Yaratish"
                 )}
@@ -1272,7 +1272,7 @@ Javob: B`}
 
       {showImportModal && selectedCategory && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-2 text-[#FBF0B2]">
               Savollar import qilish (JSON)
             </h2>
@@ -1327,7 +1327,7 @@ Javob: B`}
       {/* Add Tests Modal (TXT format) */}
       {showAddTestsModal && addTestsCategory && (
         <div className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-xl p-6 w-full max-w-2xl my-8 max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#1E1C18] border border-[#D4AF37]/30 rounded-xl p-6 w-full max-w-2xl my-8 max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-2 text-[#FBF0B2]">
               Test qo'shish (TXT)
             </h2>
@@ -1401,7 +1401,7 @@ Javob: B`}
                     }`}
                   >
                     {addTestsQuestions.length} ta savol{" "}
-                    {addTestsQuestions.length > 0 ? "✓" : "⚠️"}
+                    {addTestsQuestions.length > 0 ? "?" : "??"}
                   </span>
                 )}
               </label>
@@ -1410,7 +1410,7 @@ Javob: B`}
             {/* Format help */}
             <div className="p-4 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-lg mb-6">
               <p className="font-medium text-[#D4AF37] mb-2">
-                📝 TXT format namunasi:
+                ?? TXT format namunasi:
               </p>
               <pre className="text-xs text-[#E5C366] bg-[#0F0E0A] p-2 rounded overflow-x-auto">
                 {`1. 5 + 7 nechaga teng? A) 12 B) 10 C) 15 D) 14 Javob: A

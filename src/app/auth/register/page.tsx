@@ -92,7 +92,7 @@ export default function RegisterPage() {
       await axios.post(`${API_URL}/auth/send-verification`, {
         email: emailAddress,
       });
-      toast.success("📧 Tasdiqlash kodi emailingizga yuborildi!");
+      toast.success("рџ“§ Tasdiqlash kodi emailingizga yuborildi!");
       startCountdown();
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Kod yuborishda xatolik");
@@ -121,7 +121,7 @@ export default function RegisterPage() {
         username: data.username,
       });
       if (!usernameCheck.data.available) {
-        toast.error("🚫 Bu username allaqachon band!");
+        toast.error("рџљ« Bu username allaqachon band!");
         setIsLoading(false);
         return;
       }
@@ -131,7 +131,7 @@ export default function RegisterPage() {
         email: data.email,
       });
       if (!emailCheck.data.available) {
-        toast.error("🚫 Bu email allaqachon ro'yxatdan o'tgan!");
+        toast.error("рџљ« Bu email allaqachon ro'yxatdan o'tgan!");
         setIsLoading(false);
         return;
       }
@@ -184,7 +184,7 @@ export default function RegisterPage() {
         code,
       });
 
-      toast.success("✅ Email tasdiqlandi!");
+      toast.success("вњ… Email tasdiqlandi!");
       setCurrentStep("telegram-phone");
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Noto'g'ri kod");
@@ -209,7 +209,7 @@ export default function RegisterPage() {
         email,
       });
 
-      toast.success("📱 Telefon raqam Telegramga yuborildi!");
+      toast.success("рџ“± Telefon raqam Telegramga yuborildi!");
 
       // Complete registration
       await completeRegistration();
@@ -239,7 +239,7 @@ export default function RegisterPage() {
         telegramHaptic("success");
       }
 
-      toast.success("🎉 Muvaffaqiyatli ro'yxatdan o'tdingiz!", {
+      toast.success("рџЋ‰ Muvaffaqiyatli ro'yxatdan o'tdingiz!", {
         duration: 4000,
       });
 
@@ -422,7 +422,7 @@ export default function RegisterPage() {
                             ? "border-red-500"
                             : "border-gray-300 dark:border-gray-600"
                         } rounded-xl focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all`}
-                        placeholder="••••••••"
+                        placeholder="вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў"
                       />
                       <button
                         type="button"
@@ -461,7 +461,7 @@ export default function RegisterPage() {
                             ? "border-red-500"
                             : "border-gray-300 dark:border-gray-600"
                         } rounded-xl focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all`}
-                        placeholder="••••••••"
+                        placeholder="вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў"
                       />
                       <button
                         type="button"
@@ -566,7 +566,7 @@ export default function RegisterPage() {
                   transition={{ delay: 0.2 }}
                   className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2"
                 >
-                  ✨ Email Tasdiqlash
+                  вњЁ Email Tasdiqlash
                 </motion.h2>
 
                 <motion.div
@@ -751,7 +751,7 @@ export default function RegisterPage() {
                   transition={{ delay: 0.8 }}
                   className="mt-4 sm:mt-6 text-[11px] sm:text-xs text-gray-400 dark:text-gray-500"
                 >
-                  📬 Spam papkasini ham tekshirib ko'ring
+                  рџ“¬ Spam papkasini ham tekshirib ko'ring
                 </motion.p>
               </motion.div>
             )}
@@ -807,7 +807,7 @@ export default function RegisterPage() {
                       className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-3"
                     >
                       <p className="text-green-700 dark:text-green-400 text-sm flex items-center gap-2">
-                        <span>✅</span>
+                        <span>вњ…</span>
                         Kiritilgan raqam:{" "}
                         <strong>
                           {telegramPhone.startsWith("+")
@@ -863,7 +863,7 @@ export default function RegisterPage() {
                   <CheckCircle2 className="h-16 w-16 text-white" />
                 </motion.div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                  Tabriklaymiz! 🎉
+                  Tabriklaymiz! рџЋ‰
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
                   Siz muvaffaqiyatli ro'yxatdan o'tdingiz
@@ -877,7 +877,7 @@ export default function RegisterPage() {
         </div>
 
         <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-          © 2025 Allohga Qayting. Barcha huquqlar himoyalangan.
+          В© 2025 Allohga Qayting. Barcha huquqlar himoyalangan.
         </p>
       </motion.div>
 

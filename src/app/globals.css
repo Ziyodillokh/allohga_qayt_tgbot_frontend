@@ -47,7 +47,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
   }
 
   body {
-    @apply bg-[#0A0908] text-gray-100;
+    @apply bg-[#0F0D0A] text-gray-100;
     @apply min-h-screen;
     min-height: var(--tg-viewport-stable-height, 100vh);
     overscroll-behavior: none;
@@ -225,7 +225,8 @@ input[type="password"]::-webkit-textfield-decoration-container {
   }
 
   @keyframes pulseRing {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.3;
       transform: scale(1);
     }

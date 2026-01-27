@@ -83,7 +83,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-4">
             <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-              <span className="text-4xl">🕌</span>
+              <span className="text-4xl">рџ•Њ</span>
             </div>
           </div>
           <h1 className="text-2xl font-bold text-[#FBF0B2] mb-1">
@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Login Form */}
-        <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-3xl p-8">
+        <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-3xl p-8">
           <h2 className="text-xl font-bold text-[#FBF0B2] mb-6 text-center">
             Tizimga kirish
           </h2>
@@ -145,7 +145,7 @@ export default function AdminLoginPage() {
                     setFormData({ ...formData, password: e.target.value })
                   }
                   className="w-full px-4 py-3 bg-[#0F0E0A] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none transition-colors pr-12"
-                  placeholder="••••••••"
+                  placeholder="вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў"
                 />
                 <button
                   type="button"
@@ -226,7 +226,7 @@ export default function AdminLoginPage() {
 
         {/* Footer */}
         <p className="text-center text-[#D4AF37]/40 text-xs mt-6">
-          © 2026 Allohga Qayting. Barcha huquqlar himoyalangan.
+          В© 2026 Allohga Qayting. Barcha huquqlar himoyalangan.
         </p>
       </div>
     </div>

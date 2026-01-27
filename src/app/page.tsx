@@ -65,12 +65,12 @@ export default function LuxuryZikrApp() {
   const [showComingSoon, setShowComingSoon] = useState<string | null>(null);
 
   const categories = [
-    { name: "quron", label: "Qur'on", emoji: "📖" },
-    { name: "hadis", label: "Hadis", emoji: "📜" },
-    { name: "aqida", label: "Aqida", emoji: "✨" },
-    { name: "fiqh", label: "Fiqh", emoji: "⚖️" },
-    { name: "seerat", label: "Seerat", emoji: "👤" },
-    { name: "zikr", label: "Zikr & Duolar", emoji: "🤲" },
+    { name: "quron", label: "Qur'on", emoji: "рџ“–" },
+    { name: "hadis", label: "Hadis", emoji: "рџ“њ" },
+    { name: "aqida", label: "Aqida", emoji: "вњЁ" },
+    { name: "fiqh", label: "Fiqh", emoji: "вљ–пёЏ" },
+    { name: "seerat", label: "Seerat", emoji: "рџ‘¤" },
+    { name: "zikr", label: "Zikr & Duolar", emoji: "рџ¤І" },
   ];
 
   // Hafta kunlari nomlari
@@ -187,7 +187,7 @@ export default function LuxuryZikrApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0908] relative">
+    <div className="min-h-screen bg-[#0F0D0A] relative">
       {/* Premium Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] right-[-15%] w-[500px] h-[500px] bg-gradient-radial from-[#D4AF37]/15 via-[#D4AF37]/5 to-transparent rounded-full blur-3xl"></div>
@@ -204,7 +204,7 @@ export default function LuxuryZikrApp() {
               <div className="flex items-center gap-3">
                 {/* Logo - Dumaloq */}
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[2px] shadow-lg shadow-[#D4AF37]/30">
-                  <div className="w-full h-full rounded-full bg-[#0A0908] flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-full rounded-full bg-[#0F0D0A] flex items-center justify-center overflow-hidden">
                     <img
                       src="/img/logotip.png"
                       alt="Tavba"
@@ -221,7 +221,7 @@ export default function LuxuryZikrApp() {
                 {/* Sozlamalar tugmasi */}
                 <button
                   onClick={() => router.push("/profile")}
-                  className="w-10 h-10 rounded-full bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center hover:border-[#D4AF37]/50 hover:bg-[#1A1812]/80 transition-all active:scale-95"
+                  className="w-10 h-10 rounded-full bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center hover:border-[#D4AF37]/50 hover:bg-[#1E1C18]/80 transition-all active:scale-95"
                 >
                   <Settings className="w-5 h-5 text-[#D4AF37]/70" />
                 </button>
@@ -233,7 +233,7 @@ export default function LuxuryZikrApp() {
               <div className="grid grid-cols-2 gap-4 mb-10">
                 <button
                   onClick={() => router.push("/ai")}
-                  className="group p-5 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-[0.98]"
+                  className="group p-5 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-[0.98]"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/15 flex items-center justify-center mb-3">
                     <Sparkles className="w-6 h-6 text-[#D4AF37]" />
@@ -246,7 +246,7 @@ export default function LuxuryZikrApp() {
 
                 <button
                   onClick={() => router.push("/test")}
-                  className="group p-5 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-[0.98]"
+                  className="group p-5 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-[0.98]"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/15 flex items-center justify-center mb-3">
                     <BookOpen className="w-6 h-6 text-[#D4AF37]" />
@@ -266,7 +266,7 @@ export default function LuxuryZikrApp() {
                       Bugungi zikrlar
                     </h2>
                     <p className="text-xs text-[#9A8866]">
-                      {todayDayName} • {dailyZikrs.length} ta
+                      {todayDayName} вЂў {dailyZikrs.length} ta
                     </p>
                   </div>
                 </div>
@@ -283,8 +283,8 @@ export default function LuxuryZikrApp() {
                   </div>
                 ) : dailyZikrs.length === 0 ? (
                   <div className="text-center py-16 px-6">
-                    <div className="w-20 h-20 rounded-3xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
-                      <span className="text-4xl">🤲</span>
+                    <div className="w-20 h-20 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
+                      <span className="text-4xl">рџ¤І</span>
                     </div>
                     <p className="text-[#9A8866]">
                       Bugun uchun zikrlar topilmadi
@@ -308,7 +308,7 @@ export default function LuxuryZikrApp() {
                           className={`p-4 rounded-2xl transition-all duration-200 flex items-center gap-4 ${
                             zikr.isCompleted
                               ? "bg-[#0F1A0F] border border-green-500/20"
-                              : "bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:bg-[#1A1812] hover:border-[#D4AF37]/25 active:scale-[0.99]"
+                              : "bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:bg-[#1E1C18] hover:border-[#D4AF37]/25 active:scale-[0.99]"
                           }`}
                         >
                           {/* Emoji Icon */}
@@ -366,7 +366,7 @@ export default function LuxuryZikrApp() {
             {/* Profile Header */}
             <div className="flex flex-col items-center mb-10">
               <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] shadow-2xl shadow-[#D4AF37]/20 mb-5 relative">
-                <div className="w-full h-full rounded-3xl bg-[#0A0908] flex items-center justify-center overflow-hidden">
+                <div className="w-full h-full rounded-3xl bg-[#0F0D0A] flex items-center justify-center overflow-hidden">
                   {userPhoto ? (
                     <img
                       src={userPhoto}
@@ -377,7 +377,7 @@ export default function LuxuryZikrApp() {
                     <User className="w-14 h-14 text-[#D4AF37]" />
                   )}
                 </div>
-                <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-green-400 to-green-600 w-7 h-7 rounded-xl border-4 border-[#0A0908] flex items-center justify-center">
+                <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-green-400 to-green-600 w-7 h-7 rounded-xl border-4 border-[#0F0D0A] flex items-center justify-center">
                   <CheckCircle2 className="w-4 h-4 text-white" />
                 </div>
               </div>
@@ -395,7 +395,7 @@ export default function LuxuryZikrApp() {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/10 text-center relative overflow-hidden">
+              <div className="p-5 rounded-3xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/10 text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-16 h-16 bg-[#D4AF37]/5 rounded-full blur-xl"></div>
                 <div className="relative">
                   <div className="w-12 h-12 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center mx-auto mb-3">
@@ -408,7 +408,7 @@ export default function LuxuryZikrApp() {
                 </div>
               </div>
 
-              <div className="p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/10 text-center relative overflow-hidden">
+              <div className="p-5 rounded-3xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/10 text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-16 h-16 bg-[#D4AF37]/5 rounded-full blur-xl"></div>
                 <div className="relative">
                   <div className="w-12 h-12 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center mx-auto mb-3">
@@ -456,7 +456,7 @@ export default function LuxuryZikrApp() {
         ) : (
           <div className="flex-1 flex items-center justify-center pt-20">
             <div className="text-center">
-              <div className="w-20 h-20 rounded-3xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
+              <div className="w-20 h-20 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
                 <Sparkles className="w-8 h-8 text-[#D4AF37]/50" />
               </div>
               <p className="text-[#9A8866] uppercase tracking-widest text-xs">
@@ -468,7 +468,7 @@ export default function LuxuryZikrApp() {
 
         {/* Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 max-w-lg mx-auto">
-          <div className="mx-4 mb-6 px-4 py-3 rounded-3xl bg-[#1A1812]/95 backdrop-blur-xl border border-[#D4AF37]/20 shadow-2xl shadow-black/50">
+          <div className="mx-4 mb-6 px-4 py-3 rounded-3xl bg-[#1E1C18]/95 backdrop-blur-xl border border-[#D4AF37]/20 shadow-2xl shadow-black/50">
             <div className="flex justify-around items-center">
               <NavItem
                 icon={Home}
@@ -512,7 +512,7 @@ export default function LuxuryZikrApp() {
             onClick={() => setShowComingSoon(null)}
           >
             <div
-              className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl p-8 max-w-sm w-full text-center animate-in zoom-in-95 duration-300"
+              className="bg-[#1E1C18] border border-[#D4AF37]/30 rounded-3xl p-8 max-w-sm w-full text-center animate-in zoom-in-95 duration-300"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="w-20 h-20 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center mx-auto mb-5">
@@ -539,13 +539,13 @@ export default function LuxuryZikrApp() {
           <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] animate-in slide-in-from-top duration-300">
             <div className="bg-gradient-to-r from-[#D4AF37] to-[#AA8232] px-8 py-4 rounded-2xl shadow-2xl shadow-[#D4AF37]/30 flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center">
-                <Zap className="w-6 h-6 text-[#0A0908]" />
+                <Zap className="w-6 h-6 text-[#0F0D0A]" />
               </div>
               <div>
-                <p className="text-lg font-black text-[#0A0908]">
+                <p className="text-lg font-black text-[#0F0D0A]">
                   +{earnedXp} XP
                 </p>
-                <p className="text-xs text-[#0A0908]/70">Zikr uchun mukofot!</p>
+                <p className="text-xs text-[#0F0D0A]/70">Zikr uchun mukofot!</p>
               </div>
             </div>
           </div>
@@ -553,7 +553,7 @@ export default function LuxuryZikrApp() {
 
         {/* Zikr Modal */}
         {selectedZikr && (
-          <div className="fixed inset-0 z-[100] bg-[#0A0908] flex flex-col animate-in slide-in-from-bottom duration-300">
+          <div className="fixed inset-0 z-[100] bg-[#0F0D0A] flex flex-col animate-in slide-in-from-bottom duration-300">
             {/* Background glow */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-radial from-[#D4AF37]/20 to-transparent rounded-full blur-3xl"></div>
@@ -562,7 +562,7 @@ export default function LuxuryZikrApp() {
             <header className="relative z-10 flex justify-between items-center px-6 pt-14 pb-6">
               <button
                 onClick={closeZikr}
-                className="p-3 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-colors"
+                className="p-3 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-colors"
               >
                 <X className="w-5 h-5 text-[#D4AF37]" />
               </button>
@@ -628,7 +628,7 @@ export default function LuxuryZikrApp() {
                 </div>
 
                 {/* Background circle */}
-                <div className="absolute inset-0 rounded-full border-[3px] border-[#1A1812]"></div>
+                <div className="absolute inset-0 rounded-full border-[3px] border-[#1E1C18]"></div>
 
                 {/* Progress circle */}
                 <svg
@@ -670,7 +670,7 @@ export default function LuxuryZikrApp() {
               <div className="flex gap-4 max-w-sm mx-auto">
                 <button
                   onClick={resetZikr}
-                  className="flex-1 py-4 rounded-2xl bg-[#1A1812] border border-[#D4AF37]/20 text-[#D4AF37] font-bold text-sm uppercase tracking-wider hover:bg-[#26231A] transition-colors active:scale-[0.98]"
+                  className="flex-1 py-4 rounded-2xl bg-[#1E1C18] border border-[#D4AF37]/20 text-[#D4AF37] font-bold text-sm uppercase tracking-wider hover:bg-[#26231A] transition-colors active:scale-[0.98]"
                 >
                   Qayta boshlash
                 </button>
@@ -687,7 +687,7 @@ export default function LuxuryZikrApp() {
 
         {/* Category Select Modal */}
         {showCategorySelect && !showChatbotQA && (
-          <div className="fixed inset-0 z-[100] bg-[#0A0908] flex flex-col animate-in fade-in duration-200">
+          <div className="fixed inset-0 z-[100] bg-[#0F0D0A] flex flex-col animate-in fade-in duration-200">
             <div className="fixed inset-0 pointer-events-none">
               <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-gradient-radial from-[#D4AF37]/10 to-transparent rounded-full blur-3xl"></div>
             </div>
@@ -695,7 +695,7 @@ export default function LuxuryZikrApp() {
             <header className="relative z-10 flex justify-between items-center px-6 pt-14 pb-6">
               <button
                 onClick={() => setShowCategorySelect(false)}
-                className="p-3 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10"
+                className="p-3 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10"
               >
                 <X className="w-5 h-5 text-[#D4AF37]" />
               </button>
@@ -727,7 +727,7 @@ export default function LuxuryZikrApp() {
                       setShowCategorySelect(false);
                       setShowChatbotQA(true);
                     }}
-                    className="group p-6 rounded-3xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 hover:bg-[#1A1812] transition-all flex flex-col items-center gap-3"
+                    className="group p-6 rounded-3xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 hover:bg-[#1E1C18] transition-all flex flex-col items-center gap-3"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -778,7 +778,7 @@ function NavItem({ icon: Icon, label, active, onClick, isLarge }: any) {
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
             active
               ? "bg-gradient-to-br from-[#D4AF37]/30 to-[#D4AF37]/10 border border-[#D4AF37]/50"
-              : "bg-[#1A1812] border border-[#D4AF37]/10"
+              : "bg-[#1E1C18] border border-[#D4AF37]/10"
           }`}
         >
           <Icon
@@ -801,7 +801,7 @@ function ProfileMenuItem({ icon: Icon, label, onClick }: any) {
   return (
     <button
       onClick={onClick}
-      className="w-full p-4 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 hover:bg-[#1A1812] transition-all flex items-center justify-between group"
+      className="w-full p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 hover:bg-[#1E1C18] transition-all flex items-center justify-between group"
     >
       <div className="flex items-center gap-4">
         <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/20 flex items-center justify-center group-hover:scale-105 transition-transform">

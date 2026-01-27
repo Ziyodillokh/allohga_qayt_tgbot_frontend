@@ -198,7 +198,7 @@ export default function ProfilePage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-[#0A0908] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0F0D0A] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -241,7 +241,7 @@ export default function ProfilePage() {
       : 0;
 
   return (
-    <div className="min-h-screen bg-[#0A0908] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0F0D0A] relative overflow-x-hidden">
       {/* Premium Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] right-[-15%] w-[500px] h-[500px] bg-gradient-radial from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent rounded-full blur-3xl"></div>
@@ -255,7 +255,7 @@ export default function ProfilePage() {
         <header className="flex items-center justify-between mb-6">
           <button
             onClick={() => router.back()}
-            className="p-3 rounded-2xl bg-[#1A1812]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1A1812] hover:border-[#D4AF37]/30 transition-all group"
+            className="p-3 rounded-2xl bg-[#1E1C18]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1E1C18] hover:border-[#D4AF37]/30 transition-all group"
           >
             <ArrowLeft className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" />
           </button>
@@ -264,14 +264,14 @@ export default function ProfilePage() {
 
           <Link
             href="/profile/settings"
-            className="p-3 rounded-2xl bg-[#1A1812]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1A1812] hover:border-[#D4AF37]/30 transition-all group"
+            className="p-3 rounded-2xl bg-[#1E1C18]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1E1C18] hover:border-[#D4AF37]/30 transition-all group"
           >
             <Settings className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" />
           </Link>
         </header>
 
         {/* Profile Card */}
-        <div className="mb-6 p-6 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
+        <div className="mb-6 p-6 rounded-3xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
           {/* Background glow */}
           <div className="absolute top-0 right-0 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl"></div>
@@ -293,8 +293,8 @@ export default function ProfilePage() {
                 )}
               </div>
               {/* Level badge */}
-              <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#AA8232] flex items-center justify-center border-2 border-[#0A0908] shadow-lg">
-                <span className="text-xs font-black text-[#0A0908]">
+              <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#AA8232] flex items-center justify-center border-2 border-[#0F0D0A] shadow-lg">
+                <span className="text-xs font-black text-[#0F0D0A]">
                   {stats.level}
                 </span>
               </div>
@@ -312,7 +312,7 @@ export default function ProfilePage() {
                 <span className="text-[#9A8866]">Level {stats.level}</span>
                 <span className="text-[#D4AF37]">Level {stats.level + 1}</span>
               </div>
-              <div className="h-2 bg-[#1A1812] rounded-full overflow-hidden border border-[#D4AF37]/10">
+              <div className="h-2 bg-[#1E1C18] rounded-full overflow-hidden border border-[#D4AF37]/10">
                 <div
                   className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FBF0B2] rounded-full transition-all duration-500"
                   style={{ width: `${stats.levelProgress}%` }}
@@ -342,7 +342,7 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-2 gap-3">
             {/* Total XP */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#D4AF37]/5 rounded-full blur-xl group-hover:bg-[#D4AF37]/10 transition-colors"></div>
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center mb-3">
@@ -358,11 +358,11 @@ export default function ProfilePage() {
             </div>
 
             {/* Zikr Count */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#22c55e]/5 rounded-full blur-xl group-hover:bg-[#22c55e]/10 transition-colors"></div>
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-[#22c55e]/10 flex items-center justify-center mb-3">
-                  <span className="text-xl">📿</span>
+                  <span className="text-xl">рџ“ї</span>
                 </div>
                 <p className="text-2xl font-black text-white mb-0.5">
                   {stats.totalZikr.toLocaleString()}
@@ -374,7 +374,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Tests Completed */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#3b82f6]/5 rounded-full blur-xl group-hover:bg-[#3b82f6]/10 transition-colors"></div>
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center mb-3">
@@ -390,7 +390,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Achievements */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all">
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#a855f7]/5 rounded-full blur-xl group-hover:bg-[#a855f7]/10 transition-colors"></div>
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-[#a855f7]/10 flex items-center justify-center mb-3">
@@ -408,7 +408,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Test Accuracy Card */}
-        <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
+        <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl"></div>
 
           <h3 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
@@ -426,7 +426,7 @@ export default function ProfilePage() {
                   cy="50"
                   r="42"
                   fill="none"
-                  stroke="#1A1812"
+                  stroke="#1E1C18"
                   strokeWidth="10"
                 />
                 {/* Progress circle */}
@@ -516,7 +516,7 @@ export default function ProfilePage() {
 
         {/* XP Progress Card */}
         {(stats.weeklyXP > 0 || stats.monthlyXP > 0) && (
-          <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20">
+          <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20">
             <h3 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
               <Flame className="w-4 h-4 text-[#f97316]" />
               XP Jarayoni
@@ -553,8 +553,8 @@ export default function ProfilePage() {
               className={cn(
                 "flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium whitespace-nowrap text-sm transition-all",
                 activeTab === tab.id
-                  ? "bg-[#D4AF37] text-[#0A0908]"
-                  : "bg-[#1A1812] text-[#9A8866] border border-[#D4AF37]/10 hover:border-[#D4AF37]/30",
+                  ? "bg-[#D4AF37] text-[#0F0D0A]"
+                  : "bg-[#1E1C18] text-[#9A8866] border border-[#D4AF37]/10 hover:border-[#D4AF37]/30",
               )}
             >
               <tab.icon className="w-4 h-4" />
@@ -573,12 +573,12 @@ export default function ProfilePage() {
 
             {categoryStats.length === 0 ? (
               <div className="text-center py-12 px-6">
-                <div className="w-16 h-16 rounded-2xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="w-7 h-7 text-[#D4AF37]/50" />
                 </div>
                 <p className="text-[#9A8866] mb-2">Hali test topshirmadingiz</p>
                 <Link href="/test">
-                  <button className="px-5 py-2.5 rounded-xl bg-[#D4AF37] text-[#0A0908] font-medium text-sm hover:bg-[#FBF0B2] transition-colors">
+                  <button className="px-5 py-2.5 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm hover:bg-[#FBF0B2] transition-colors">
                     Test boshlash
                   </button>
                 </Link>
@@ -587,7 +587,7 @@ export default function ProfilePage() {
               categoryStats.map((stat) => (
                 <div
                   key={stat.id}
-                  className="p-4 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all"
+                  className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all"
                 >
                   <div className="flex items-center gap-4">
                     <div
@@ -606,7 +606,7 @@ export default function ProfilePage() {
                           className="w-8 h-8 object-contain"
                         />
                       ) : (
-                        <span>{stat.category.icon || "📝"}</span>
+                        <span>{stat.category.icon || "рџ“ќ"}</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -614,7 +614,7 @@ export default function ProfilePage() {
                         {stat.category.name}
                       </h3>
                       <p className="text-xs text-[#9A8866]">
-                        {stat.totalTests} ta test • {formatXP(stat.totalXP)} XP
+                        {stat.totalTests} ta test вЂў {formatXP(stat.totalXP)} XP
                       </p>
                     </div>
                     <div className="text-right">
@@ -658,7 +658,7 @@ export default function ProfilePage() {
 
             {testHistory.length === 0 ? (
               <div className="text-center py-12 px-6">
-                <div className="w-16 h-16 rounded-2xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
                   <Clock className="w-7 h-7 text-[#D4AF37]/50" />
                 </div>
                 <p className="text-[#9A8866]">Hali test topshirmadingiz</p>
@@ -666,8 +666,8 @@ export default function ProfilePage() {
             ) : (
               testHistory.map((test) => (
                 <Link key={test.id} href={`/test/result/${test.id}`}>
-                  <div className="p-4 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all flex items-center gap-4">
-                    <div className="w-12 h-12 bg-[#1A1812] rounded-xl flex items-center justify-center text-2xl overflow-hidden border border-[#D4AF37]/10">
+                  <div className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#1E1C18] rounded-xl flex items-center justify-center text-2xl overflow-hidden border border-[#D4AF37]/10">
                       {test.category?.icon?.startsWith("/") ? (
                         <Image
                           src={
@@ -680,7 +680,7 @@ export default function ProfilePage() {
                           className="w-full h-full object-contain p-1"
                         />
                       ) : (
-                        <span>{test.category?.icon || "📝"}</span>
+                        <span>{test.category?.icon || "рџ“ќ"}</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -726,7 +726,7 @@ export default function ProfilePage() {
               </h2>
 
               {achievements.unlocked.length === 0 ? (
-                <div className="text-center py-8 px-6 rounded-2xl bg-[#1A1812]/50 border border-[#D4AF37]/10">
+                <div className="text-center py-8 px-6 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10">
                   <p className="text-[#9A8866]">Hali yutuq olmadingiz</p>
                 </div>
               ) : (
@@ -759,10 +759,10 @@ export default function ProfilePage() {
               </h2>
 
               {achievements.locked.length === 0 ? (
-                <div className="text-center py-8 px-6 rounded-2xl bg-[#1A1812]/50 border border-[#D4AF37]/10">
+                <div className="text-center py-8 px-6 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10">
                   <Trophy className="w-10 h-10 mx-auto text-[#D4AF37] mb-2" />
                   <p className="text-[#9A8866]">
-                    Barcha yutuqlarni oldingiz! 🎉
+                    Barcha yutuqlarni oldingiz! рџЋ‰
                   </p>
                 </div>
               ) : (
@@ -776,7 +776,7 @@ export default function ProfilePage() {
                     return (
                       <div
                         key={ach.id}
-                        className="p-4 rounded-2xl bg-[#1A1812]/50 border border-[#D4AF37]/10 text-center opacity-60 hover:opacity-100 transition-opacity"
+                        className="p-4 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10 text-center opacity-60 hover:opacity-100 transition-opacity"
                       >
                         <span className="text-3xl grayscale">{ach.icon}</span>
                         <h3 className="font-bold text-white mt-2 text-sm">
@@ -787,7 +787,7 @@ export default function ProfilePage() {
                         </p>
                         {target > 0 && (
                           <div className="mt-2">
-                            <div className="h-1.5 bg-[#0A0908] rounded-full overflow-hidden">
+                            <div className="h-1.5 bg-[#0F0D0A] rounded-full overflow-hidden">
                               <div
                                 className="h-full bg-[#D4AF37]/50 rounded-full"
                                 style={{ width: `${percentage}%` }}
@@ -816,7 +816,7 @@ export default function ProfilePage() {
             </h2>
 
             {/* ID Card */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1A1812] via-[#0F0E0A] to-[#1A1812] p-1 border border-[#D4AF37]/20">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1E1C18] via-[#0F0E0A] to-[#1E1C18] p-1 border border-[#D4AF37]/20">
               <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/5 via-transparent to-[#D4AF37]/5" />
 
               <div className="relative p-5">
@@ -824,7 +824,7 @@ export default function ProfilePage() {
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <div className="w-9 h-9 bg-gradient-to-br from-[#D4AF37] to-[#AA8232] rounded-lg flex items-center justify-center">
-                      <Code className="w-5 h-5 text-[#0A0908]" />
+                      <Code className="w-5 h-5 text-[#0F0D0A]" />
                     </div>
                     <div>
                       <p className="text-[10px] text-[#9A8866] uppercase tracking-wider">
@@ -835,7 +835,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] text-[#9A8866]">ID: #001</p>
-                    <p className="text-[10px] text-[#22c55e]">✓ Verified</p>
+                    <p className="text-[10px] text-[#22c55e]">вњ“ Verified</p>
                   </div>
                 </div>
 
@@ -885,7 +885,7 @@ export default function ProfilePage() {
                     href="https://t.me/Khamidov_online"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                    className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
                   >
                     <div className="w-8 h-8 bg-[#3b82f6]/10 rounded-lg flex items-center justify-center">
                       <Send className="w-4 h-4 text-[#3b82f6]" />
@@ -902,7 +902,7 @@ export default function ProfilePage() {
                     href="https://www.instagram.com/khamidov__online"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                    className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
                   >
                     <div className="w-8 h-8 bg-[#ec4899]/10 rounded-lg flex items-center justify-center">
                       <Instagram className="w-4 h-4 text-[#ec4899]" />
@@ -919,7 +919,7 @@ export default function ProfilePage() {
                     href="https://github.com/Bekmuhammad-Devoloper"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                    className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
                   >
                     <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
                       <Github className="w-4 h-4 text-white/80" />
@@ -936,7 +936,7 @@ export default function ProfilePage() {
                     href="https://bekmuhammad.uz"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2.5 bg-[#0A0908]/50 rounded-xl hover:bg-[#0A0908] transition-colors group"
+                    className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
                   >
                     <div className="w-8 h-8 bg-[#22c55e]/10 rounded-lg flex items-center justify-center">
                       <Globe className="w-4 h-4 text-[#22c55e]" />
@@ -959,7 +959,7 @@ export default function ProfilePage() {
                     </span>
                   </div>
                   <p className="text-[10px] text-[#9A8866]">
-                    © 2025 Allohga Qayting
+                    В© 2025 Allohga Qayting
                   </p>
                 </div>
               </div>

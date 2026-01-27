@@ -67,7 +67,7 @@ export default function AdminDashboard() {
         <button
           onClick={refresh}
           disabled={!connected}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1A1812] border border-[#D4AF37]/20 rounded-xl text-[#D4AF37] text-sm font-medium hover:bg-[#D4AF37]/10 disabled:opacity-50 transition-all"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1E1C18] border border-[#D4AF37]/20 rounded-xl text-[#D4AF37] text-sm font-medium hover:bg-[#D4AF37]/10 disabled:opacity-50 transition-all"
         >
           <RefreshCw className="w-4 h-4" />
           Yangilash
@@ -146,7 +146,7 @@ export default function AdminDashboard() {
 
       {/* Zikr Stats Section */}
       {stats?.zikr && (
-        <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-6">
+        <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] flex items-center justify-center">
@@ -213,8 +213,8 @@ export default function AdminDashboard() {
                     <span className="text-sm font-medium text-[#E5C366]">
                       {z.title}
                     </span>
-                    <span className="text-xs bg-[#1A1812] text-[#D4AF37]/80 px-2 py-0.5 rounded-md border border-[#D4AF37]/20">
-                      {z.completions}×
+                    <span className="text-xs bg-[#1E1C18] text-[#D4AF37]/80 px-2 py-0.5 rounded-md border border-[#D4AF37]/20">
+                      {z.completions}Г—
                     </span>
                   </div>
                 ))}
@@ -227,7 +227,7 @@ export default function AdminDashboard() {
       {/* Two Column Layout */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Top Categories */}
-        <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-6">
+        <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] flex items-center justify-center">
               <BarChart3 className="w-5 h-5 text-[#0F0E0A]" />
@@ -257,7 +257,7 @@ export default function AdminDashboard() {
                           ? "bg-gradient-to-br from-gray-300 to-gray-400 text-gray-800"
                           : i === 2
                             ? "bg-gradient-to-br from-amber-600 to-amber-700 text-white"
-                            : "bg-[#1A1812] text-[#D4AF37]/60"
+                            : "bg-[#1E1C18] text-[#D4AF37]/60"
                     }`}
                   >
                     {i + 1}
@@ -275,7 +275,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Low Question Categories */}
-        <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-6">
+        <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center">
@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                       >
                         {cat.unusedQuestions < 300
                           ? `${300 - cat.unusedQuestions} kerak`
-                          : "✓"}
+                          : "вњ“"}
                       </span>
                     </div>
                   </div>
@@ -397,7 +397,7 @@ function StatCard({
   };
 
   return (
-    <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-5 hover:border-[#D4AF37]/40 transition-all">
+    <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-5 hover:border-[#D4AF37]/40 transition-all">
       <div
         className={`w-11 h-11 rounded-xl bg-gradient-to-br ${colorStyles[color]} flex items-center justify-center mb-4`}
       >
@@ -427,7 +427,7 @@ function MiniStat({
   icon: any;
 }) {
   return (
-    <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-xl p-4 text-center hover:border-[#D4AF37]/40 transition-colors">
+    <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-xl p-4 text-center hover:border-[#D4AF37]/40 transition-colors">
       <Icon className="w-5 h-5 mx-auto text-[#D4AF37]/60 mb-2" />
       <p className="text-lg font-bold text-[#FBF0B2]">
         {value.toLocaleString()}
@@ -450,7 +450,7 @@ function QuickLink({
   return (
     <Link
       href={href}
-      className="group bg-[#1A1812] border border-[#D4AF37]/20 hover:border-[#D4AF37]/40 rounded-2xl p-5 text-center transition-all"
+      className="group bg-[#1E1C18] border border-[#D4AF37]/20 hover:border-[#D4AF37]/40 rounded-2xl p-5 text-center transition-all"
     >
       <div className="w-12 h-12 mx-auto rounded-xl bg-[#0F0E0A] group-hover:bg-gradient-to-br group-hover:from-[#FBF0B2] group-hover:via-[#D4AF37] group-hover:to-[#AA8232] flex items-center justify-center mb-3 transition-all border border-[#D4AF37]/10 group-hover:border-transparent">
         <Icon className="w-6 h-6 text-[#D4AF37]/60 group-hover:text-[#0F0E0A] transition-colors" />

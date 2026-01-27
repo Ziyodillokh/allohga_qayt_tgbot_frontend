@@ -99,7 +99,7 @@ export function useAuth() {
 
             // Don't auto-redirect to registration - let user use platform first
             // They can register later if they want to login from website
-            toast.success("✅ Telegram orqali kirdingiz!");
+            toast.success("вњ… Telegram orqali kirdingiz!");
           } catch (error: any) {
             console.error("Telegram auth error:", error);
           }
@@ -203,7 +203,7 @@ export function useNotifications() {
     // Setup WebSocket - API_URL dan /api ni olib tashlaymiz
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
     const WS_URL = API_URL.replace("/api", "");
-    console.log("🔌 WebSocket ulanmoqda:", `${WS_URL}/notifications`);
+    console.log("рџ”Њ WebSocket ulanmoqda:", `${WS_URL}/notifications`);
 
     const socketInstance = io(`${WS_URL}/notifications`, {
       auth: { token },
@@ -214,23 +214,23 @@ export function useNotifications() {
     });
 
     socketInstance.on("connect", () => {
-      console.log("✅ WebSocket ulandi! Socket ID:", socketInstance.id);
+      console.log("вњ… WebSocket ulandi! Socket ID:", socketInstance.id);
       setSocketConnected(true);
     });
 
     socketInstance.on("disconnect", (reason) => {
-      console.log("❌ WebSocket uzildi. Sabab:", reason);
+      console.log("вќЊ WebSocket uzildi. Sabab:", reason);
       setSocketConnected(false);
     });
 
     socketInstance.on("connect_error", (error) => {
-      console.error("🚫 WebSocket ulanish xatosi:", error.message);
+      console.error("рџљ« WebSocket ulanish xatosi:", error.message);
     });
 
     socketInstance.on("notification", (notification) => {
       addNotification(notification);
       toast(notification.title, {
-        icon: "🔔",
+        icon: "рџ””",
         duration: 5000,
       });
     });

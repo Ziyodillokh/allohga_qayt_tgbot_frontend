@@ -149,13 +149,13 @@ export default function ForgotPasswordPage() {
       if (result.type === "invite") {
         // User not registered - show error and send invite
         toast.error(
-          "❌ Bu email ro'yxatdan o'tmagan! O'zingiz ro'yxatdan o'tgan emailni kiriting.",
+          "вќЊ Bu email ro'yxatdan o'tmagan! O'zingiz ro'yxatdan o'tgan emailni kiriting.",
           {
             duration: 5000,
           },
         );
         toast.success(
-          "📨 Taklif havolasi emailga yuborildi. Ro'yxatdan o'ting!",
+          "рџ“Ё Taklif havolasi emailga yuborildi. Ro'yxatdan o'ting!",
           {
             duration: 5000,
           },
@@ -164,7 +164,7 @@ export default function ForgotPasswordPage() {
       } else if (result.type === "wrong-email") {
         // Other registered user - wrong email error
         toast.error(
-          "❌ Siz noto'g'ri email kiritdingiz. Iltimos, o'zingizning emailingizni kiriting.",
+          "вќЊ Siz noto'g'ri email kiritdingiz. Iltimos, o'zingizning emailingizni kiriting.",
         );
         emailForm.setError("email", {
           type: "manual",
@@ -175,7 +175,7 @@ export default function ForgotPasswordPage() {
         // Registered user - reset code sent
         setStep("code");
         startCountdown();
-        toast.success("🔐 Tiklash kodi emailga yuborildi!");
+        toast.success("рџ”ђ Tiklash kodi emailga yuborildi!");
       }
     } catch (error: any) {
       const message = error?.response?.data?.message || "Xatolik yuz berdi";
@@ -226,7 +226,7 @@ export default function ForgotPasswordPage() {
                   transition={{ duration: 1.5, repeat: Infinity }}
                   className="text-5xl"
                 >
-                  ❌
+                  вќЊ
                 </motion.span>
               </div>
               <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-2xl -z-10" />
@@ -238,7 +238,7 @@ export default function ForgotPasswordPage() {
               transition={{ delay: 0.2 }}
               className="text-2xl font-bold text-white mb-3"
             >
-              ⚠️ Email topilmadi!
+              вљ пёЏ Email topilmadi!
             </motion.h1>
 
             <motion.div
@@ -275,7 +275,7 @@ export default function ForgotPasswordPage() {
               className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl mb-6"
             >
               <p className="text-yellow-300 text-sm">
-                💡 <strong>Eslatma:</strong> Parolni tiklash faqat ro'yxatdan
+                рџ’Ў <strong>Eslatma:</strong> Parolni tiklash faqat ro'yxatdan
                 o'tgan email uchun ishlaydi
               </p>
             </motion.div>
@@ -290,7 +290,7 @@ export default function ForgotPasswordPage() {
                 href="/auth/register"
                 className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-cyan-500/25"
               >
-                🚀 Ro'yxatdan o'tish
+                рџљЂ Ro'yxatdan o'tish
               </Link>
 
               <button
@@ -384,7 +384,7 @@ export default function ForgotPasswordPage() {
                 transition={{ delay: 0.2 }}
                 className="text-2xl font-bold text-white mb-2"
               >
-                🔐 Parolni tiklash
+                рџ”ђ Parolni tiklash
               </motion.h1>
 
               <motion.div
@@ -516,7 +516,7 @@ export default function ForgotPasswordPage() {
                   <input
                     {...resetForm.register("newPassword")}
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder="вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў"
                     className={`w-full bg-gray-700/50 border-2 rounded-xl py-3 pl-12 pr-12 text-white placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all ${
                       resetForm.formState.errors.newPassword
                         ? "border-red-500"
@@ -556,7 +556,7 @@ export default function ForgotPasswordPage() {
                   <input
                     {...resetForm.register("confirmPassword")}
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder="вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў"
                     className={`w-full bg-gray-700/50 border-2 rounded-xl py-3 pl-12 pr-12 text-white placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all ${
                       resetForm.formState.errors.confirmPassword
                         ? "border-red-500"

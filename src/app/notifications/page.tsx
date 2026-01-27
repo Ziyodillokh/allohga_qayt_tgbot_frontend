@@ -102,15 +102,15 @@ export default function NotificationsPage() {
   const getTypeIcon = (type: Notification['type']) => {
     switch (type) {
       case 'ACHIEVEMENT':
-        return '🏆';
+        return 'рџЏ†';
       case 'LEVEL_UP':
-        return '⬆️';
+        return 'в¬†пёЏ';
       case 'RANKING':
-        return '📊';
+        return 'рџ“Љ';
       case 'MESSAGE':
-        return '💬';
+        return 'рџ’¬';
       default:
-        return '🔔';
+        return 'рџ””';
     }
   };
 
@@ -199,7 +199,7 @@ export default function NotificationsPage() {
                       // Fallback to emoji if image fails
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
-                      target.parentElement?.insertAdjacentHTML('beforeend', '<div class="text-2xl">📚</div>');
+                      target.parentElement?.insertAdjacentHTML('beforeend', '<div class="text-2xl">рџ“љ</div>');
                     }}
                   />
                 ) : notification.type === 'MESSAGE' && notification.data?.adminAvatar ? (

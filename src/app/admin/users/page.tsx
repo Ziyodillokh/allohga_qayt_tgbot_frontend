@@ -200,7 +200,7 @@ export default function AdminUsers() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && searchUsers()}
-            className="w-full px-4 py-3 pl-11 bg-[#1A1812] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none"
+            className="w-full px-4 py-3 pl-11 bg-[#1E1C18] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] placeholder-[#D4AF37]/40 focus:border-[#D4AF37] focus:outline-none"
           />
           <svg
             className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#D4AF37]/40"
@@ -231,7 +231,7 @@ export default function AdminUsers() {
             }}
             className="px-4 py-3 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl hover:bg-[#D4AF37]/20 transition-colors"
           >
-            ✕
+            вњ•
           </button>
         )}
       </div>
@@ -256,7 +256,7 @@ export default function AdminUsers() {
         {users.map((user) => (
           <div
             key={user.id}
-            className={`bg-[#1A1812] border rounded-2xl p-4 transition-all ${
+            className={`bg-[#1E1C18] border rounded-2xl p-4 transition-all ${
               selectedUsers.includes(user.id)
                 ? "border-[#D4AF37] ring-1 ring-[#D4AF37]/30"
                 : "border-[#D4AF37]/20 hover:border-[#D4AF37]/40"
@@ -354,12 +354,12 @@ export default function AdminUsers() {
                 <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#D4AF37]/50">
                   {user.email && (
                     <span className="flex items-center gap-1">
-                      📧 {user.email}
+                      рџ“§ {user.email}
                     </span>
                   )}
                   {user.phone && (
                     <span className="flex items-center gap-1">
-                      📱 {formatPhoneNumber(user.phone)}
+                      рџ“± {formatPhoneNumber(user.phone)}
                     </span>
                   )}
                   {user.telegramUsername && (
@@ -376,7 +376,7 @@ export default function AdminUsers() {
                   )}
                   {user.telegramPhone && (
                     <span className="flex items-center gap-1 text-[#0088cc]">
-                      📞 {formatPhoneNumber(user.telegramPhone)}
+                      рџ“ћ {formatPhoneNumber(user.telegramPhone)}
                     </span>
                   )}
                 </div>
@@ -411,14 +411,14 @@ export default function AdminUsers() {
       </div>
 
       {users.length === 0 && (
-        <div className="text-center py-12 text-[#D4AF37]/40 bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl">
+        <div className="text-center py-12 text-[#D4AF37]/40 bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl">
           Foydalanuvchi topilmadi
         </div>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-3 p-4 bg-[#1A1812] border border-[#D4AF37]/20 rounded-xl">
+        <div className="flex items-center justify-center gap-3 p-4 bg-[#1E1C18] border border-[#D4AF37]/20 rounded-xl">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
@@ -527,7 +527,7 @@ function MessageModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
-      <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl w-full max-w-md">
+      <div className="bg-[#1E1C18] border border-[#D4AF37]/30 rounded-3xl w-full max-w-md">
         <div className="p-6 border-b border-[#D4AF37]/20 flex justify-between items-center">
           <h2 className="text-xl font-bold text-[#FBF0B2]">
             Xabar yuborish ({userIds.length} ta)

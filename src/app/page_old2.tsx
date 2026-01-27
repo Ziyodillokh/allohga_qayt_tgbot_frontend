@@ -37,7 +37,7 @@ export default function HomePage() {
 
                 <p className="text-sm text-white/80 mb-6 leading-relaxed">
                   Tavbani qabul qiluvchi va mehribon Rabbimizga tawaakkalni
-                  qayta başlayin. Har bir kun yangi imkon, yangi umid.
+                  qayta baЕџlayin. Har bir kun yangi imkon, yangi umid.
                 </p>
 
                 <Link href="/test/islamic">
@@ -65,7 +65,7 @@ export default function HomePage() {
                       Assalomu alaikum, {user.fullName}
                     </p>
                     <p className="text-xs text-gray-500">
-                      Level {user.level} •{" "}
+                      Level {user.level} вЂў{" "}
                       {Math.round(
                         calculateLevelProgress(user.totalXP).percentage
                       )}

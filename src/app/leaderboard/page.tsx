@@ -137,7 +137,7 @@ export default function LeaderboardPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          🏆 Reyting
+          рџЏ† Reyting
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Eng yaxshi o'quvchilar reytingi
@@ -247,7 +247,7 @@ export default function LeaderboardPage() {
                     className="object-contain w-5 h-5"
                   />
                 ) : (
-                  <span>📚</span>
+                  <span>рџ“љ</span>
                 )}
                 {cat.name}
               </button>

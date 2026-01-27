@@ -270,7 +270,7 @@ export default function TelegramRegisterPage() {
     setPhoneShared(true);
     setIsLoading(false);
     telegramHaptic("success");
-    toast.success("✅ Telefon raqam qabul qilindi!");
+    toast.success("вњ… Telefon raqam qabul qilindi!");
     setCurrentStep("credentials");
 
     if (pollingRef.current) {
@@ -366,7 +366,7 @@ export default function TelegramRegisterPage() {
       if (res.data.success) {
         login(res.data.user, res.data.token || currentToken);
         telegramHaptic("success");
-        toast.success("🎉 Ro'yxatdan o'tish muvaffaqiyatli!");
+        toast.success("рџЋ‰ Ro'yxatdan o'tish muvaffaqiyatli!");
         setCurrentStep("completed");
 
         setTimeout(() => {
@@ -582,7 +582,7 @@ export default function TelegramRegisterPage() {
                     )}
                     {!checkingUsername && usernameAvailable === false && (
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500 text-lg">
-                        ✕
+                        вњ•
                       </span>
                     )}
                   </div>
@@ -663,8 +663,8 @@ export default function TelegramRegisterPage() {
                       }`}
                     >
                       {password === confirmPassword
-                        ? "✓ Parollar mos"
-                        : "✕ Parollar mos emas"}
+                        ? "вњ“ Parollar mos"
+                        : "вњ• Parollar mos emas"}
                     </p>
                   )}
                 </div>
@@ -709,7 +709,7 @@ export default function TelegramRegisterPage() {
                   <CheckCircle2 className="w-8 h-8 text-green-600" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  Tabriklaymiz! 🎉
+                  Tabriklaymiz! рџЋ‰
                 </h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-4">
                   Ro'yxatdan muvaffaqiyatli o'tdingiz

@@ -106,7 +106,7 @@ export default function SettingsPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0908] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0F0D0A] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -164,7 +164,7 @@ export default function SettingsPage() {
           selectedValue: settings.language,
           options: [
             { value: "uz", label: "O'zbekcha" },
-            { value: "ru", label: "Русский" },
+            { value: "ru", label: "Р СѓСЃСЃРєРёР№" },
             { value: "en", label: "English" },
           ],
         },
@@ -256,7 +256,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0908] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0F0D0A] relative overflow-x-hidden">
       {/* Premium Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] right-[-15%] w-[500px] h-[500px] bg-gradient-radial from-[#D4AF37]/15 via-[#D4AF37]/5 to-transparent rounded-full blur-3xl"></div>
@@ -270,7 +270,7 @@ export default function SettingsPage() {
         <header className="flex items-center gap-4 mb-8">
           <button
             onClick={() => router.back()}
-            className="p-3 rounded-2xl bg-[#1A1812]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1A1812] hover:border-[#D4AF37]/30 transition-all group"
+            className="p-3 rounded-2xl bg-[#1E1C18]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1E1C18] hover:border-[#D4AF37]/30 transition-all group"
           >
             <ArrowLeft className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" />
           </button>
@@ -293,7 +293,7 @@ export default function SettingsPage() {
                 {section.title}
               </h2>
 
-              <div className="rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 overflow-hidden divide-y divide-[#D4AF37]/5">
+              <div className="rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 overflow-hidden divide-y divide-[#D4AF37]/5">
                 {section.items.map((item) => (
                   <SettingRow
                     key={item.id}
@@ -311,7 +311,7 @@ export default function SettingsPage() {
         <div className="mt-8 text-center">
           <p className="text-xs text-[#9A8866]">Allohga Qayting v1.0.0</p>
           <p className="text-[10px] text-[#9A8866]/60 mt-1">
-            © 2025 Barcha huquqlar himoyalangan
+            В© 2025 Barcha huquqlar himoyalangan
           </p>
         </div>
       </div>
@@ -319,7 +319,7 @@ export default function SettingsPage() {
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-sm p-6 rounded-3xl bg-[#1A1812] border border-[#D4AF37]/20">
+          <div className="w-full max-w-sm p-6 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20">
             <div className="w-16 h-16 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center mx-auto mb-4">
               <LogOut className="w-8 h-8 text-[#D4AF37]" />
             </div>
@@ -332,13 +332,13 @@ export default function SettingsPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className="flex-1 py-3 px-4 rounded-xl bg-[#0A0908] border border-[#D4AF37]/20 text-white font-medium hover:bg-[#0A0908]/80 transition-colors"
+                className="flex-1 py-3 px-4 rounded-xl bg-[#0F0D0A] border border-[#D4AF37]/20 text-white font-medium hover:bg-[#0F0D0A]/80 transition-colors"
               >
                 Bekor qilish
               </button>
               <button
                 onClick={handleLogout}
-                className="flex-1 py-3 px-4 rounded-xl bg-[#D4AF37] text-[#0A0908] font-medium hover:bg-[#FBF0B2] transition-colors"
+                className="flex-1 py-3 px-4 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium hover:bg-[#FBF0B2] transition-colors"
               >
                 Chiqish
               </button>
@@ -350,7 +350,7 @@ export default function SettingsPage() {
       {/* Delete Account Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-sm p-6 rounded-3xl bg-[#1A1812] border border-[#ef4444]/20">
+          <div className="w-full max-w-sm p-6 rounded-3xl bg-[#1E1C18] border border-[#ef4444]/20">
             <div className="w-16 h-16 rounded-2xl bg-[#ef4444]/10 flex items-center justify-center mx-auto mb-4">
               <Trash2 className="w-8 h-8 text-[#ef4444]" />
             </div>
@@ -364,7 +364,7 @@ export default function SettingsPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-3 px-4 rounded-xl bg-[#0A0908] border border-[#D4AF37]/20 text-white font-medium hover:bg-[#0A0908]/80 transition-colors"
+                className="flex-1 py-3 px-4 rounded-xl bg-[#0F0D0A] border border-[#D4AF37]/20 text-white font-medium hover:bg-[#0F0D0A]/80 transition-colors"
               >
                 Bekor qilish
               </button>
@@ -410,12 +410,12 @@ function SettingRow({ item, onToggle, onSelect }: SettingRowProps) {
           className={`relative w-12 h-7 rounded-full transition-colors ${
             item.value
               ? "bg-[#D4AF37]"
-              : "bg-[#0A0908] border border-[#D4AF37]/20"
+              : "bg-[#0F0D0A] border border-[#D4AF37]/20"
           }`}
         >
           <div
             className={`absolute top-1 w-5 h-5 rounded-full transition-all ${
-              item.value ? "right-1 bg-[#0A0908]" : "left-1 bg-[#9A8866]"
+              item.value ? "right-1 bg-[#0F0D0A]" : "left-1 bg-[#9A8866]"
             }`}
           />
         </button>
@@ -453,7 +453,7 @@ function SettingRow({ item, onToggle, onSelect }: SettingRowProps) {
 
         {showSelect && (
           <div className="px-4 pb-3">
-            <div className="rounded-xl bg-[#0A0908] border border-[#D4AF37]/10 overflow-hidden">
+            <div className="rounded-xl bg-[#0F0D0A] border border-[#D4AF37]/10 overflow-hidden">
               {item.options?.map((option) => (
                 <button
                   key={option.value}

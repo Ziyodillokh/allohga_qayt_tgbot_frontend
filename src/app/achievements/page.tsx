@@ -85,7 +85,7 @@ export default function AchievementsPage() {
         </button>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            🏆 Yutuqlar
+            рџЏ† Yutuqlar
           </h1>
           <p className="text-gray-500">
             {achievements.unlocked.length}/
@@ -126,7 +126,7 @@ export default function AchievementsPage() {
               href="/categories"
               className="mt-4 inline-block text-indigo-600 hover:underline"
             >
-              Test topshirib boshlang →
+              Test topshirib boshlang в†’
             </Link>
           </Card>
         ) : (

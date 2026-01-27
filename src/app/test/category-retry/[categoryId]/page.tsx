@@ -106,7 +106,7 @@ export default function CategoryRetryPage() {
                   className="w-12 h-12 object-contain"
                 />
               ) : (
-                <span className="text-4xl">{categoryRetry.category.icon || '📚'}</span>
+                <span className="text-4xl">{categoryRetry.category.icon || 'рџ“љ'}</span>
               )}
             </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -134,7 +134,7 @@ export default function CategoryRetryPage() {
 
           <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl mb-6">
             <p className="text-sm text-yellow-800 dark:text-yellow-300">
-              ⚡ Siz {categoryRetry.category.name} kategoriyasida {categoryRetry.totalTests} ta test topshirdingiz. 
+              вљЎ Siz {categoryRetry.category.name} kategoriyasida {categoryRetry.totalTests} ta test topshirdingiz. 
               Endi xato qilgan savollaringizdan 10 talik qayta test topshirishingiz mumkin!
             </p>
           </div>

@@ -32,18 +32,18 @@ const WEEK_DAYS = [
 ];
 
 const EMOJIS = [
-  "🤲",
-  "☪️",
-  "✨",
-  "🙏",
-  "☝️",
-  "📿",
-  "🕌",
-  "🌙",
-  "⭐",
-  "💫",
-  "🌟",
-  "❤️",
+  "рџ¤І",
+  "вЄпёЏ",
+  "вњЁ",
+  "рџ™Џ",
+  "вќпёЏ",
+  "рџ“ї",
+  "рџ•Њ",
+  "рџЊ™",
+  "в­ђ",
+  "рџ’«",
+  "рџЊџ",
+  "вќ¤пёЏ",
 ];
 
 export default function AdminZikr() {
@@ -64,7 +64,7 @@ export default function AdminZikr() {
     textLatin: "",
     description: "",
     count: 33,
-    emoji: "🤲",
+    emoji: "рџ¤І",
     dayOfWeek: 1,
     isRamadan: false,
     order: 0,
@@ -116,7 +116,7 @@ export default function AdminZikr() {
       textLatin: "",
       description: "",
       count: 33,
-      emoji: "🤲",
+      emoji: "рџ¤І",
       dayOfWeek: 1,
       isRamadan: showRamadan,
       order: 0,
@@ -269,7 +269,7 @@ export default function AdminZikr() {
       </div>
 
       {/* Filters */}
-      <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl p-4">
+      <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-4">
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex-1 min-w-[180px]">
             <label className="block text-xs font-medium text-[#D4AF37]/60 mb-1.5 uppercase tracking-wider">
@@ -323,7 +323,7 @@ export default function AdminZikr() {
           {groupedByDay.map((day) => (
             <div
               key={day.value}
-              className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl overflow-hidden"
+              className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl overflow-hidden"
             >
               <div className="px-5 py-3 bg-gradient-to-r from-[#D4AF37]/20 to-transparent border-b border-[#D4AF37]/10">
                 <h3 className="font-bold text-[#FBF0B2]">{day.label}</h3>
@@ -353,7 +353,7 @@ export default function AdminZikr() {
           ))}
         </div>
       ) : (
-        <div className="bg-[#1A1812] border border-[#D4AF37]/20 rounded-2xl overflow-hidden">
+        <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl overflow-hidden">
           {filteredZikrs.length > 0 ? (
             <div className="divide-y divide-[#D4AF37]/10">
               {filteredZikrs.map((zikr) => (
@@ -378,8 +378,8 @@ export default function AdminZikr() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-[#1A1812] px-6 py-4 border-b border-[#D4AF37]/20 flex items-center justify-between">
+          <div className="bg-[#1E1C18] border border-[#D4AF37]/30 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-[#1E1C18] px-6 py-4 border-b border-[#D4AF37]/20 flex items-center justify-between">
               <h2 className="text-xl font-bold text-[#FBF0B2]">
                 {editingZikr ? "Zikrni Tahrirlash" : "Yangi Zikr Qo'shish"}
               </h2>
@@ -464,7 +464,7 @@ export default function AdminZikr() {
                     }
                     className="w-full px-4 py-3 bg-[#0F0E0A] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] focus:border-[#D4AF37] focus:outline-none text-right"
                     dir="rtl"
-                    placeholder="أَسْتَغْفِرُ اللهَ"
+                    placeholder="ШЈЩЋШіЩ’ШЄЩЋШєЩ’ЩЃЩђШ±ЩЏ Ш§Щ„Щ„Щ‡ЩЋ"
                   />
                 </div>
                 <div>
@@ -496,7 +496,7 @@ export default function AdminZikr() {
                     }
                     className="w-full px-4 py-3 bg-[#0F0E0A] border border-[#D4AF37]/30 rounded-xl text-[#FBF0B2] focus:border-[#D4AF37] focus:outline-none text-right h-24 resize-none"
                     dir="rtl"
-                    placeholder="أَسْتَغْفِرُ اللهَ وَأَتُوبُ إِلَيْهِ"
+                    placeholder="ШЈЩЋШіЩ’ШЄЩЋШєЩ’ЩЃЩђШ±ЩЏ Ш§Щ„Щ„Щ‡ЩЋ Щ€ЩЋШЈЩЋШЄЩЏЩ€ШЁЩЏ ШҐЩђЩ„ЩЋЩЉЩ’Щ‡Щђ"
                   />
                 </div>
                 <div>
@@ -597,7 +597,7 @@ export default function AdminZikr() {
             </div>
 
             {/* Footer */}
-            <div className="sticky bottom-0 bg-[#1A1812] px-6 py-4 border-t border-[#D4AF37]/20 flex justify-end gap-3">
+            <div className="sticky bottom-0 bg-[#1E1C18] px-6 py-4 border-t border-[#D4AF37]/20 flex justify-end gap-3">
               <button
                 onClick={() => setShowModal(false)}
                 className="px-5 py-2.5 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-xl transition-colors"
@@ -658,7 +658,7 @@ function ZikrCard({
             )}
             {zikr.isRamadan && (
               <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full">
-                🌙 Ramazon
+                рџЊ™ Ramazon
               </span>
             )}
           </div>

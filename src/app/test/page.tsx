@@ -61,7 +61,7 @@ export default function TestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0908] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0F0D0A] relative overflow-x-hidden">
       {/* Premium Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] right-[-15%] w-[500px] h-[500px] bg-gradient-radial from-[#D4AF37]/20 via-[#D4AF37]/5 to-transparent rounded-full blur-3xl"></div>
@@ -75,7 +75,7 @@ export default function TestPage() {
         <header className="mb-10">
           <button
             onClick={() => router.back()}
-            className="mb-6 p-3 rounded-2xl bg-[#1A1812]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1A1812] hover:border-[#D4AF37]/30 transition-all group"
+            className="mb-6 p-3 rounded-2xl bg-[#1E1C18]/60 border border-[#D4AF37]/10 backdrop-blur-xl hover:bg-[#1E1C18] hover:border-[#D4AF37]/30 transition-all group"
           >
             <ArrowLeft className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" />
           </button>
@@ -99,7 +99,7 @@ export default function TestPage() {
         </header>
 
         {/* Stats Banner */}
-        <div className="mb-8 p-5 rounded-3xl bg-gradient-to-br from-[#1A1812] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
+        <div className="mb-8 p-5 rounded-3xl bg-gradient-to-br from-[#1E1C18] to-[#0F0E0A] border border-[#D4AF37]/20 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl"></div>
 
           <div className="relative flex items-center justify-around">
@@ -156,7 +156,7 @@ export default function TestPage() {
             </div>
           ) : categories.length === 0 ? (
             <div className="text-center py-16 px-6">
-              <div className="w-20 h-20 rounded-3xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
+              <div className="w-20 h-20 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-5">
                 <BookOpen className="w-8 h-8 text-[#D4AF37]/50" />
               </div>
               <p className="text-[#9A8866] mb-2">
@@ -185,7 +185,7 @@ export default function TestPage() {
                   }}
                   className="w-full group"
                 >
-                  <div className="p-4 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 hover:bg-[#1A1812] transition-all duration-300 flex items-center gap-4 relative overflow-hidden">
+                  <div className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 hover:bg-[#1E1C18] transition-all duration-300 flex items-center gap-4 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/0 via-[#D4AF37]/5 to-[#D4AF37]/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                     <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">

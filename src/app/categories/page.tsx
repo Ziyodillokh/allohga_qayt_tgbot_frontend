@@ -409,7 +409,7 @@ export default function CategoriesPage() {
                           }
                         />
                       ) : (
-                        <span className="text-3xl">📚</span>
+                        <span className="text-3xl">рџ“љ</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -444,7 +444,7 @@ export default function CategoriesPage() {
           <Card className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-6 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold mb-2">🎲 Aralash test</h3>
+                <h3 className="text-xl font-bold mb-2">рџЋІ Aralash test</h3>
                 <p className="text-white/80">
                   Barcha kategoriyalardan random savollar bilan test topshiring
                 </p>

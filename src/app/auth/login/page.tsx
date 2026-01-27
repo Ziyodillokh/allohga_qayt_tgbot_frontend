@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -197,7 +197,7 @@ export default function LoginPage() {
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Xush kelibsiz! 👋
+                Xush kelibsiz! ??
               </h2>
               <p className="text-gray-500 dark:text-gray-400">
                 Hisobingizga kiring va davom eting
@@ -215,7 +215,7 @@ export default function LoginPage() {
                     className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-center"
                   >
                     <p className="text-red-600 dark:text-red-400 font-medium flex items-center justify-center gap-2">
-                      <span>❌</span> {errors.emailOrUsername.message}
+                      <span>?</span> {errors.emailOrUsername.message}
                     </p>
                   </motion.div>
                 )}
@@ -245,7 +245,7 @@ export default function LoginPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-red-500 text-sm mt-1 flex items-center gap-1"
                   >
-                    <span>⚠️</span> {errors.emailOrUsername.message}
+                    <span>??</span> {errors.emailOrUsername.message}
                   </motion.p>
                 )}
               </div>
@@ -262,7 +262,7 @@ export default function LoginPage() {
                   <input
                     {...register("password")}
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder="вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў"
                     className={`w-full pl-12 pr-12 py-3 bg-gray-50 dark:bg-gray-700 border ${
                       errors.password
                         ? "border-red-500 focus:ring-red-500"
@@ -287,7 +287,7 @@ export default function LoginPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-red-500 text-sm mt-1 flex items-center gap-1"
                   >
-                    <span>⚠️</span> {errors.password.message}
+                    <span>??</span> {errors.password.message}
                   </motion.p>
                 )}
               </div>

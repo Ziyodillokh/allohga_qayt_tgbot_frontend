@@ -69,7 +69,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         <div className="text-center">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-6">
             <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-              <span className="text-4xl">🔒</span>
+              <span className="text-4xl">рџ”’</span>
             </div>
           </div>
           <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Admin Panel</h2>
@@ -92,7 +92,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         <div className="text-center">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[3px] mb-6">
             <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-              <span className="text-4xl">⛔</span>
+              <span className="text-4xl">в›”</span>
             </div>
           </div>
           <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Ruxsat yo'q</h2>
@@ -120,7 +120,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#1A1812] border-r border-[#D4AF37]/20 transform transition-all duration-300 ease-out lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#1E1C18] border-r border-[#D4AF37]/20 transform transition-all duration-300 ease-out lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
         }`}
       >
@@ -129,7 +129,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[2px]">
               <div className="w-full h-full rounded-full bg-[#0F0E0A] flex items-center justify-center">
-                <span className="text-xl">🕌</span>
+                <span className="text-xl">рџ•Њ</span>
               </div>
             </div>
             <div>
@@ -198,7 +198,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
           {/* User Info */}
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[1px]">
-              <div className="w-full h-full rounded-full bg-[#1A1812] flex items-center justify-center">
+              <div className="w-full h-full rounded-full bg-[#1E1C18] flex items-center justify-center">
                 <span className="text-sm font-bold text-[#FBF0B2]">
                   {user.fullName?.charAt(0).toUpperCase() || "A"}
                 </span>
@@ -227,7 +227,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-40 h-16 bg-[#1A1812]/95 backdrop-blur-xl border-b border-[#D4AF37]/20 px-4 flex items-center justify-between">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-40 h-16 bg-[#1E1C18]/95 backdrop-blur-xl border-b border-[#D4AF37]/20 px-4 flex items-center justify-between">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="p-2.5 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-xl transition-colors"
@@ -240,7 +240,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="text-xl">🕌</span>
+          <span className="text-xl">рџ•Њ</span>
           <span className="text-sm font-bold text-[#FBF0B2]">Admin</span>
         </div>
 

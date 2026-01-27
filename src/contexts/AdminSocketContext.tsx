@@ -132,17 +132,17 @@ export function AdminSocketProvider({ children }: { children: ReactNode }) {
     });
 
     newSocket.on("connect", () => {
-      console.log("✅ Admin socket connected! Socket ID:", newSocket.id);
+      console.log("вњ… Admin socket connected! Socket ID:", newSocket.id);
       setConnected(true);
     });
 
     newSocket.on("disconnect", (reason) => {
-      console.log("❌ Admin socket disconnected. Reason:", reason);
+      console.log("вќЊ Admin socket disconnected. Reason:", reason);
       setConnected(false);
     });
 
     newSocket.on("connect_error", (error) => {
-      console.error("🚫 Admin socket connection error:", error.message);
+      console.error("рџљ« Admin socket connection error:", error.message);
     });
 
     newSocket.on("dashboard:update", (data: DashboardStats) => {
@@ -163,7 +163,7 @@ export function AdminSocketProvider({ children }: { children: ReactNode }) {
     });
 
     newSocket.on("zikr:completed", (zikr: any) => {
-      console.log("🎉 Zikr completed:", zikr);
+      console.log("рџЋ‰ Zikr completed:", zikr);
       // Play audio notification for zikr completion
       playNotificationSound("zikr");
     });

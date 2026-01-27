@@ -255,10 +255,10 @@ export default function TestComponent({
                     </span>
                     <span className="text-gray-800">{option.text}</span>
                     {showAnswer && isCorrect && (
-                      <span className="ml-auto text-emerald-600">✓</span>
+                      <span className="ml-auto text-emerald-600">вњ“</span>
                     )}
                     {showAnswer && isWrong && (
-                      <span className="ml-auto text-red-600">✗</span>
+                      <span className="ml-auto text-red-600">вњ—</span>
                     )}
                   </div>
                 </button>
@@ -283,8 +283,8 @@ export default function TestComponent({
                 }`}
               >
                 {selectedAnswer === currentQuestion.correctAnswer
-                  ? "✓ To'g'ri javob!"
-                  : `✗ Noto\'g\'ri! To\'g\'ri javob: ${currentQuestion.correctAnswer}`}
+                  ? "вњ“ To'g'ri javob!"
+                  : `вњ— Noto\'g\'ri! To\'g\'ri javob: ${currentQuestion.correctAnswer}`}
               </p>
             </div>
           )}
@@ -297,7 +297,7 @@ export default function TestComponent({
             disabled={currentIndex === 0}
             className="flex-1 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-300 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
           >
-            ← Oldingi
+            в†ђ Oldingi
           </button>
 
           {!isTestComplete ? (
@@ -306,7 +306,7 @@ export default function TestComponent({
               disabled={!showAnswer || currentIndex === questions.length - 1}
               className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
             >
-              Keyingi →
+              Keyingi в†’
             </button>
           ) : (
             <button
@@ -333,15 +333,15 @@ export default function TestComponent({
             <div className="text-gray-700">
               {parseFloat(percentage) >= 80 && (
                 <p className="text-green-600 font-semibold">
-                  🎉 Ajoyib natija!
+                  рџЋ‰ Ajoyib natija!
                 </p>
               )}
               {parseFloat(percentage) >= 60 && parseFloat(percentage) < 80 && (
-                <p className="text-blue-600 font-semibold">👍 Yaxshi natija!</p>
+                <p className="text-blue-600 font-semibold">рџ‘Ќ Yaxshi natija!</p>
               )}
               {parseFloat(percentage) < 60 && (
                 <p className="text-orange-600 font-semibold">
-                  📚 Yana ko\'p o\'rganish kerak!
+                  рџ“љ Yana ko\'p o\'rganish kerak!
                 </p>
               )}
             </div>

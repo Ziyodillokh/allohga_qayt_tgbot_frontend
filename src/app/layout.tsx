@@ -107,10 +107,10 @@ export default function RootLayout({
       </head>
       <body
         className="font-sans overflow-x-hidden"
-        style={{ backgroundColor: "#0A0908" }}
+        style={{ backgroundColor: "#0F0D0A" }}
       >
         <Providers>
-          <div className="min-h-screen flex flex-col bg-[#0A0908]">
+          <div className="min-h-screen flex flex-col bg-[#0F0D0A]">
             <main className="flex-1">{children}</main>
           </div>
           <Toaster
@@ -118,7 +118,7 @@ export default function RootLayout({
             toastOptions={{
               duration: 3000,
               style: {
-                background: "#1A1812",
+                background: "#1E1C18",
                 color: "#FBF0B2",
                 borderRadius: "16px",
                 border: "1px solid rgba(212, 175, 55, 0.2)",

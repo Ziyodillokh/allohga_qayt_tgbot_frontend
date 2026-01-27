@@ -201,7 +201,7 @@ export default function ChatbotQA({
       {
         type: "system",
         content: isCorrect
-          ? "To'g'ri! Barakalloh! ✓"
+          ? "To'g'ri! Barakalloh! вњ“"
           : `Noto'g'ri. Javob: ${currentQ.correctAnswer}) ${correctOpt?.text}`,
         isCorrect,
       },
@@ -227,7 +227,7 @@ export default function ChatbotQA({
 
   if (loading)
     return (
-      <div className="min-h-screen bg-[#0A0908] flex flex-col items-center justify-center gap-6 relative">
+      <div className="min-h-screen bg-[#0F0D0A] flex flex-col items-center justify-center gap-6 relative">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-gradient-radial from-[#D4AF37]/10 to-transparent rounded-full blur-3xl"></div>
         </div>
@@ -247,14 +247,14 @@ export default function ChatbotQA({
   // Agar savollar bo'sh bo'lsa
   if (!loading && questions.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0A0908] flex flex-col items-center justify-center gap-8 p-6 relative">
+      <div className="min-h-screen bg-[#0F0D0A] flex flex-col items-center justify-center gap-8 p-6 relative">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-gradient-radial from-[#D4AF37]/10 to-transparent rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative">
-          <div className="w-24 h-24 rounded-3xl bg-[#1A1812] border border-[#D4AF37]/20 flex items-center justify-center">
-            <span className="text-5xl">📚</span>
+          <div className="w-24 h-24 rounded-3xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center">
+            <span className="text-5xl">рџ“љ</span>
           </div>
         </div>
 
@@ -270,7 +270,7 @@ export default function ChatbotQA({
         <div className="flex gap-3 w-full max-w-sm">
           <button
             onClick={handleGoHome}
-            className="flex-1 py-4 bg-[#1A1812] border border-[#D4AF37]/30 text-[#D4AF37] rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#26231A] transition-colors"
+            className="flex-1 py-4 bg-[#1E1C18] border border-[#D4AF37]/30 text-[#D4AF37] rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#26231A] transition-colors"
           >
             <Home className="w-4 h-4" />
             Bosh sahifa
@@ -288,7 +288,7 @@ export default function ChatbotQA({
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0908] relative overflow-hidden">
+    <div className="min-h-screen bg-[#0F0D0A] relative overflow-hidden">
       {/* Premium Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-gradient-radial from-[#D4AF37]/15 via-[#D4AF37]/5 to-transparent rounded-full blur-3xl"></div>
@@ -296,7 +296,7 @@ export default function ChatbotQA({
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-5 pt-4 pb-4 bg-[#0A0908]/95 backdrop-blur-xl border-b border-[#D4AF37]/10 safe-area-top">
+      <header className="fixed top-0 left-0 right-0 z-50 px-5 pt-4 pb-4 bg-[#0F0D0A]/95 backdrop-blur-xl border-b border-[#D4AF37]/10 safe-area-top">
         <div className="max-w-lg mx-auto flex justify-between items-center">
           <button
             onClick={() => {
@@ -306,7 +306,7 @@ export default function ChatbotQA({
                 router.push("/test");
               }
             }}
-            className="p-3 rounded-2xl bg-[#1A1812]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-95"
+            className="p-3 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all active:scale-95"
           >
             <X className="w-5 h-5 text-[#D4AF37]" />
           </button>
@@ -316,7 +316,7 @@ export default function ChatbotQA({
               {questions[0]?.category || "Test"}
             </p>
             <div className="flex items-center gap-2">
-              <div className="h-1.5 w-24 rounded-full bg-[#1A1812] overflow-hidden">
+              <div className="h-1.5 w-24 rounded-full bg-[#1E1C18] overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FBF0B2] rounded-full transition-all duration-500"
                   style={{
@@ -365,7 +365,7 @@ export default function ChatbotQA({
                   className={`max-w-[85%] px-5 py-4 ${
                     msg.type === "user"
                       ? "bg-gradient-to-br from-[#D4AF37] to-[#AA8232] text-black rounded-3xl rounded-tr-lg font-bold shadow-lg shadow-[#D4AF37]/20"
-                      : "bg-[#1A1812] border border-[#D4AF37]/10 text-[#FBF0B2] rounded-3xl rounded-tl-lg"
+                      : "bg-[#1E1C18] border border-[#D4AF37]/10 text-[#FBF0B2] rounded-3xl rounded-tl-lg"
                   }`}
                 >
                   <p className="text-[15px] leading-relaxed">{msg.content}</p>
@@ -378,7 +378,7 @@ export default function ChatbotQA({
       </div>
 
       {/* Footer / Options */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 px-5 pb-6 pt-4 bg-gradient-to-t from-[#0A0908] via-[#0A0908]/98 to-transparent safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 z-50 px-5 pb-6 pt-4 bg-gradient-to-t from-[#0F0D0A] via-[#0F0D0A]/98 to-transparent safe-area-bottom">
         <div className="max-w-lg mx-auto">
           {!testComplete ? (
             <div className="space-y-3">
@@ -390,7 +390,7 @@ export default function ChatbotQA({
                   className={`w-full text-left px-5 py-4 rounded-2xl border transition-all duration-300 flex items-center group ${
                     selectedAnswer === option.key
                       ? "border-[#D4AF37] bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-black font-bold scale-[0.98] shadow-lg shadow-[#D4AF37]/30"
-                      : "border-[#D4AF37]/10 bg-[#1A1812]/90 text-[#FBF0B2] hover:border-[#D4AF37]/30 hover:bg-[#1A1812] active:scale-[0.98]"
+                      : "border-[#D4AF37]/10 bg-[#1E1C18]/90 text-[#FBF0B2] hover:border-[#D4AF37]/30 hover:bg-[#1E1C18] active:scale-[0.98]"
                   }`}
                   style={{ animationDelay: `${optIndex * 50}ms` }}
                 >
@@ -413,7 +413,7 @@ export default function ChatbotQA({
               ))}
             </div>
           ) : (
-            <div className="bg-[#1A1812] border border-[#D4AF37]/30 rounded-3xl p-8 text-center relative overflow-hidden animate-in zoom-in-95 duration-500">
+            <div className="bg-[#1E1C18] border border-[#D4AF37]/30 rounded-3xl p-8 text-center relative overflow-hidden animate-in zoom-in-95 duration-500">
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-[#D4AF37]/5"></div>
 
@@ -455,7 +455,7 @@ export default function ChatbotQA({
                 <div className="flex gap-3">
                   <button
                     onClick={handleGoHome}
-                    className="flex-1 py-4 bg-[#1A1812] border border-[#D4AF37]/30 text-[#D4AF37] rounded-2xl font-bold text-xs uppercase tracking-widest active:scale-95 flex items-center justify-center gap-2 hover:bg-[#26231A] transition-colors"
+                    className="flex-1 py-4 bg-[#1E1C18] border border-[#D4AF37]/30 text-[#D4AF37] rounded-2xl font-bold text-xs uppercase tracking-widest active:scale-95 flex items-center justify-center gap-2 hover:bg-[#26231A] transition-colors"
                   >
                     <Home className="w-4 h-4" />
                     Yopish

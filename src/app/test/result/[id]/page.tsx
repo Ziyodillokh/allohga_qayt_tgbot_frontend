@@ -118,7 +118,7 @@ export default function TestResultPage() {
   };
 
   const shareText = result
-    ? `🕌 Tavba platformasida ${result.score}% natija oldim! ${result.correctAnswers}/${result.totalQuestions} to'g'ri javob, ${result.xpEarned} XP qo'lga kiritdim. Sen ham sinab ko'r!`
+    ? `рџ•Њ Tavba platformasida ${result.score}% natija oldim! ${result.correctAnswers}/${result.totalQuestions} to'g'ri javob, ${result.xpEarned} XP qo'lga kiritdim. Sen ham sinab ko'r!`
     : "";
   const shareUrl =
     typeof window !== "undefined"
@@ -281,10 +281,10 @@ export default function TestResultPage() {
 
           <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2">
             {isPerfect
-              ? "🎉 Mukammal!"
+              ? "рџЋ‰ Mukammal!"
               : isGood
-                ? "👏 Yaxshi natija!"
-                : "💪 Davom eting!"}
+                ? "рџ‘Џ Yaxshi natija!"
+                : "рџ’Є Davom eting!"}
           </h1>
           <p className="text-white/80 text-sm sm:text-base">
             {result.correctAnswers} / {result.totalQuestions} to'g'ri javob
@@ -338,7 +338,7 @@ export default function TestResultPage() {
         {result.leveledUp && result.newLevel && (
           <Card className="mt-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-6 text-center">
             <Star className="w-12 h-12 mx-auto mb-3 animate-bounce" />
-            <h3 className="text-xl font-bold mb-1">🎊 Level Up!</h3>
+            <h3 className="text-xl font-bold mb-1">рџЋЉ Level Up!</h3>
             <p>Siz Level {result.newLevel} ga ko'tarildingiz!</p>
           </Card>
         )}
@@ -348,7 +348,7 @@ export default function TestResultPage() {
           result.newAchievements.length > 0 && (
             <Card className="mt-6">
               <h3 className="font-bold text-gray-900 dark:text-white mb-4">
-                🏆 Yangi yutuqlar
+                рџЏ† Yangi yutuqlar
               </h3>
               <div className="space-y-3">
                 {result.newAchievements.map((ach) => (
@@ -406,7 +406,7 @@ export default function TestResultPage() {
         {showAnswers && Array.isArray(result.answers) && (
           <div className="space-y-4 mt-4 pb-8">
             <h3 className="font-bold text-red-600 dark:text-red-400 mb-4">
-              ❌ Noto'g'ri javoblar
+              вќЊ Noto'g'ri javoblar
             </h3>
             {result.answers
               .map((answer, originalIndex) => ({

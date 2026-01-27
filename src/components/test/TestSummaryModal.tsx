@@ -92,13 +92,13 @@ export default function TestSummaryModal({
               className="text-center mb-8"
             >
               {isPerfect ? (
-                <div className="text-6xl mb-4 animate-bounce">🎉</div>
+                <div className="text-6xl mb-4 animate-bounce">рџЋ‰</div>
               ) : isExcellent ? (
-                <div className="text-6xl mb-4 animate-bounce">🌟</div>
+                <div className="text-6xl mb-4 animate-bounce">рџЊџ</div>
               ) : isGood ? (
-                <div className="text-6xl mb-4">👏</div>
+                <div className="text-6xl mb-4">рџ‘Џ</div>
               ) : (
-                <div className="text-6xl mb-4">💪</div>
+                <div className="text-6xl mb-4">рџ’Є</div>
               )}
 
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -235,7 +235,7 @@ export default function TestSummaryModal({
                   transition={{ repeat: Infinity, duration: 2 }}
                   className="text-3xl mb-2"
                 >
-                  ⭐
+                  в­ђ
                 </motion.div>
                 <p className="font-bold mb-1">Level Up!</p>
                 <p className="text-sm opacity-90">
@@ -266,20 +266,20 @@ export default function TestSummaryModal({
                       </p>
                       <div className="space-y-1 text-xs">
                         <p className="text-red-700 dark:text-red-400">
-                          ❌ Sizning javob:{" "}
+                          вќЊ Sizning javob:{" "}
                           <span className="font-semibold">
                             {wrong.options[wrong.selectedAnswer]}
                           </span>
                         </p>
                         <p className="text-green-700 dark:text-green-400">
-                          ✓ To'g'ri javob:{" "}
+                          вњ“ To'g'ri javob:{" "}
                           <span className="font-semibold">
                             {wrong.options[wrong.correctAnswer]}
                           </span>
                         </p>
                         {wrong.xpReward && (
                           <p className="text-yellow-600 dark:text-yellow-400 mt-1">
-                            💡 Imkoniyat: +{wrong.xpReward} XP
+                            рџ’Ў Imkoniyat: +{wrong.xpReward} XP
                           </p>
                         )}
                       </div>
@@ -314,7 +314,7 @@ export default function TestSummaryModal({
                   onClick={onRetry}
                   className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg"
                 >
-                  🔄 Qayta
+                  рџ”„ Qayta
                 </motion.button>
               )}
             </div>

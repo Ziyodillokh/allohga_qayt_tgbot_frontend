@@ -102,10 +102,10 @@ export default function RetryTestPage() {
                 Qayta test haqida
               </h3>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>• Kamida <strong>10ta test</strong> topshirgan bo'lishingiz kerak</li>
-                <li>• Noto'g'ri javob bergan savollaringizdan <strong>10talik test</strong> yaratiladi</li>
-                <li>• Bu test sizning bilimingizni mustahkamlashga yordam beradi</li>
-                <li>• Har 10ta test topshirganingizda yangi qayta test olishingiz mumkin</li>
+                <li>вЂў Kamida <strong>10ta test</strong> topshirgan bo'lishingiz kerak</li>
+                <li>вЂў Noto'g'ri javob bergan savollaringizdan <strong>10talik test</strong> yaratiladi</li>
+                <li>вЂў Bu test sizning bilimingizni mustahkamlashga yordam beradi</li>
+                <li>вЂў Har 10ta test topshirganingizda yangi qayta test olishingiz mumkin</li>
               </ul>
             </div>
           </div>

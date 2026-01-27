@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { HTMLAttributes, forwardRef, useState, useEffect } from 'react';
 import { cn, getAvatarPlaceholder, getUploadUrl } from '@/lib/utils';
