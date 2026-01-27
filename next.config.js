@@ -4,11 +4,11 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   productionBrowserSourceMaps: false,
-  
+
   // Deploy tezligini oshirish uchun
-  output: 'standalone',
+  output: "standalone",
   poweredByHeader: false,
-  
+
   // TypeScript va ESLint tekshiruvlarini build paytida o'chirish (deploy tezligi uchun)
   typescript: {
     ignoreBuildErrors: true,
@@ -16,11 +16,11 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  
+
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion", "recharts"],
   },
-  
+
   images: {
     remotePatterns: [
       {

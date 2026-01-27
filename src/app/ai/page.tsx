@@ -169,52 +169,56 @@ export default function AIPage() {
 
   // Web Speech API - ovozni matnga aylantirish
   const startSpeechRecognition = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
       console.log("Web Speech API not supported");
       return false;
     }
 
     const recognition = new SpeechRecognition();
-    
+
     // Brauzer tilini olish va qo'llab-quvvatlanadigan tillarni sinash
-    const browserLang = navigator.language || 'en-US';
-    const supportedLangs = ['en-US', 'ru-RU', 'tr-TR', 'ar-SA', 'en-GB'];
-    
+    const browserLang = navigator.language || "en-US";
+    const supportedLangs = ["en-US", "ru-RU", "tr-TR", "ar-SA", "en-GB"];
+
     // Brauzer tili qo'llab-quvvatlanmaydigan bo'lsa, ingliz tilini ishlatamiz
-    recognition.lang = supportedLangs.includes(browserLang) ? browserLang : 'en-US';
+    recognition.lang = supportedLangs.includes(browserLang)
+      ? browserLang
+      : "en-US";
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
-    
-    let finalTranscript = '';
+
+    let finalTranscript = "";
 
     recognition.onresult = (event: any) => {
-      let interimTranscript = '';
-      
+      let interimTranscript = "";
+
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          finalTranscript += transcript + ' ';
+          finalTranscript += transcript + " ";
         } else {
           interimTranscript += transcript;
         }
       }
-      
+
       setTranscribedText(finalTranscript + interimTranscript);
     };
 
     recognition.onerror = (event: any) => {
-      console.log('Speech recognition info:', event.error);
+      console.log("Speech recognition info:", event.error);
       // Xatoliklarni jimgina o'tkazib yuboramiz
-      if (event.error === 'not-allowed') {
+      if (event.error === "not-allowed") {
         toast.error("Mikrofonga ruxsat berilmadi");
         cancelRecording();
       }
       // language-not-supported bo'lsa, ingliz tiliga o'tamiz
-      if (event.error === 'language-not-supported') {
-        recognition.lang = 'en-US';
+      if (event.error === "language-not-supported") {
+        recognition.lang = "en-US";
         try {
           recognition.start();
         } catch (e) {
@@ -237,14 +241,14 @@ export default function AIPage() {
     };
 
     recognitionRef.current = recognition;
-    
+
     try {
       recognition.start();
       setIsListening(true);
     } catch (e) {
       console.log("Recognition start error:", e);
     }
-    
+
     return true;
   };
 
@@ -253,8 +257,8 @@ export default function AIPage() {
     try {
       // Web Speech API ni boshlash
       startSpeechRecognition();
-      setTranscribedText('');
-      
+      setTranscribedText("");
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
       // Setup audio analyzer for visualization
@@ -319,7 +323,7 @@ export default function AIPage() {
         clearInterval(recordingTimerRef.current);
         recordingTimerRef.current = null;
       }
-      
+
       // Speech recognition'ni to'xtatish
       if (recognitionRef.current) {
         recognitionRef.current.stop();
@@ -332,7 +336,7 @@ export default function AIPage() {
     stopRecording();
     setAudioBlob(null);
     setRecordingTime(0);
-    setTranscribedText('');
+    setTranscribedText("");
     if (recognitionRef.current) {
       recognitionRef.current.stop();
     }
@@ -345,14 +349,14 @@ export default function AIPage() {
     try {
       let messageToSend = transcribedText.trim();
       let audioBase64: string | undefined = undefined;
-      
+
       // Agar Web Speech API ishlamagan bo'lsa va audio blob bor bo'lsa
       // audio'ni base64 ga o'girib backend'ga yuboramiz (Gemini transcribe qiladi)
       if (!messageToSend && audioBlob) {
         const reader = new FileReader();
         audioBase64 = await new Promise<string>((resolve, reject) => {
           reader.onloadend = () => {
-            const base64 = (reader.result as string).split(',')[1];
+            const base64 = (reader.result as string).split(",")[1];
             resolve(base64);
           };
           reader.onerror = reject;
@@ -360,15 +364,15 @@ export default function AIPage() {
         });
         messageToSend = "[Ovozli xabar]";
       }
-      
+
       if (!messageToSend && !audioBase64) {
         toast.error("Iltimos, biror narsa gapiring");
         setIsProcessingAudio(false);
         return;
       }
 
-      const audioText = transcribedText.trim() 
-        ? transcribedText.trim() 
+      const audioText = transcribedText.trim()
+        ? transcribedText.trim()
         : "Ovozli xabar (" + formatTime(recordingTime) + ")";
 
       const userMessage: Message = {
@@ -382,18 +386,24 @@ export default function AIPage() {
       setMessages((prev) => [...prev, userMessage]);
       setAudioBlob(null);
       const savedTranscript = transcribedText.trim();
-      setTranscribedText('');
+      setTranscribedText("");
       setRecordingTime(0);
       setLoading(true);
 
-      console.log("Sending message:", savedTranscript || "audio blob", "hasAudio:", !!audioBase64);
-      
+      console.log(
+        "Sending message:",
+        savedTranscript || "audio blob",
+        "hasAudio:",
+        !!audioBase64,
+      );
+
       // Agar Web Speech ishlamagan bo'lsa, audio'ni backend'ga yuboramiz
       const { data } = await aiApi.chat(
-        savedTranscript || "Ovozli xabar yuborildi, iltimos transkripsiya qiling",
-        audioBase64
+        savedTranscript ||
+          "Ovozli xabar yuborildi, iltimos transkripsiya qiling",
+        audioBase64,
       );
-      
+
       console.log("AI response received:", data);
 
       const assistantMessage: Message = {
@@ -415,7 +425,10 @@ export default function AIPage() {
       }
     } catch (error: any) {
       console.error("Audio send error:", error);
-      const errorMsg = error.response?.data?.message || error.message || "Ovozli xabarni yuborishda xatolik";
+      const errorMsg =
+        error.response?.data?.message ||
+        error.message ||
+        "Ovozli xabarni yuborishda xatolik";
       toast.error(errorMsg);
     } finally {
       setIsProcessingAudio(false);
@@ -854,16 +867,22 @@ export default function AIPage() {
             <p className="text-3xl font-black text-[#D4AF37] mb-2 font-mono">
               {formatTime(recordingTime)}
             </p>
-            <p className="text-[#9A8866] text-sm mb-4">Gapiring, men eshitayapman...</p>
-            
+            <p className="text-[#9A8866] text-sm mb-4">
+              Gapiring, men eshitayapman...
+            </p>
+
             {/* Transcribed Text - real-time ko'rsatish */}
             {transcribedText && (
               <div className="max-w-md mx-auto mb-6 p-3 rounded-xl bg-[#1E1C18] border border-[#D4AF37]/20">
-                <p className="text-[#FBF0B2] text-sm text-center">{transcribedText}</p>
+                <p className="text-[#FBF0B2] text-sm text-center">
+                  {transcribedText}
+                </p>
               </div>
             )}
             {!transcribedText && (
-              <p className="text-[#D4AF37]/40 text-xs mb-6">Siz gapirayotganingiz shu yerda ko'rinadi</p>
+              <p className="text-[#D4AF37]/40 text-xs mb-6">
+                Siz gapirayotganingiz shu yerda ko'rinadi
+              </p>
             )}
 
             {/* Controls */}

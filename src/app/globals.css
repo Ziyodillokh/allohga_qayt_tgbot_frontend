@@ -84,19 +84,35 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
   /* Safe area for iOS & Telegram - universal */
   .pb-safe {
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-content-safe-area-inset-bottom, 0px), 16px);
+    padding-bottom: max(
+      env(safe-area-inset-bottom, 0px),
+      var(--tg-content-safe-area-inset-bottom, 0px),
+      16px
+    );
   }
 
   .pt-safe {
-    padding-top: max(env(safe-area-inset-top, 0px), var(--tg-content-safe-area-inset-top, 0px), 12px);
+    padding-top: max(
+      env(safe-area-inset-top, 0px),
+      var(--tg-content-safe-area-inset-top, 0px),
+      12px
+    );
   }
 
   .safe-area-top {
-    padding-top: max(env(safe-area-inset-top, 0px), var(--tg-content-safe-area-inset-top, 0px), 12px);
+    padding-top: max(
+      env(safe-area-inset-top, 0px),
+      var(--tg-content-safe-area-inset-top, 0px),
+      12px
+    );
   }
 
   .safe-area-bottom {
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-content-safe-area-inset-bottom, 0px), 8px);
+    padding-bottom: max(
+      env(safe-area-inset-bottom, 0px),
+      var(--tg-content-safe-area-inset-bottom, 0px),
+      8px
+    );
   }
 
   /* Telegram WebApp specific adjustments */
