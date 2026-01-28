@@ -283,8 +283,8 @@ export default function TestComponent({
                 }`}
               >
                 {selectedAnswer === currentQuestion.correctAnswer
-                  ? "✓ To'g'ri javob!"
-                  : `✗ Noto\'g\'ri! To\'g\'ri javob: ${currentQuestion.correctAnswer}`}
+                  ? "✓ Togri javob!"
+                  : `✗ Notogri! Togri javob: ${currentQuestion.correctAnswer}`}
               </p>
             </div>
           )}
@@ -328,7 +328,7 @@ export default function TestComponent({
               {percentage}%
             </div>
             <p className="text-gray-600 text-lg mb-4">
-              {score} ta / {questions.length} ta to\'g\'ri
+              {score} ta / {questions.length} ta togri
             </p>
             <div className="text-gray-700">
               {parseFloat(percentage) >= 80 && (
@@ -341,7 +341,7 @@ export default function TestComponent({
               )}
               {parseFloat(percentage) < 60 && (
                 <p className="text-orange-600 font-semibold">
-                  📚 Yana ko\'p o\'rganish kerak!
+                  📚 Yana koproq organish kerak!
                 </p>
               )}
             </div>

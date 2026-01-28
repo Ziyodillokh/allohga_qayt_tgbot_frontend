@@ -33,19 +33,17 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    // Login va register endpointlarida 401 xatosi bilan redirect qilmaslik
+    // Auth endpointlarida 401 xatosi bilan logout qilmaslik
     const url = error.config?.url || "";
     const isAuthEndpoint =
       url.includes("/auth/login") ||
       url.includes("/auth/register") ||
-      url.includes("/auth/forgot-password") ||
-      url.includes("/auth/reset-password");
+      url.includes("/telegram/webapp/auth");
 
+    // Faqat logout qilish - redirect qilmaslik (Telegram webapp uchun)
     if (error.response?.status === 401 && !isAuthEndpoint) {
       useAuthStore.getState().logout();
-      if (typeof window !== "undefined") {
-        window.location.href = "/auth/login";
-      }
+      // Telegram webapp'da avtomatik qayta auth bo'ladi
     }
     return Promise.reject(error);
   },

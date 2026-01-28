@@ -266,13 +266,13 @@ export default function TestSummaryModal({
                       </p>
                       <div className="space-y-1 text-xs">
                         <p className="text-red-700 dark:text-red-400">
-                          вќЊ Sizning javob:{" "}
+                          ❌ Sizning javob:{" "}
                           <span className="font-semibold">
                             {wrong.options[wrong.selectedAnswer]}
                           </span>
                         </p>
                         <p className="text-green-700 dark:text-green-400">
-                          ✓ To'g'ri javob:{" "}
+                          ✓ Togri javob:{" "}
                           <span className="font-semibold">
                             {wrong.options[wrong.correctAnswer]}
                           </span>

@@ -128,7 +128,8 @@ export function useAuth() {
 
   const handleLogout = useCallback(() => {
     logout();
-    router.push("/auth/login");
+    // Telegram webapp'da redirect qilmaslik - foydalanuvchi qayta kirganida avtomatik auth bo'ladi
+    router.push("/");
   }, [logout, router]);
 
   return {

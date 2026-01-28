@@ -517,40 +517,13 @@ export default function AIPage() {
     );
   }
 
-  if (!isAuthenticated && !isTelegramWebApp()) {
-    return (
-      <div className="min-h-screen bg-[#0F0D0A] flex flex-col items-center justify-center p-6">
-        <div className="w-20 h-20 bg-gradient-to-br from-[#D4AF37] to-[#AA8232] rounded-full flex items-center justify-center mb-6 shadow-lg shadow-[#D4AF37]/30">
-          <Bot className="w-10 h-10 text-[#0F0D0A]" />
-        </div>
-        <h2 className="text-xl font-bold text-[#FBF0B2] mb-2">Tavba AI</h2>
-        <p className="text-[#D4AF37]/60 text-center mb-6">
-          AI yordamchidan foydalanish uchun tizimga kirishingiz kerak
-        </p>
-        <button
-          onClick={() => router.push("/auth/login")}
-          className="px-6 py-3 bg-gradient-to-br from-[#D4AF37] to-[#AA8232] text-[#0F0D0A] font-bold rounded-full"
-        >
-          Tizimga kirish
-        </button>
-        <button
-          onClick={() => router.push("/")}
-          className="mt-4 text-[#D4AF37]/60 text-sm"
-        >
-          Bosh sahifaga qaytish
-        </button>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated && isTelegramWebApp()) {
+  if (!isAuthenticated) {
+    // Telegram webapp'da avtomatik auth kutish
     return (
       <div className="min-h-screen bg-[#0F0D0A] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#D4AF37]/60 text-sm">
-            Telegram orqali kirilmoqda...
-          </p>
+          <p className="text-[#D4AF37]/60 text-sm">Kirilmoqda...</p>
         </div>
       </div>
     );

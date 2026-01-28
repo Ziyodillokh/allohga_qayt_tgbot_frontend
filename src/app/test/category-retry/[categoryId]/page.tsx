@@ -22,8 +22,8 @@ export default function CategoryRetryPage() {
   useEffect(() => {
     if (isLoading) return;
 
+    // Telegram webapp'da avtomatik auth bo'ladi
     if (!isAuthenticated) {
-      router.push("/auth/register");
       return;
     }
 

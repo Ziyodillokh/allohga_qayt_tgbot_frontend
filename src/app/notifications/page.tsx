@@ -39,9 +39,7 @@ export default function NotificationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push("/auth/login");
-    }
+    // Telegram webapp'da avtomatik auth bo'ladi
   }, [isAuthenticated, authLoading, router]);
 
   useEffect(() => {

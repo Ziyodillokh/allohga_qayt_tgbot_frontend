@@ -149,13 +149,13 @@ export default function ForgotPasswordPage() {
       if (result.type === "invite") {
         // User not registered - show error and send invite
         toast.error(
-          "вќЊ Bu email ro'yxatdan o'tmagan! O'zingiz ro'yxatdan o'tgan emailni kiriting.",
+          "❌ Bu email royxatdan otmagan! Ozingiz royxatdan otgan emailni kiriting.",
           {
             duration: 5000,
           },
         );
         toast.success(
-          "📨 Taklif havolasi emailga yuborildi. Ro'yxatdan o'ting!",
+          "📨 Taklif havolasi emailga yuborildi. Royxatdan oting!",
           {
             duration: 5000,
           },
@@ -164,12 +164,12 @@ export default function ForgotPasswordPage() {
       } else if (result.type === "wrong-email") {
         // Other registered user - wrong email error
         toast.error(
-          "вќЊ Siz noto'g'ri email kiritdingiz. Iltimos, o'zingizning emailingizni kiriting.",
+          "❌ Siz notogri email kiritdingiz. Iltimos, ozingizning emailingizni kiriting.",
         );
         emailForm.setError("email", {
           type: "manual",
           message:
-            "Siz noto'g'ri email kiritdingiz. O'zingizning emailingizni kiriting.",
+            "Siz notogri email kiritdingiz. Ozingizning emailingizni kiriting.",
         });
       } else {
         // Registered user - reset code sent
@@ -226,7 +226,7 @@ export default function ForgotPasswordPage() {
                   transition={{ duration: 1.5, repeat: Infinity }}
                   className="text-5xl"
                 >
-                  вќЊ
+                  ❌
                 </motion.span>
               </div>
               <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-2xl -z-10" />
@@ -247,7 +247,7 @@ export default function ForgotPasswordPage() {
               transition={{ delay: 0.3 }}
             >
               <p className="text-red-400 font-medium mb-4">
-                Bu email bilan ro'yxatdan o'tilmagan!
+                Bu email bilan royxatdan otilmagan!
               </p>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/10 rounded-full border border-red-500/30 mb-6">
                 <Mail className="h-4 w-4 text-red-400" />

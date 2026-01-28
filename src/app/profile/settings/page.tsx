@@ -62,9 +62,7 @@ export default function SettingsPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push("/auth/login");
-    }
+    // Telegram webapp'da avtomatik auth bo'ladi
   }, [isAuthenticated, authLoading, router]);
 
   useEffect(() => {

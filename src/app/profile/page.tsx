@@ -123,9 +123,8 @@ export default function ProfilePage() {
   >("stats");
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push("/auth/login");
-    }
+    // Telegram webapp'da avtomatik auth bo'ladi, redirect qilmaslik
+    // Agar auth bo'lmasa, loading holatida kutish
   }, [isAuthenticated, authLoading, router]);
 
   useEffect(() => {
@@ -279,12 +278,20 @@ export default function ProfilePage() {
           <div className="relative flex flex-col items-center text-center">
             {/* Avatar */}
             <div className="relative mb-4">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-3 border-[#D4AF37]/40 shadow-lg shadow-[#D4AF37]/20">
+              <div
+                key={user.avatar || "no-avatar"}
+                className="w-24 h-24 rounded-full overflow-hidden border-3 border-[#D4AF37]/40 shadow-lg shadow-[#D4AF37]/20"
+              >
                 {user.avatar ? (
                   <img
+                    key={`avatar-img-${user.avatar}`}
                     src={getUploadUrl(user.avatar) || undefined}
                     alt={user.fullName}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      console.warn("[Profile] Avatar yuklanmadi:", user.avatar);
+                      e.currentTarget.style.display = "none";
+                    }}
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-[#D4AF37]/30 to-[#AA8232]/30 flex items-center justify-center">

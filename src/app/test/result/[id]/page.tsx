@@ -398,15 +398,15 @@ export default function TestResultPage() {
             >
               {showAnswers
                 ? "Xatolarni yashirish"
-                : `Xatolarni ko'rish (${result.answers.filter((a) => !a.isCorrect).length} ta)`}
+                : `Xatolarni korish (${result.answers.filter((a) => !a.isCorrect).length} ta)`}
             </button>
           )}
 
-        {/* Wrong Answers Review - faqat noto'g'ri javoblar */}
+        {/* Wrong Answers Review - faqat notogri javoblar */}
         {showAnswers && Array.isArray(result.answers) && (
           <div className="space-y-4 mt-4 pb-8">
             <h3 className="font-bold text-red-600 dark:text-red-400 mb-4">
-              вќЊ Noto'g'ri javoblar
+              ❌ Notogri javoblar
             </h3>
             {result.answers
               .map((answer, originalIndex) => ({
