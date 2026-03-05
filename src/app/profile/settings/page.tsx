@@ -141,63 +141,7 @@ export default function SettingsPage() {
         },
       ],
     },
-    {
-      title: "Ko'rinish",
-      icon: Moon,
-      items: [
-        {
-          id: "darkMode",
-          icon: settings.darkMode ? Moon : Sun,
-          label: "Qorong'u rejim",
-          description: "Tungi ko'rinishni yoqish",
-          type: "toggle" as const,
-          value: settings.darkMode,
-        },
-        {
-          id: "language",
-          icon: Globe,
-          label: "Til",
-          description: "Ilova tilini tanlash",
-          type: "select" as const,
-          selectedValue: settings.language,
-          options: [
-            { value: "uz", label: "O'zbekcha" },
-            { value: "ru", label: "Р СѓСЃСЃРєРёР№" },
-            { value: "en", label: "English" },
-          ],
-        },
-      ],
-    },
-    {
-      title: "Hisob",
-      icon: User,
-      items: [
-        {
-          id: "profile",
-          icon: User,
-          label: "Profilni tahrirlash",
-          description: "Ism, avatar va bio",
-          type: "link" as const,
-          href: "/profile/edit",
-        },
-        {
-          id: "password",
-          icon: Lock,
-          label: "Parolni o'zgartirish",
-          description: "Xavfsizlik uchun yangi parol",
-          type: "link" as const,
-          href: "/profile/change-password",
-        },
-        {
-          id: "email",
-          icon: Mail,
-          label: "Email o'zgartirish",
-          description: "Yangi email manzil",
-          type: "link" as const,
-          href: "/profile/change-email",
-        },
-      ],
-    },
+
     {
       title: "Qo'llab-quvvatlash",
       icon: HelpCircle,
@@ -224,7 +168,7 @@ export default function SettingsPage() {
           label: "Fikr-mulohaza",
           description: "Bizga xabar yuboring",
           type: "link" as const,
-          href: "https://t.me/Khamidov_online",
+          href: "https://t.me/iambackenddeveloper",
         },
       ],
     },
@@ -309,7 +253,7 @@ export default function SettingsPage() {
         <div className="mt-8 text-center">
           <p className="text-xs text-[#9A8866]">Allohga Qayting v1.0.0</p>
           <p className="text-[10px] text-[#9A8866]/60 mt-1">
-            В© 2025 Barcha huquqlar himoyalangan
+            © 2026 Barcha huquqlar himoyalangan
           </p>
         </div>
       </div>

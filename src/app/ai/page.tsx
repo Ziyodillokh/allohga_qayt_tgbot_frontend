@@ -844,7 +844,7 @@ export default function AIPage() {
           </div>
 
           <p className="text-[10px] text-center text-[#D4AF37]/20 mt-3 uppercase tracking-wider">
-            Tavba AI вЂў Islomiy Yordamchi
+            Tavba AI 💡 Islomiy Yordamchi
           </p>
         </div>
       </div>

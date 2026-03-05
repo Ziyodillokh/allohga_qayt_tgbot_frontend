@@ -14,7 +14,6 @@ import {
   Users,
   FolderOpen,
   MessageSquare,
-  Settings,
   LogOut,
   Menu,
   X,
@@ -29,7 +28,6 @@ const menuItems = [
   { href: "/admin/users", label: "Foydalanuvchilar", icon: Users },
   { href: "/admin/categories", label: "Kategoriyalar", icon: FolderOpen },
   { href: "/admin/messages", label: "Xabarlar", icon: MessageSquare },
-  { href: "/admin/design", label: "Dizayn", icon: Settings },
 ];
 
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {

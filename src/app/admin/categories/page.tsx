@@ -37,7 +37,6 @@ const CATEGORY_GROUPS = [
   { id: "zikr", name: "Zikr & Duolar" },
   { id: "tarix", name: "Islom tarixi" },
   { id: "axloq", name: "Axloq" },
-  { id: "custom", name: "+ Yangi guruh" },
 ];
 
 export default function AdminCategories() {
