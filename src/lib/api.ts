@@ -107,6 +107,8 @@ export const testsApi = {
   start: (data: { categoryId?: string; questionsCount?: number }) =>
     api.post("/tests/start", data),
 
+  get: (testAttemptId: string) => api.get(`/tests/${testAttemptId}`),
+
   submit: (
     testId: string,
     answers: Array<{ questionId: string; selectedAnswer: number }>,

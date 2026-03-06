@@ -211,11 +211,7 @@ export default function LuxuryZikrApp() {
                 {/* Logo - Dumaloq */}
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FBF0B2] via-[#D4AF37] to-[#AA8232] p-[2px] shadow-lg shadow-[#D4AF37]/30">
                   <div className="w-full h-full rounded-full bg-[#0F0D0A] flex items-center justify-center overflow-hidden">
-                    <img
-                      src="/img/logotip.png"
-                      alt="Tavba"
-                      className="w-full h-full object-cover"
-                    />
+                    <span className="text-[#D4AF37] text-2xl font-bold">T</span>
                   </div>
                 </div>
                 <div className="flex-1">
