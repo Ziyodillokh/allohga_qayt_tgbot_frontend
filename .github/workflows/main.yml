@@ -1,31 +1,13 @@
-name: Deploy Frontend 🚀
+# This workflow is disabled - deploy.yml handles deployment
+# Kept for reference only
+name: Frontend CI (disabled)
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch: # Manual only
 
 jobs:
-  deploy:
+  info:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd /var/www/allohgaqayt.uz/frontend
-            git pull origin main
-
-            rm -rf .next node_modules package-lock.json
-            npm install
-            npm run build
-
-            pm2 delete frontend || true
-            pm2 start npm --name "frontend" -- start --prefix /var/www/allohgaqayt.uz/frontend
+      - run: echo "Use deploy.yml workflow instead"
             pm2 save

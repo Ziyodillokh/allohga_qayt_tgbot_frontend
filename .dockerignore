@@ -7,7 +7,6 @@ README.md
 .env.local
 .DS_Store
 *.log
-*.json
 .vercel
 .turbo
 coverage
