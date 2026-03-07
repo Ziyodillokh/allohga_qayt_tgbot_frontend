@@ -20,7 +20,7 @@ export function formatXP(xp: number): string {
 // Calculate level from XP
 export function calculateLevel(xp: number): number {
   const thresholds = [
-    0, 100, 250, 500, 1000, 2000, 3500, 5500, 8500, 13000, 20000,
+    0, 1000, 2000, 5000, 10000, 20000,
   ];
   for (let i = thresholds.length - 1; i >= 0; i--) {
     if (xp >= thresholds[i]) return i + 1;
@@ -35,7 +35,7 @@ export function calculateLevelProgress(xp: number): {
   percentage: number;
 } {
   const thresholds = [
-    0, 100, 250, 500, 1000, 2000, 3500, 5500, 8500, 13000, 20000,
+    0, 1000, 2000, 5000, 10000, 20000,
   ];
   const level = calculateLevel(xp);
 

@@ -199,11 +199,16 @@ export default function ChatbotQA({
         if (data.length === 0) throw new Error("Savollar yo'q");
         setQuestions(data);
         setMessages([
-          { type: "bot", content: "Yangi savollar tayyorlandi! 🔄 Boshlaylik!" },
+          {
+            type: "bot",
+            content: "Yangi savollar tayyorlandi! 🔄 Boshlaylik!",
+          },
           { type: "bot", content: data[0].question },
         ]);
       } catch {
-        setMessages([{ type: "system", content: "Savollarni yuklashda xatolik" }]);
+        setMessages([
+          { type: "system", content: "Savollarni yuklashda xatolik" },
+        ]);
       } finally {
         setLoading(false);
       }
@@ -239,7 +244,7 @@ export default function ChatbotQA({
 
     if (isCorrect) {
       setScore((s) => s + 1);
-      setTotalXP((xp) => xp + (currentQ.xpReward || 10));
+      setTotalXP((xp) => xp + 1);
       setStreak((s) => s + 1);
     } else {
       setStreak(0);
@@ -251,7 +256,7 @@ export default function ChatbotQA({
       {
         type: "system",
         content: isCorrect
-          ? `✅ To'g'ri! Barakalloh! +${currentQ.xpReward || 10} XP`
+          ? `✅ To'g'ri! Barakalloh! +1 XP`
           : `❌ Noto'g'ri. To'g'ri javob: ${currentQ.correctAnswer}) ${correctOpt?.text}`,
         isCorrect,
       },
@@ -300,9 +305,7 @@ export default function ChatbotQA({
           <p className="text-[#D4AF37] text-sm font-bold mb-1">
             Savollar tayyorlanmoqda...
           </p>
-          <p className="text-[#9A8866] text-xs">
-            {categoryName || category}
-          </p>
+          <p className="text-[#9A8866] text-xs">{categoryName || category}</p>
         </div>
       </div>
     );
@@ -393,17 +396,23 @@ export default function ChatbotQA({
               <div className="grid grid-cols-3 gap-3 mb-6">
                 <div className="p-3 rounded-2xl bg-[#D4AF37]/10 border border-[#D4AF37]/20">
                   <Zap className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
-                  <p className="text-lg font-black text-[#D4AF37]">+{totalXP}</p>
+                  <p className="text-lg font-black text-[#D4AF37]">
+                    +{totalXP}
+                  </p>
                   <p className="text-[9px] text-[#9A8866] uppercase">XP</p>
                 </div>
                 <div className="p-3 rounded-2xl bg-[#3b82f6]/10 border border-[#3b82f6]/20">
                   <Timer className="w-5 h-5 text-[#3b82f6] mx-auto mb-1" />
-                  <p className="text-lg font-black text-[#3b82f6]">{formatTime(timeElapsed)}</p>
+                  <p className="text-lg font-black text-[#3b82f6]">
+                    {formatTime(timeElapsed)}
+                  </p>
                   <p className="text-[9px] text-[#9A8866] uppercase">Vaqt</p>
                 </div>
                 <div className="p-3 rounded-2xl bg-[#22c55e]/10 border border-[#22c55e]/20">
                   <Star className="w-5 h-5 text-[#22c55e] mx-auto mb-1" />
-                  <p className="text-lg font-black text-[#22c55e]">{percentage}%</p>
+                  <p className="text-lg font-black text-[#22c55e]">
+                    {percentage}%
+                  </p>
                   <p className="text-[9px] text-[#9A8866] uppercase">Aniqlik</p>
                 </div>
               </div>
@@ -446,7 +455,9 @@ export default function ChatbotQA({
                       <div className="flex items-start gap-3">
                         <div
                           className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                            ans.isCorrect ? "bg-[#22c55e]/20" : "bg-[#ef4444]/20"
+                            ans.isCorrect
+                              ? "bg-[#22c55e]/20"
+                              : "bg-[#ef4444]/20"
                           }`}
                         >
                           {ans.isCorrect ? (
@@ -462,13 +473,17 @@ export default function ChatbotQA({
                           {!ans.isCorrect && (
                             <p className="text-[10px] text-[#22c55e] mt-1">
                               Javob: {q?.correctAnswer}){" "}
-                              {q?.options.find((o) => o.key === q.correctAnswer)?.text}
+                              {
+                                q?.options.find(
+                                  (o) => o.key === q.correctAnswer,
+                                )?.text
+                              }
                             </p>
                           )}
                         </div>
                         {ans.isCorrect && (
                           <span className="text-[10px] text-[#D4AF37] font-bold">
-                            +{q?.xpReward || 10}
+                            +1
                           </span>
                         )}
                       </div>
@@ -611,9 +626,11 @@ export default function ChatbotQA({
           {questions[currentIndex]?.options.map((option, optIndex) => {
             const isSelected = selectedAnswer === option.key;
             const isCorrectAnswer =
-              selectedAnswer && option.key === questions[currentIndex].correctAnswer;
+              selectedAnswer &&
+              option.key === questions[currentIndex].correctAnswer;
             const isWrongSelected =
-              isSelected && option.key !== questions[currentIndex].correctAnswer;
+              isSelected &&
+              option.key !== questions[currentIndex].correctAnswer;
 
             return (
               <button

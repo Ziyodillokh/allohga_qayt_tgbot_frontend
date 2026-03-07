@@ -145,15 +145,21 @@ export default function ProfilePage() {
         }
 
         // Barcha ma'lumotlarni parallel olish
-        const [profileRes, statsRes, historyRes, achievementsRes, myStatsRes, zikrStatsRes] =
-          await Promise.all([
-            usersApi.getProfile(),
-            usersApi.getCategoryStats(),
-            usersApi.getTestHistory(1, 20),
-            achievementsApi.getAll(),
-            usersApi.getMyStats().catch(() => ({ data: null })),
-            zikrApi.getUserStats().catch(() => ({ data: null })),
-          ]);
+        const [
+          profileRes,
+          statsRes,
+          historyRes,
+          achievementsRes,
+          myStatsRes,
+          zikrStatsRes,
+        ] = await Promise.all([
+          usersApi.getProfile(),
+          usersApi.getCategoryStats(),
+          usersApi.getTestHistory(1, 20),
+          achievementsApi.getAll(),
+          usersApi.getMyStats().catch(() => ({ data: null })),
+          zikrApi.getUserStats().catch(() => ({ data: null })),
+        ]);
 
         // User ma'lumotlarini yangilash
         const profileData = profileRes.data;
@@ -680,11 +686,15 @@ export default function ProfilePage() {
                 <div className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10">
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="p-3 rounded-xl bg-[#22c55e]/5 border border-[#22c55e]/10 text-center">
-                      <p className="text-xl font-black text-white">{zikrStats.totalCompletions}</p>
+                      <p className="text-xl font-black text-white">
+                        {zikrStats.totalCompletions}
+                      </p>
                       <p className="text-[10px] text-[#9A8866]">Jami zikr</p>
                     </div>
                     <div className="p-3 rounded-xl bg-[#D4AF37]/5 border border-[#D4AF37]/10 text-center">
-                      <p className="text-xl font-black text-[#D4AF37]">+{formatXP(zikrStats.totalXpEarned)}</p>
+                      <p className="text-xl font-black text-[#D4AF37]">
+                        +{formatXP(zikrStats.totalXpEarned)}
+                      </p>
                       <p className="text-[10px] text-[#9A8866]">XP yig'ildi</p>
                     </div>
                   </div>
@@ -692,19 +702,36 @@ export default function ProfilePage() {
                   {/* Recent Zikr Days */}
                   {zikrStats.recentDays && zikrStats.recentDays.length > 0 && (
                     <div>
-                      <p className="text-xs text-[#9A8866] mb-2">So'nggi kunlar:</p>
+                      <p className="text-xs text-[#9A8866] mb-2">
+                        So'nggi kunlar:
+                      </p>
                       <div className="space-y-1.5">
-                        {zikrStats.recentDays.slice(0, 7).map((day: any, i: number) => (
-                          <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-[#0F0D0A]/50">
-                            <span className="text-xs text-white/70">
-                              {new Date(day.date || day.day).toLocaleDateString('uz-UZ', { weekday: 'short', day: 'numeric', month: 'short' })}
-                            </span>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs text-[#22c55e] font-bold">{day.count || day.completions} zikr</span>
-                              <span className="text-[10px] text-[#D4AF37]">+{day.xp || day.xpEarned || 0} XP</span>
+                        {zikrStats.recentDays
+                          .slice(0, 7)
+                          .map((day: any, i: number) => (
+                            <div
+                              key={i}
+                              className="flex items-center justify-between p-2 rounded-lg bg-[#0F0D0A]/50"
+                            >
+                              <span className="text-xs text-white/70">
+                                {new Date(
+                                  day.date || day.day,
+                                ).toLocaleDateString("uz-UZ", {
+                                  weekday: "short",
+                                  day: "numeric",
+                                  month: "short",
+                                })}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-[#22c55e] font-bold">
+                                  {day.count || day.completions} zikr
+                                </span>
+                                <span className="text-[10px] text-[#D4AF37]">
+                                  +{day.xp || day.xpEarned || 0} XP
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     </div>
                   )}
@@ -713,7 +740,10 @@ export default function ProfilePage() {
                 <div className="text-center py-8 px-6 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10">
                   <span className="text-4xl mb-3 block">📿</span>
                   <p className="text-[#9A8866]">Hali zikr qilmadingiz</p>
-                  <button onClick={() => router.push("/")} className="mt-3 px-4 py-2 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm">
+                  <button
+                    onClick={() => router.push("/")}
+                    className="mt-3 px-4 py-2 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm"
+                  >
                     Zikr boshlash
                   </button>
                 </div>
@@ -733,19 +763,28 @@ export default function ProfilePage() {
                     <Clock className="w-6 h-6 text-[#D4AF37]/50" />
                   </div>
                   <p className="text-[#9A8866]">Hali test topshirmadingiz</p>
-                  <button onClick={() => router.push("/test")} className="mt-3 px-4 py-2 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm">
+                  <button
+                    onClick={() => router.push("/test")}
+                    className="mt-3 px-4 py-2 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm"
+                  >
                     Test boshlash
                   </button>
                 </div>
               ) : (
                 <div className="space-y-2">
                   {testHistory.map((test) => (
-                    <div key={test.id} className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all">
+                    <div
+                      key={test.id}
+                      className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all"
+                    >
                       <div className="flex items-center gap-3">
                         <div className="w-11 h-11 bg-[#1E1C18] rounded-xl flex items-center justify-center text-xl overflow-hidden border border-[#D4AF37]/10">
                           {test.category?.icon?.startsWith("/") ? (
                             <Image
-                              src={getUploadUrl(test.category.icon) || test.category.icon}
+                              src={
+                                getUploadUrl(test.category.icon) ||
+                                test.category.icon
+                              }
                               alt={test.category?.name || ""}
                               width={44}
                               height={44}
@@ -769,10 +808,16 @@ export default function ProfilePage() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className={cn(
-                            "text-lg font-bold",
-                            test.score >= 70 ? "text-[#22c55e]" : test.score >= 50 ? "text-[#D4AF37]" : "text-[#ef4444]"
-                          )}>
+                          <p
+                            className={cn(
+                              "text-lg font-bold",
+                              test.score >= 70
+                                ? "text-[#22c55e]"
+                                : test.score >= 50
+                                  ? "text-[#D4AF37]"
+                                  : "text-[#ef4444]",
+                            )}
+                          >
                             {test.score}%
                           </p>
                           <p className="text-[10px] text-[#9A8866]">
@@ -916,7 +961,7 @@ export default function ProfilePage() {
                   <div className="flex-shrink-0">
                     <div className="w-24 h-32 rounded-lg overflow-hidden border-2 border-[#D4AF37]/30 shadow-lg shadow-[#D4AF37]/10">
                       <Image
-                        src="/img/dev-profile.jpg"
+                        src="/img/dev.png"
                         alt="Developer"
                         width={96}
                         height={128}

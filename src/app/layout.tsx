@@ -74,6 +74,8 @@ export default function RootLayout({
   return (
     <html lang="uz" suppressHydrationWarning>
       <head>
+        {/* Telegram WebApp Script — must load first */}
+        <script src="https://telegram.org/js/telegram-web-app.js" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -86,10 +88,21 @@ export default function RootLayout({
                     const tg = window.Telegram.WebApp;
                     tg.expand();
                     tg.enableClosingConfirmation();
+                    tg.isVerticalSwipesEnabled = false;
                     
                     // Set CSS variable for viewport height
                     document.documentElement.style.setProperty('--tg-viewport-height', tg.viewportHeight + 'px');
                     document.documentElement.style.setProperty('--tg-viewport-stable-height', tg.viewportStableHeight + 'px');
+                    
+                    // Safe area insets (Telegram 7.7+)
+                    if (tg.safeAreaInset) {
+                      document.documentElement.style.setProperty('--tg-content-safe-area-inset-top', (tg.safeAreaInset.top || 0) + 'px');
+                      document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom', (tg.safeAreaInset.bottom || 0) + 'px');
+                    }
+                    if (tg.contentSafeAreaInset) {
+                      document.documentElement.style.setProperty('--tg-content-safe-area-inset-top', (tg.contentSafeAreaInset.top || 0) + 'px');
+                      document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom', (tg.contentSafeAreaInset.bottom || 0) + 'px');
+                    }
                     
                     tg.onEvent('viewportChanged', function(e) {
                       document.documentElement.style.setProperty('--tg-viewport-height', tg.viewportHeight + 'px');
@@ -97,13 +110,14 @@ export default function RootLayout({
                         document.documentElement.style.setProperty('--tg-viewport-stable-height', tg.viewportStableHeight + 'px');
                       }
                     });
+
+                    // Ready signal
+                    tg.ready();
                   }
                 } catch (e) {}
               `,
           }}
         />
-        {/* Telegram WebApp Script */}
-        <script src="https://telegram.org/js/telegram-web-app.js" />
       </head>
       <body
         className="font-sans overflow-x-hidden"
