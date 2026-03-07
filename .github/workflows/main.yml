@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Use deploy.yml workflow instead"
-            pm2 save
+          pm2 save

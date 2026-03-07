@@ -111,7 +111,11 @@ export const testsApi = {
 
   submit: (
     testId: string,
-    answers: Array<{ questionId: string; selectedAnswer: number }>,
+    answers: Array<{
+      questionId: string;
+      selectedAnswer: number;
+      timeSpent?: number;
+    }>,
   ) => api.post(`/tests/${testId}/submit`, { answers }),
 
   getResult: (testId: string) => api.get(`/tests/${testId}/result`),

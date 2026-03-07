@@ -11,9 +11,10 @@ export default function CategoriesPage() {
   const { categories, loading, error } = useCategories();
   const [search, setSearch] = useState("");
 
-  const filteredCategories = categories.filter(category =>
-    category.name.toLowerCase().includes(search.toLowerCase()) ||
-    category.description?.toLowerCase().includes(search.toLowerCase())
+  const filteredCategories = categories.filter(
+    (category) =>
+      category.name.toLowerCase().includes(search.toLowerCase()) ||
+      category.description?.toLowerCase().includes(search.toLowerCase()),
   );
 
   if (loading) {
@@ -21,7 +22,9 @@ export default function CategoriesPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="w-12 h-12 border-3 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-[#D4AF37]/60 text-sm">Kategoriyalar yuklanmoqda...</p>
+          <p className="text-[#D4AF37]/60 text-sm">
+            Kategoriyalar yuklanmoqda...
+          </p>
         </div>
       </div>
     );
@@ -61,19 +64,24 @@ export default function CategoriesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCategories.map((category) => (
-          <Card key={category.id} className="p-6 hover:shadow-lg transition-shadow">
+          <Card
+            key={category.id}
+            className="p-6 hover:shadow-lg transition-shadow"
+          >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center text-white"
-                  style={{ backgroundColor: category.color || '#6366f1' }}
+                  style={{ backgroundColor: category.color || "#6366f1" }}
                 >
                   <span className="text-lg font-bold">
                     {category.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#FBF0B2]">{category.name}</h3>
+                  <h3 className="font-semibold text-[#FBF0B2]">
+                    {category.name}
+                  </h3>
                   <Badge variant="secondary" className="text-xs">
                     {category.slug}
                   </Badge>
@@ -82,7 +90,7 @@ export default function CategoriesPage() {
             </div>
 
             <p className="text-sm text-[#D4AF37]/70 mb-4 line-clamp-2">
-              {category.description || 'Kategoriya tavsifi'}
+              {category.description || "Kategoriya tavsifi"}
             </p>
 
             <Link href={`/test?category=${category.slug}`}>
