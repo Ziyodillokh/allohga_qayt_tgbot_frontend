@@ -344,8 +344,7 @@ export default function LuxuryZikrApp() {
                                 {zikr.count} marta
                               </span>
                               <span className="text-xs text-[#D4AF37]/70 flex items-center gap-1 bg-[#D4AF37]/10 px-2 py-0.5 rounded-full">
-                                <Zap className="w-3 h-3" />+{zikr.count}{" "}
-                                XP
+                                <Zap className="w-3 h-3" />+{zikr.count} XP
                               </span>
                             </div>
                           </div>

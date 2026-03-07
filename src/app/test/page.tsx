@@ -111,9 +111,7 @@ export default function TestPage() {
           </div>
           <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20">
             <Target className="w-4 h-4 text-[#D4AF37]" />
-            <span className="text-xs font-bold text-[#D4AF37]">
-              +1 XP
-            </span>
+            <span className="text-xs font-bold text-[#D4AF37]">+1 XP</span>
           </div>
         </div>
 
@@ -124,7 +122,9 @@ export default function TestPage() {
               <Zap className="w-5 h-5 text-[#D4AF37]" />
             </div>
             <p className="text-[11px] text-[#9A8866] leading-relaxed">
-              Har bir to&apos;g&apos;ri javob uchun <span className="text-[#D4AF37] font-bold">1 XP</span> beriladi. 10 ta savoldan iborat test yechib, bilimingizni sinang!
+              Har bir to&apos;g&apos;ri javob uchun{" "}
+              <span className="text-[#D4AF37] font-bold">1 XP</span> beriladi.
+              10 ta savoldan iborat test yechib, bilimingizni sinang!
             </p>
           </div>
         </div>
@@ -185,7 +185,9 @@ export default function TestPage() {
                   {category.icon ? (
                     <span className="text-xl">{category.icon}</span>
                   ) : (
-                    <span className="text-lg">{category.name.charAt(0).toUpperCase()}</span>
+                    <span className="text-lg">
+                      {category.name.charAt(0).toUpperCase()}
+                    </span>
                   )}
                 </div>
 
