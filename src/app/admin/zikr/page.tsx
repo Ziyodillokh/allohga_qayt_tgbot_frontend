@@ -81,7 +81,10 @@ export default function AdminZikr() {
       });
       if (response.ok) {
         const data = await response.json();
-        setZikrs(data);
+        setZikrs(Array.isArray(data) ? data : []);
+      } else {
+        console.error("Zikrlarni olishda xatolik:", response.status);
+        toast.error(`Zikrlarni yuklashda xatolik (${response.status})`);
       }
     } catch (error) {
       console.error("Zikrlarni olishda xatolik:", error);
