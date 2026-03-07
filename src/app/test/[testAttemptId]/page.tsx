@@ -522,9 +522,7 @@ export default function TestAttemptPage() {
             {/* Next button */}
             <button
               onClick={handleNext}
-              disabled={
-                currentQuestionIndex === testData.questions.length - 1
-              }
+              disabled={currentQuestionIndex === testData.questions.length - 1}
               className="p-3 rounded-xl border border-[#D4AF37]/20 text-[#D4AF37]/70 hover:text-[#D4AF37] hover:border-[#D4AF37]/40 disabled:opacity-30 disabled:hover:border-[#D4AF37]/20 transition-all"
             >
               <ChevronRight className="w-5 h-5" />

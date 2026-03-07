@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks";
-import { categoriesApi, testsApi } from "@/lib/api";
+import { categoriesApi } from "@/lib/api";
+import ChatbotQA from "@/components/test/ChatbotQA";
 import {
   BookOpen,
   Play,
@@ -11,6 +12,7 @@ import {
   Sparkles,
   Trophy,
   ChevronRight,
+  MessageCircle,
 } from "lucide-react";
 
 interface Category {
@@ -31,7 +33,7 @@ export default function TestPage() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [startingTest, setStartingTest] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -52,32 +54,15 @@ export default function TestPage() {
     }
   };
 
-  const startTest = async (category: Category) => {
-    setStartingTest(category.id);
-    try {
-      const { data } = await testsApi.start({
-        categoryId: category.id,
-        questionsCount: 10,
-      });
-      router.push(`/test/${data.testAttemptId}`);
-    } catch (error) {
-      console.error("Failed to start test:", error);
-      setStartingTest(null);
-    }
-  };
-
-  const startMixedTest = async () => {
-    setStartingTest("mixed");
-    try {
-      const { data } = await testsApi.start({
-        questionsCount: 10,
-      });
-      router.push(`/test/${data.testAttemptId}`);
-    } catch (error) {
-      console.error("Failed to start mixed test:", error);
-      setStartingTest(null);
-    }
-  };
+  // Agar kategoriya tanlangan bo'lsa — ChatbotQA ko'rsatamiz
+  if (activeCategory) {
+    return (
+      <ChatbotQA
+        category={activeCategory}
+        onClose={() => setActiveCategory(null)}
+      />
+    );
+  }
 
   if (authLoading || loading) {
     return (
@@ -97,20 +82,19 @@ export default function TestPage() {
       {/* Header */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 mb-4">
-          <BookOpen className="w-8 h-8 text-[#D4AF37]" />
+          <MessageCircle className="w-8 h-8 text-[#D4AF37]" />
         </div>
         <h1 className="text-2xl font-bold text-[#FBF0B2] mb-2">
           Bilim Testlari
         </h1>
         <p className="text-[#D4AF37]/60 text-sm">
-          Kategoriyani tanlang va bilimingizni sinab ko'ring
+          Kategoriyani tanlang — bot sizga savollar beradi
         </p>
       </div>
 
-      {/* Mixed Test Banner */}
+      {/* Aralash test Banner */}
       <button
-        onClick={startMixedTest}
-        disabled={startingTest === "mixed"}
+        onClick={() => setActiveCategory("aralash")}
         className="w-full mb-6 p-5 rounded-2xl bg-gradient-to-r from-[#D4AF37]/15 to-[#FBF0B2]/10 border border-[#D4AF37]/20 hover:border-[#D4AF37]/40 transition-all group"
       >
         <div className="flex items-center justify-between">
@@ -127,11 +111,7 @@ export default function TestPage() {
               </p>
             </div>
           </div>
-          {startingTest === "mixed" ? (
-            <Loader2 className="w-5 h-5 animate-spin text-[#D4AF37]" />
-          ) : (
-            <ChevronRight className="w-5 h-5 text-[#D4AF37]/40 group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all" />
-          )}
+          <ChevronRight className="w-5 h-5 text-[#D4AF37]/40 group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all" />
         </div>
       </button>
 
@@ -140,8 +120,7 @@ export default function TestPage() {
         {categories.map((category) => (
           <button
             key={category.id}
-            onClick={() => startTest(category)}
-            disabled={startingTest === category.id}
+            onClick={() => setActiveCategory(category.slug)}
             className="w-full p-5 rounded-2xl bg-white/[0.04] border border-white/[0.06] hover:border-[#D4AF37]/30 hover:bg-white/[0.06] transition-all group text-left"
           >
             <div className="flex items-center gap-4">
@@ -182,12 +161,8 @@ export default function TestPage() {
                 )}
               </div>
 
-              {/* Arrow / Loading */}
-              {startingTest === category.id ? (
-                <Loader2 className="w-5 h-5 animate-spin text-[#D4AF37] flex-shrink-0" />
-              ) : (
-                <Play className="w-5 h-5 text-[#D4AF37]/30 group-hover:text-[#D4AF37] transition-colors flex-shrink-0" />
-              )}
+              {/* Arrow */}
+              <Play className="w-5 h-5 text-[#D4AF37]/30 group-hover:text-[#D4AF37] transition-colors flex-shrink-0" />
             </div>
           </button>
         ))}
