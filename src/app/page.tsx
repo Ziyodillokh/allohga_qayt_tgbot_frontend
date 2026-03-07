@@ -748,6 +748,7 @@ export default function LuxuryZikrApp() {
         {showChatbotQA && (
           <ChatbotQA
             category={selectedCategory}
+            categoryName={categories.find((c) => c.name === selectedCategory)?.label}
             onClose={() => setShowChatbotQA(false)}
           />
         )}

@@ -56,9 +56,11 @@ export default function TestPage() {
 
   // Agar kategoriya tanlangan bo'lsa — ChatbotQA ko'rsatamiz
   if (activeCategory) {
+    const activeCat = categories.find((c) => c.slug === activeCategory);
     return (
       <ChatbotQA
         category={activeCategory}
+        categoryName={activeCategory === "aralash" ? "Aralash test" : activeCat?.name}
         onClose={() => setActiveCategory(null)}
       />
     );

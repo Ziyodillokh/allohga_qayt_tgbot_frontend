@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks";
 import { useAuthStore } from "@/store/auth";
-import { usersApi, achievementsApi } from "@/lib/api";
+import { usersApi, achievementsApi, zikrApi } from "@/lib/api";
 import { Button, Card, Badge, Progress } from "@/components/ui";
 import {
   formatXP,
@@ -117,6 +117,11 @@ export default function ProfilePage() {
     unlocked: [],
     locked: [],
   });
+  const [zikrStats, setZikrStats] = useState<{
+    totalCompletions: number;
+    totalXpEarned: number;
+    recentDays: any[];
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
     "stats" | "history" | "developer" | "achievements"
@@ -140,13 +145,14 @@ export default function ProfilePage() {
         }
 
         // Barcha ma'lumotlarni parallel olish
-        const [profileRes, statsRes, historyRes, achievementsRes, myStatsRes] =
+        const [profileRes, statsRes, historyRes, achievementsRes, myStatsRes, zikrStatsRes] =
           await Promise.all([
             usersApi.getProfile(),
             usersApi.getCategoryStats(),
-            usersApi.getTestHistory(1, 10),
+            usersApi.getTestHistory(1, 20),
             achievementsApi.getAll(),
             usersApi.getMyStats().catch(() => ({ data: null })),
+            zikrApi.getUserStats().catch(() => ({ data: null })),
           ]);
 
         // User ma'lumotlarini yangilash
@@ -165,6 +171,11 @@ export default function ProfilePage() {
         // My Stats
         if (myStatsRes.data) {
           setMyStats(myStatsRes.data);
+        }
+
+        // Zikr Stats
+        if (zikrStatsRes.data) {
+          setZikrStats(zikrStatsRes.data);
         }
 
         setCategoryStats(statsRes.data || []);
@@ -657,69 +668,123 @@ export default function ProfilePage() {
         )}
 
         {activeTab === "history" && (
-          <div className="space-y-4">
-            <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#D4AF37]" />
-              Test Tarixi
-            </h2>
+          <div className="space-y-6">
+            {/* Zikr Statistics */}
+            <div>
+              <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 mb-4 flex items-center gap-2">
+                <span className="text-lg">📿</span>
+                Zikr Tarixi
+              </h2>
 
-            {testHistory.length === 0 ? (
-              <div className="text-center py-12 px-6">
-                <div className="w-16 h-16 rounded-2xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-7 h-7 text-[#D4AF37]/50" />
-                </div>
-                <p className="text-[#9A8866]">Hali test topshirmadingiz</p>
-              </div>
-            ) : (
-              testHistory.map((test) => (
-                <Link key={test.id} href={`/test/result/${test.id}`}>
-                  <div className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all flex items-center gap-4">
-                    <div className="w-12 h-12 bg-[#1E1C18] rounded-xl flex items-center justify-center text-2xl overflow-hidden border border-[#D4AF37]/10">
-                      {test.category?.icon?.startsWith("/") ? (
-                        <Image
-                          src={
-                            getUploadUrl(test.category.icon) ||
-                            test.category.icon
-                          }
-                          alt={test.category?.name || ""}
-                          width={48}
-                          height={48}
-                          className="w-full h-full object-contain p-1"
-                        />
-                      ) : (
-                        <span>{test.category?.icon || "📝"}</span>
-                      )}
+              {zikrStats ? (
+                <div className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10">
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="p-3 rounded-xl bg-[#22c55e]/5 border border-[#22c55e]/10 text-center">
+                      <p className="text-xl font-black text-white">{zikrStats.totalCompletions}</p>
+                      <p className="text-[10px] text-[#9A8866]">Jami zikr</p>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-white">
-                        {test.category?.name || "Aralash test"}
-                      </h3>
-                      <p className="text-xs text-[#9A8866]">
-                        {formatDate(test.completedAt)}
-                      </p>
+                    <div className="p-3 rounded-xl bg-[#D4AF37]/5 border border-[#D4AF37]/10 text-center">
+                      <p className="text-xl font-black text-[#D4AF37]">+{formatXP(zikrStats.totalXpEarned)}</p>
+                      <p className="text-[10px] text-[#9A8866]">XP yig'ildi</p>
                     </div>
-                    <div className="text-right">
-                      <p
-                        className={cn(
-                          "text-lg font-bold",
-                          test.score >= 70
-                            ? "text-[#22c55e]"
-                            : test.score >= 50
-                              ? "text-[#D4AF37]"
-                              : "text-[#ef4444]",
-                        )}
-                      >
-                        {test.score}%
-                      </p>
-                      <p className="text-[10px] text-[#D4AF37]">
-                        +{test.xpEarned} XP
-                      </p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-[#D4AF37]/40" />
                   </div>
-                </Link>
-              ))
-            )}
+
+                  {/* Recent Zikr Days */}
+                  {zikrStats.recentDays && zikrStats.recentDays.length > 0 && (
+                    <div>
+                      <p className="text-xs text-[#9A8866] mb-2">So'nggi kunlar:</p>
+                      <div className="space-y-1.5">
+                        {zikrStats.recentDays.slice(0, 7).map((day: any, i: number) => (
+                          <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-[#0F0D0A]/50">
+                            <span className="text-xs text-white/70">
+                              {new Date(day.date || day.day).toLocaleDateString('uz-UZ', { weekday: 'short', day: 'numeric', month: 'short' })}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-[#22c55e] font-bold">{day.count || day.completions} zikr</span>
+                              <span className="text-[10px] text-[#D4AF37]">+{day.xp || day.xpEarned || 0} XP</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-8 px-6 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10">
+                  <span className="text-4xl mb-3 block">📿</span>
+                  <p className="text-[#9A8866]">Hali zikr qilmadingiz</p>
+                  <button onClick={() => router.push("/")} className="mt-3 px-4 py-2 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm">
+                    Zikr boshlash
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Test History */}
+            <div>
+              <h2 className="text-sm font-bold text-[#9A8866] uppercase tracking-[0.2em] px-1 mb-4 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#D4AF37]" />
+                Test Tarixi
+              </h2>
+
+              {testHistory.length === 0 ? (
+                <div className="text-center py-8 px-6 rounded-2xl bg-[#1E1C18]/50 border border-[#D4AF37]/10">
+                  <div className="w-14 h-14 rounded-2xl bg-[#1E1C18] border border-[#D4AF37]/20 flex items-center justify-center mx-auto mb-3">
+                    <Clock className="w-6 h-6 text-[#D4AF37]/50" />
+                  </div>
+                  <p className="text-[#9A8866]">Hali test topshirmadingiz</p>
+                  <button onClick={() => router.push("/test")} className="mt-3 px-4 py-2 rounded-xl bg-[#D4AF37] text-[#0F0D0A] font-medium text-sm">
+                    Test boshlash
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {testHistory.map((test) => (
+                    <div key={test.id} className="p-4 rounded-2xl bg-[#1E1C18]/80 border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all">
+                      <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 bg-[#1E1C18] rounded-xl flex items-center justify-center text-xl overflow-hidden border border-[#D4AF37]/10">
+                          {test.category?.icon?.startsWith("/") ? (
+                            <Image
+                              src={getUploadUrl(test.category.icon) || test.category.icon}
+                              alt={test.category?.name || ""}
+                              width={44}
+                              height={44}
+                              className="w-full h-full object-contain p-1"
+                            />
+                          ) : (
+                            <span>{test.category?.icon || "📝"}</span>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-white text-sm">
+                            {test.category?.name || "Aralash test"}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <p className="text-[11px] text-[#9A8866]">
+                              {formatDate(test.completedAt)}
+                            </p>
+                            <span className="text-[10px] text-[#D4AF37] font-medium bg-[#D4AF37]/10 px-1.5 py-0.5 rounded">
+                              +{test.xpEarned} XP
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className={cn(
+                            "text-lg font-bold",
+                            test.score >= 70 ? "text-[#22c55e]" : test.score >= 50 ? "text-[#D4AF37]" : "text-[#ef4444]"
+                          )}>
+                            {test.score}%
+                          </p>
+                          <p className="text-[10px] text-[#9A8866]">
+                            {test.correctAnswers}/{test.totalQuestions}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -866,7 +931,7 @@ export default function ProfilePage() {
                         To'liq ism
                       </p>
                       <p className="text-base font-bold text-white">
-                        Shokirjonov Bekmuhammad
+                        Najmiddinov Ziyodullo
                       </p>
                     </div>
                     <div>
@@ -880,7 +945,7 @@ export default function ProfilePage() {
                     <div>
                       <p className="text-[10px] text-[#9A8866]">Stack</p>
                       <p className="text-[10px] text-white/70">
-                        React, Next.js, NestJS, NodeJS
+                        Node.js, Next.js, Nest.js, React
                       </p>
                     </div>
                   </div>
@@ -889,7 +954,7 @@ export default function ProfilePage() {
                 {/* Social Links */}
                 <div className="grid grid-cols-2 gap-2">
                   <a
-                    href="https://t.me/Khamidov_online"
+                    href="https://t.me/iambackenddeveloper"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
@@ -900,13 +965,13 @@ export default function ProfilePage() {
                     <div>
                       <p className="text-[10px] text-[#9A8866]">Telegram</p>
                       <p className="text-xs text-white group-hover:text-[#3b82f6] transition-colors">
-                        @Khamidov_online
+                        @iambackenddeveloper
                       </p>
                     </div>
                   </a>
 
                   <a
-                    href="https://www.instagram.com/khamidov__online"
+                    href="https://www.instagram.com/ziyodullo_najmiddinov"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
@@ -917,13 +982,13 @@ export default function ProfilePage() {
                     <div>
                       <p className="text-[10px] text-[#9A8866]">Instagram</p>
                       <p className="text-xs text-white group-hover:text-[#ec4899] transition-colors">
-                        @khamidov__online
+                        @ziyodullo_najmiddinov
                       </p>
                     </div>
                   </a>
 
                   <a
-                    href="https://github.com/Bekmuhammad-Devoloper"
+                    href="https://github.com/Ziyodillokh"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
@@ -934,13 +999,13 @@ export default function ProfilePage() {
                     <div>
                       <p className="text-[10px] text-[#9A8866]">GitHub</p>
                       <p className="text-xs text-white group-hover:text-white/80 transition-colors">
-                        Bekmuhammad
+                        Ziyodillokh
                       </p>
                     </div>
                   </a>
 
                   <a
-                    href="https://bekmuhammad.uz"
+                    href="https://ziyodulloh.uz"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 p-2.5 bg-[#0F0D0A]/50 rounded-xl hover:bg-[#0F0D0A] transition-colors group"
@@ -951,7 +1016,7 @@ export default function ProfilePage() {
                     <div>
                       <p className="text-[10px] text-[#9A8866]">Portfolio</p>
                       <p className="text-xs text-white group-hover:text-[#22c55e] transition-colors">
-                        bekmuhammad.uz
+                        ziyodulloh.uz
                       </p>
                     </div>
                   </a>
