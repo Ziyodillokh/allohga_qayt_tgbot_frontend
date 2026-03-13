@@ -24,11 +24,26 @@ interface QuizSession {
   finishedAt: string | null;
 }
 
+interface QuizSettings {
+  answerTimeSeconds: number;
+  waitTimeSeconds: number;
+}
+
+interface LeaderboardEntry {
+  userId: string;
+  username: string | null;
+  correctCount: number;
+  totalAnswers: number;
+  accuracy: number;
+}
+
 export default function AdminQuiz() {
   const { token } = useAuth();
   const { isReadOnly } = useAdminContext();
 
-  const [activeTab, setActiveTab] = useState<"upload" | "questions" | "sessions">("upload");
+  const [activeTab, setActiveTab] = useState<
+    "upload" | "questions" | "sessions" | "settings" | "leaderboard"
+  >("upload");
   const [questionsText, setQuestionsText] = useState("");
   const [importing, setImporting] = useState(false);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -38,6 +53,16 @@ export default function AdminQuiz() {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
+
+  // Settings
+  const [settings, setSettings] = useState<QuizSettings>({
+    answerTimeSeconds: 15,
+    waitTimeSeconds: 45,
+  });
+  const [savingSettings, setSavingSettings] = useState(false);
+
+  // Leaderboard
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
@@ -50,6 +75,10 @@ export default function AdminQuiz() {
       fetchQuestions(currentPage);
     } else if (activeTab === "sessions") {
       fetchSessions();
+    } else if (activeTab === "settings") {
+      fetchSettings();
+    } else if (activeTab === "leaderboard") {
+      fetchLeaderboard();
     }
   }, [activeTab, currentPage]);
 
@@ -97,6 +126,59 @@ export default function AdminQuiz() {
     }
   };
 
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(`${API}/quiz/settings`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      setSettings({
+        answerTimeSeconds: data.answerTimeSeconds || 15,
+        waitTimeSeconds: data.waitTimeSeconds || 45,
+      });
+    } catch {
+      // ignore
+    }
+  };
+
+  const fetchLeaderboard = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API}/quiz/leaderboard`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      setLeaderboard(data || []);
+    } catch {
+      toast.error("Reytingni yuklashda xatolik");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSaveSettings = async () => {
+    setSavingSettings(true);
+    try {
+      const res = await fetch(`${API}/quiz/settings`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(settings),
+      });
+      if (res.ok) {
+        toast.success("Sozlamalar saqlandi");
+      } else {
+        toast.error("Xatolik yuz berdi");
+      }
+    } catch {
+      toast.error("Xatolik yuz berdi");
+    } finally {
+      setSavingSettings(false);
+    }
+  };
+
   const handleImport = async () => {
     if (!questionsText.trim()) {
       toast.error("Savollar matnini kiriting");
@@ -128,7 +210,7 @@ export default function AdminQuiz() {
       if (data.errors && data.errors.length > 0) {
         toast(
           `Xatolar: ${data.errors.slice(0, 3).join("; ")}${data.errors.length > 3 ? "..." : ""}`,
-          { icon: "⚠️", duration: 5000 },
+          { icon: "\u26a0\ufe0f", duration: 5000 },
         );
       }
 
@@ -158,7 +240,12 @@ export default function AdminQuiz() {
   };
 
   const handleDeleteAll = async () => {
-    if (!confirm("Barcha quiz savollarini o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi!")) return;
+    if (
+      !confirm(
+        "Barcha quiz savollarini o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi!",
+      )
+    )
+      return;
     if (!confirm("Rostdan ham barcha savollarni o'chirmoqchimisiz?")) return;
 
     try {
@@ -176,16 +263,16 @@ export default function AdminQuiz() {
     }
   };
 
-  const correctOptionLabel = (opt: string) => {
-    return opt.toUpperCase();
-  };
+  const medals = ["\ud83e\udd47", "\ud83e\udd48", "\ud83e\udd49"];
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#FBF0B2]">Quiz Boshqaruvi</h1>
+          <h1 className="text-2xl font-bold text-[#FBF0B2]">
+            Quiz Boshqaruvi
+          </h1>
           <p className="text-sm text-[#D4AF37]/60 mt-1">
             Telegram quiz savollarini yuklash va boshqarish
           </p>
@@ -193,22 +280,26 @@ export default function AdminQuiz() {
         <div className="flex items-center gap-3">
           <div className="px-4 py-2 rounded-xl bg-[#1E1C18] border border-[#D4AF37]/20">
             <span className="text-sm text-[#D4AF37]/60">Jami savollar: </span>
-            <span className="text-sm font-bold text-[#FBF0B2]">{questionCount}</span>
+            <span className="text-sm font-bold text-[#FBF0B2]">
+              {questionCount}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-[#D4AF37]/20 pb-1">
+      <div className="flex gap-1 border-b border-[#D4AF37]/20 pb-1 overflow-x-auto">
         {[
-          { id: "upload" as const, label: "Savollarni Yuklash" },
-          { id: "questions" as const, label: "Savollar Ro'yxati" },
-          { id: "sessions" as const, label: "Quiz Sessiyalari" },
+          { id: "upload" as const, label: "Yuklash" },
+          { id: "questions" as const, label: "Savollar" },
+          { id: "sessions" as const, label: "Sessiyalar" },
+          { id: "settings" as const, label: "Sozlamalar" },
+          { id: "leaderboard" as const, label: "Reyting" },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2.5 rounded-t-xl text-sm font-medium transition-all ${
+            className={`px-4 py-2.5 rounded-t-xl text-sm font-medium transition-all whitespace-nowrap ${
               activeTab === tab.id
                 ? "bg-[#D4AF37]/20 text-[#FBF0B2] border border-[#D4AF37]/30 border-b-0"
                 : "text-[#D4AF37]/60 hover:text-[#FBF0B2] hover:bg-[#D4AF37]/10"
@@ -222,30 +313,28 @@ export default function AdminQuiz() {
       {/* Upload Tab */}
       {activeTab === "upload" && (
         <div className="space-y-6">
-          {/* Format Guide */}
           <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
             <h3 className="text-lg font-semibold text-[#FBF0B2] mb-4">
               Savol formati
             </h3>
             <div className="bg-[#0F0E0A] rounded-xl p-4 font-mono text-sm text-[#D4AF37]/80 whitespace-pre-line">
-{`1.{Savol matni}:
+              {`1.{Savol matni}:
 a) Variant A
 b) Variant B
-(c) Variant C   ← to'g'ri javob (qavsda)
+(c) Variant C   \u2190 to'g'ri javob (qavsda)
 d) Variant D
 
 2.{Yana bir savol}:
 a) Variant A
-(b) Variant B   ← to'g'ri javob
+(b) Variant B   \u2190 to'g'ri javob
 c) Variant C
 d) Variant D`}
             </div>
             <p className="text-xs text-[#D4AF37]/50 mt-3">
-              To'g'ri javob qavsda yoziladi: (a), (b), (c) yoki (d). Bir vaqtda 10 dan 1000+ gacha savol yuklash mumkin.
+              {"To'g'ri javob qavsda yoziladi: (a), (b), (c) yoki (d)."}
             </p>
           </div>
 
-          {/* Text Input */}
           <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
             <h3 className="text-lg font-semibold text-[#FBF0B2] mb-4">
               Savollarni kiriting
@@ -253,14 +342,15 @@ d) Variant D`}
             <textarea
               value={questionsText}
               onChange={(e) => setQuestionsText(e.target.value)}
-              placeholder={`1.{Eng katta sayyora qaysi?}:\na) Yer\n(b) Yupiter\nc) Mars\nd) Venera\n\n2.{Quyoshga eng yaqin sayyora?}:\n(a) Merkuriy\nb) Venera\nc) Yer\nd) Mars`}
+              placeholder={`1.{Eng katta sayyora qaysi?}:\na) Yer\n(b) Yupiter\nc) Mars\nd) Venera`}
               rows={16}
               className="w-full bg-[#0F0E0A] border border-[#D4AF37]/20 rounded-xl px-4 py-3 text-[#E5C366] placeholder-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37]/50 resize-y font-mono text-sm"
               disabled={isReadOnly}
             />
             <div className="flex justify-between items-center mt-4">
               <p className="text-xs text-[#D4AF37]/50">
-                {questionsText.split(/\d+\./).filter(Boolean).length} ta savol topildi (taxminiy)
+                {questionsText.split(/\d+\./).filter(Boolean).length} ta savol
+                topildi (taxminiy)
               </p>
               <button
                 onClick={handleImport}
@@ -277,14 +367,13 @@ d) Variant D`}
       {/* Questions List Tab */}
       {activeTab === "questions" && (
         <div className="space-y-4">
-          {/* Actions */}
           {!isReadOnly && totalQuestions > 0 && (
             <div className="flex justify-end">
               <button
                 onClick={handleDeleteAll}
                 className="px-4 py-2 text-sm bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 hover:bg-red-500/20 transition-colors"
               >
-                Barchasini o'chirish ({totalQuestions})
+                {"Barchasini o'chirish"} ({totalQuestions})
               </button>
             </div>
           )}
@@ -296,9 +385,11 @@ d) Variant D`}
             </div>
           ) : questions.length === 0 ? (
             <div className="text-center py-12 bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl">
-              <p className="text-[#D4AF37]/60 text-lg mb-2">Savollar topilmadi</p>
+              <p className="text-[#D4AF37]/60 text-lg mb-2">
+                Savollar topilmadi
+              </p>
               <p className="text-sm text-[#D4AF37]/40">
-                "Savollarni Yuklash" tabidan savollarni import qiling
+                {"\"Yuklash\" tabidan savollarni import qiling"}
               </p>
             </div>
           ) : (
@@ -339,7 +430,7 @@ d) Variant D`}
                           onClick={() => handleDeleteQuestion(q.id)}
                           className="text-red-400/60 hover:text-red-400 text-xs px-2 py-1 shrink-0"
                         >
-                          O'chirish
+                          {"O'chirish"}
                         </button>
                       )}
                     </div>
@@ -347,11 +438,12 @@ d) Variant D`}
                 ))}
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex justify-center gap-2 mt-6">
                   <button
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    onClick={() =>
+                      setCurrentPage(Math.max(1, currentPage - 1))
+                    }
                     disabled={currentPage === 1}
                     className="px-3 py-1.5 rounded-lg text-sm bg-[#1E1C18] border border-[#D4AF37]/20 text-[#D4AF37]/60 disabled:opacity-30"
                   >
@@ -361,7 +453,9 @@ d) Variant D`}
                     {currentPage} / {totalPages}
                   </span>
                   <button
-                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    onClick={() =>
+                      setCurrentPage(Math.min(totalPages, currentPage + 1))
+                    }
                     disabled={currentPage === totalPages}
                     className="px-3 py-1.5 rounded-lg text-sm bg-[#1E1C18] border border-[#D4AF37]/20 text-[#D4AF37]/60 disabled:opacity-30"
                   >
@@ -384,9 +478,11 @@ d) Variant D`}
             </div>
           ) : sessions.length === 0 ? (
             <div className="text-center py-12 bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl">
-              <p className="text-[#D4AF37]/60 text-lg mb-2">Sessiyalar topilmadi</p>
+              <p className="text-[#D4AF37]/60 text-lg mb-2">
+                Sessiyalar topilmadi
+              </p>
               <p className="text-sm text-[#D4AF37]/40">
-                Telegram guruh yoki kanalda /starttest buyrug'ini yuboring
+                {"Telegram guruh yoki kanalda /starttest buyrug'ini yuboring"}
               </p>
             </div>
           ) : (
@@ -425,19 +521,228 @@ d) Variant D`}
               Quiz buyruqlari
             </h3>
             <div className="space-y-2 text-sm text-[#D4AF37]/70">
-              <p><code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">/starttest</code> — 15 ta savol (standart)</p>
-              <p><code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">/starttest5</code> — 5 ta savol</p>
-              <p><code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">/starttest10</code> — 10 ta savol</p>
-              <p><code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">/starttest20</code> — 20 ta savol</p>
-              <p><code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">/starttest30</code> — 30 ta savol</p>
+              <p>
+                <code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">
+                  /starttest
+                </code>{" "}
+                — 15 ta savol (standart)
+              </p>
+              <p>
+                <code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">
+                  /starttest5
+                </code>{" "}
+                — 5 ta savol
+              </p>
+              <p>
+                <code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">
+                  /starttest10
+                </code>{" "}
+                — 10 ta savol
+              </p>
+              <p>
+                <code className="text-[#FBF0B2] bg-[#0F0E0A] px-2 py-0.5 rounded">
+                  /starttest20
+                </code>{" "}
+                — 20 ta savol
+              </p>
               <div className="border-t border-[#D4AF37]/10 my-3 pt-3">
-                <p><code className="text-red-400 bg-[#0F0E0A] px-2 py-0.5 rounded">/stoptest</code> — Quizni to'xtatish (natijalar ko'rsatiladi)</p>
+                <p>
+                  <code className="text-red-400 bg-[#0F0E0A] px-2 py-0.5 rounded">
+                    /stoptest
+                  </code>{" "}
+                  — {"Quizni to'xtatish"}
+                </p>
+                <p>
+                  <code className="text-blue-400 bg-[#0F0E0A] px-2 py-0.5 rounded">
+                    /clean
+                  </code>{" "}
+                  — Quiz xabarlarini tozalash
+                </p>
+                <p>
+                  <code className="text-amber-400 bg-[#0F0E0A] px-2 py-0.5 rounded">
+                    /rayting
+                  </code>{" "}
+                  — Umumiy TOP 10 reyting
+                </p>
               </div>
             </div>
-            <p className="text-xs text-[#D4AF37]/40 mt-4">
-              Faqat guruh/kanal adminlari quiz boshlashi va to'xtatishi mumkin. Har bir chatda bir vaqtda bitta quiz ishlaydi.
-            </p>
           </div>
+        </div>
+      )}
+
+      {/* Settings Tab */}
+      {activeTab === "settings" && (
+        <div className="space-y-6">
+          <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
+            <h3 className="text-lg font-semibold text-[#FBF0B2] mb-6">
+              Quiz Sozlamalari
+            </h3>
+
+            <div className="space-y-6">
+              {/* Answer Time */}
+              <div>
+                <label className="block text-sm font-medium text-[#D4AF37]/80 mb-2">
+                  Javob berish vaqti (sekund)
+                </label>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="range"
+                    min={5}
+                    max={60}
+                    step={5}
+                    value={settings.answerTimeSeconds}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        answerTimeSeconds: parseInt(e.target.value),
+                      })
+                    }
+                    className="flex-1 accent-[#D4AF37]"
+                    disabled={isReadOnly}
+                  />
+                  <div className="w-20 text-center px-3 py-2 bg-[#0F0E0A] border border-[#D4AF37]/20 rounded-lg">
+                    <span className="text-lg font-bold text-[#FBF0B2]">
+                      {settings.answerTimeSeconds}
+                    </span>
+                    <span className="text-xs text-[#D4AF37]/60 ml-1">s</span>
+                  </div>
+                </div>
+                <p className="text-xs text-[#D4AF37]/40 mt-1">
+                  Har bir savol uchun javob berish vaqti (5-60 sekund)
+                </p>
+              </div>
+
+              {/* Wait Time */}
+              <div>
+                <label className="block text-sm font-medium text-[#D4AF37]/80 mb-2">
+                  Savollar orasidagi kutish vaqti (sekund)
+                </label>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="range"
+                    min={5}
+                    max={120}
+                    step={5}
+                    value={settings.waitTimeSeconds}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        waitTimeSeconds: parseInt(e.target.value),
+                      })
+                    }
+                    className="flex-1 accent-[#D4AF37]"
+                    disabled={isReadOnly}
+                  />
+                  <div className="w-20 text-center px-3 py-2 bg-[#0F0E0A] border border-[#D4AF37]/20 rounded-lg">
+                    <span className="text-lg font-bold text-[#FBF0B2]">
+                      {settings.waitTimeSeconds}
+                    </span>
+                    <span className="text-xs text-[#D4AF37]/60 ml-1">s</span>
+                  </div>
+                </div>
+                <p className="text-xs text-[#D4AF37]/40 mt-1">
+                  {"Javob ko'rsatilgandan keyingi savolgacha kutish (5-120 sekund)"}
+                </p>
+              </div>
+
+              {/* Total time info */}
+              <div className="bg-[#0F0E0A] border border-[#D4AF37]/10 rounded-xl p-4">
+                <p className="text-sm text-[#D4AF37]/70">
+                  Har bir savol uchun jami vaqt:{" "}
+                  <span className="text-[#FBF0B2] font-bold">
+                    {settings.answerTimeSeconds + settings.waitTimeSeconds}{" "}
+                    sekund
+                  </span>
+                </p>
+                <p className="text-xs text-[#D4AF37]/40 mt-1">
+                  15 ta savollik quiz taxminan{" "}
+                  {Math.round(
+                    (15 *
+                      (settings.answerTimeSeconds +
+                        settings.waitTimeSeconds)) /
+                      60,
+                  )}{" "}
+                  daqiqa davom etadi
+                </p>
+              </div>
+
+              {!isReadOnly && (
+                <button
+                  onClick={handleSaveSettings}
+                  disabled={savingSettings}
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#AA8232] text-[#0F0E0A] rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {savingSettings ? "Saqlanmoqda..." : "Sozlamalarni saqlash"}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Leaderboard Tab */}
+      {activeTab === "leaderboard" && (
+        <div className="space-y-4">
+          <div className="bg-[#1E1C18] border border-[#D4AF37]/20 rounded-2xl p-6">
+            <h3 className="text-lg font-semibold text-[#FBF0B2] mb-4">
+              Umumiy Reyting (TOP 10)
+            </h3>
+
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="w-10 h-10 border-3 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin mx-auto mb-3"></div>
+                <p className="text-sm text-[#D4AF37]/60">Yuklanmoqda...</p>
+              </div>
+            ) : leaderboard.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-[#D4AF37]/60 text-lg mb-2">
+                  {"Hali ma'lumot yo'q"}
+                </p>
+                <p className="text-sm text-[#D4AF37]/40">
+                  {"Quiz o'ynalganidan so'ng reyting paydo bo'ladi"}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {leaderboard.map((entry, idx) => (
+                  <div
+                    key={entry.userId}
+                    className={`flex items-center gap-4 p-3 rounded-xl ${
+                      idx < 3
+                        ? "bg-gradient-to-r from-[#D4AF37]/10 to-transparent border border-[#D4AF37]/20"
+                        : "bg-[#0F0E0A]/50"
+                    }`}
+                  >
+                    <div className="w-10 text-center text-xl">
+                      {idx < 3 ? medals[idx] : `${idx + 1}`}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-[#FBF0B2] truncate">
+                        {entry.username
+                          ? `@${entry.username}`
+                          : `Foydalanuvchi`}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-[#FBF0B2]">
+                        {entry.correctCount} {"to'g'ri"}
+                      </p>
+                      <p className="text-xs text-[#D4AF37]/50">
+                        {entry.totalAnswers} javob | {entry.accuracy}%
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={fetchLeaderboard}
+            className="px-4 py-2 text-sm bg-[#1E1C18] border border-[#D4AF37]/20 rounded-xl text-[#D4AF37]/60 hover:text-[#FBF0B2] transition-colors"
+          >
+            Yangilash
+          </button>
         </div>
       )}
     </div>

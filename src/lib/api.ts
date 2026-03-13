@@ -258,6 +258,13 @@ export const quizApi = {
 
   getSessions: (page = 1, limit = 20) =>
     api.get(`/quiz/sessions?page=${page}&limit=${limit}`),
+
+  getSettings: () => api.get("/quiz/settings"),
+
+  updateSettings: (data: { answerTimeSeconds?: number; waitTimeSeconds?: number }) =>
+    api.put("/quiz/settings", data),
+
+  getLeaderboard: () => api.get("/quiz/leaderboard"),
 };
 
 export default api;
