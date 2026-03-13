@@ -20,6 +20,7 @@ import {
   Sparkles,
   Wifi,
   WifiOff,
+  HelpCircle,
 } from "lucide-react";
 
 const menuItems = [
@@ -27,6 +28,7 @@ const menuItems = [
   { href: "/admin/zikr", label: "Zikrlar", icon: Sparkles },
   { href: "/admin/users", label: "Foydalanuvchilar", icon: Users },
   { href: "/admin/categories", label: "Kategoriyalar", icon: FolderOpen },
+  { href: "/admin/quiz", label: "Quiz", icon: HelpCircle },
   { href: "/admin/messages", label: "Xabarlar", icon: MessageSquare },
 ];
 

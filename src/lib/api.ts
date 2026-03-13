@@ -242,4 +242,22 @@ export const zikrApi = {
   getUserStats: () => api.get("/zikr/user/stats"),
 };
 
+// ==================== QUIZ ====================
+export const quizApi = {
+  importQuestions: (text: string) =>
+    api.post("/quiz/questions/import", { text }),
+
+  getQuestions: (page = 1, limit = 50) =>
+    api.get(`/quiz/questions?page=${page}&limit=${limit}`),
+
+  getQuestionCount: () => api.get("/quiz/questions/count"),
+
+  deleteQuestion: (id: string) => api.delete(`/quiz/questions/${id}`),
+
+  deleteAllQuestions: () => api.delete("/quiz/questions"),
+
+  getSessions: (page = 1, limit = 20) =>
+    api.get(`/quiz/sessions?page=${page}&limit=${limit}`),
+};
+
 export default api;
